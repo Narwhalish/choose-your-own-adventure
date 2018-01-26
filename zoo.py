@@ -50,5 +50,8 @@ for i in range(0,5):
 start = [0, 0]
 
 print 'Tralfamadorian Zoo :]'
-zoo_grid[1][1] = 'You have discovered a wild Montana Wildhack'
+zoo_grid[1][1] = 'You have discovered a wild Montana Wildhack.'
+zoo_grid[2][2] = 'You have discovered a wild giraffe.'
+zoo_grid[3][3] = 'A wild Tralfamadorian has discovered you. You are now dead.'
+zoo_grid[4][4] = 'You have discovered a continental breakfast. Yum!'
 move(start)

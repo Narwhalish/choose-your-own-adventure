@@ -10,27 +10,33 @@ In the slaughterhouse there are:
     Spoon
     Other Americans
     Shrapnel
+================================================================================
 """
 
 global space
 space = [[0]*5 for i in range(5)]
 global position
-position = [2,2]
+
 x = 1
-for row in range(5):
-    for i in range(5):
-        space[row][i]=x
-        x+=1
+# for row in range(5):
+#     for i in range(5):
+#         print i
+#         space[row][i]=x
+#         x+=1
+space[2][2]=x
+
 for row in space:
-    print row
-    print '\n'
+     print row
+     print '\n'
+     # if row[2]==space[2][2]:
+     #     space[2][2]=x
 
 def main():
     action()
     
 def action():
     action = raw_input('Up, Down, Right, Left (U,D,R,L): ')
-    if U:
+    #if U:
         
     
 if __name__ == '___main___':

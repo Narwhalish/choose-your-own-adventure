@@ -16,14 +16,16 @@ In the slaughterhouse there are:
 global space
 space = [[0]*5 for i in range(5)]
 global position
-
+global prow, pcolumn
+prow = 2
+pcolumn = 2
 x = 1
 # for row in range(5):
 #     for i in range(5):
 #         print i
 #         space[row][i]=x
 #         x+=1
-space[2][2]=x
+space[prow][pcolumn]=x
 
 for row in space:
      print row
@@ -36,7 +38,10 @@ def main():
     
 def action():
     action = raw_input('Up, Down, Right, Left (U,D,R,L): ')
-    #if U:
+    if 'U':
+        space[prow][pcolumn]=0
+        prow=prow-1
+        space[prow][pcolumn]=x
         
     
 if __name__ == '___main___':

@@ -32,7 +32,6 @@ def move(pos):
                 print 'Cannot move down. Try again.'
         else:
             print 'Invalid input. Please try again.'
-    print position
     action(position)
 
 def action(position):
@@ -49,9 +48,14 @@ for i in range(0,5):
 
 start = [0, 0]
 
-print 'Tralfamadorian Zoo :]'
+print 'You wake up, delirious and foggy-eyed.'
+print 'It is strangely cold, and upon looking down, you realize that you are completely naked.'
+print '\"Oh no,\" you think to yourself. \"Not again.\"'
+print 'You are on the Planet Tralfamadore, on exhibit in a Tralfamadorian Zoo.\n'
+
 zoo_grid[1][1] = 'You have discovered a wild Montana Wildhack.'
 zoo_grid[2][2] = 'You have discovered a wild giraffe.'
 zoo_grid[3][3] = 'A wild Tralfamadorian has discovered you. You are now dead.'
 zoo_grid[4][4] = 'You have discovered a continental breakfast. Yum!'
+
 move(start)

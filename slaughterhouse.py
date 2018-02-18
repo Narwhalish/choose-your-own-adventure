@@ -15,7 +15,6 @@ In the slaughterhouse there are:
 
 global space
 space = [[0]*5 for i in range(5)]
-global position
 global prow, pcolumn
 prow = 2
 pcolumn = 2
@@ -26,23 +25,24 @@ x = 1
 #         space[row][i]=x
 #         x+=1
 space[prow][pcolumn]=x
-
-for row in space:
-     print row
-     print '\n'
-     # if row[2]==space[2][2]:
-     #     space[2][2]=x
-
-def main():
-    action()
+def print_space():
+    for row in space:
+        print row
+        print '\n'
+        # if row[2]==space[2][2]:
+        #     space[2][2]=x
     
 def action():
+    global prow, pcolumn
     action = raw_input('Up, Down, Right, Left (U,D,R,L): ')
     if 'U':
         space[prow][pcolumn]=0
-        prow=prow-1
-        space[prow][pcolumn]=x
-        
+        space[prow-1][pcolumn]=x
+        print_space()
+
+def main():
+    print_space()
+    action()
     
-if __name__ == '___main___':
+if __name__ == '__main__':
     main()

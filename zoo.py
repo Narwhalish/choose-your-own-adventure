@@ -164,7 +164,7 @@ def doStuff(x, y):
                     if embraced:
                         print 'Montana, now fed up that you have ignored her twice, pulls away and slaps you.'
                         print 'Loss of 15 HP.'
-                        print 'The Tralfamadorians find the crude display of violence unpleasant.'
+                        print 'The Tralfamadorians find the crude display of violence extremely unpleasant.'
                         print 'Loss of 10 audience satisfaction points.\n'
                         hp-=15
                         score-=10
@@ -189,6 +189,29 @@ def doStuff(x, y):
                     break
                 else:
                     print 'Command not recognized. Try again.'
+        return
+    elif (x, y) == (3, 3):
+        print 'You have found the television, currently frozen on a western action film. Press play?\n'
+        displayImage('television.jpg')
+        if yesorno():
+            print 'You press the play button. Nothing happens.'
+            print 'Press it again?\n'
+            if yesorno():
+                print '\nConfused, you press the button again. Still nothing.'
+                print 'You proceed to slam your fists at the screen and holler until you realize that the TV is nonfunctional.'
+                print 'The image of one cowboy killing another is merely pasted to the screen!'
+                print 'Mentally and physically drained, you proceed to cry for several hours.'
+                print 'Loss of 25 HP.'
+                print 'The Tralfamadorians, though, find your stupidity to be quite entertaining.'
+                print 'Add 15 audience satisfaction points.\n'
+                hp-=25
+                score+=15
+            else:
+                print '\nYou intelligently deduce that the TV is nonfunctional.'
+                print 'The image of one cowboy killing another is merely pasted to the screen!'
+                print 'Filled with pride for your overwhelming logical reasoning skills, your mood is much improved.'
+                print 'Add 15 HP points.\n'
+                hp+=15
         return
     else:
         print 'Nothing here.'
@@ -220,6 +243,7 @@ def checkVitals():
     if score >= 50:
         print 'Congratulations! You have successfully satisfied your audience.'
         print 'Your total score is: ' + str(score)
+        print '\n***\n'
         raise SystemExit
     if hp > 150:
         hp = 150
@@ -250,14 +274,15 @@ fridge, leaked, brushed, embraced, story = True, False, False, False, False
 
 start = [0, 0]
 
-
+print '\n***\n'
 print 'You wake up, delirious and foggy-eyed.'
 print 'It is strangely cold, and upon looking down, you realize that you are completely naked.'
 print '\"Oh no,\" you think to yourself. \"Not again.\"'
 print 'You are on the Planet Tralfamadore, on exhibit in a Tralfamadorian Zoo.\n'
 print 'In order to return to Earth, you must entertain the Tralfamadorians!'
 print 'Travel around the room and interact with objects in an effort to elevate your audience satisfaction score.'
-print 'Don\'t dilly dally too much, though. If you run out of HP, you will be forced to sleep and restart.'
+print 'Don\'t dilly dally too much, though. Each step you take uses up valuable HP.'
+print 'If you run out of HP, you will be forced to sleep and restart.'
 print 'Good luck!\n'
 
 move(start)

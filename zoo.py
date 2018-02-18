@@ -56,6 +56,8 @@ def doStuff(x, y):
     global fridge
     global leaked
     global brushed
+    global embraced
+    global story
     if (x, y) == (0, 2):
         print 'You have found the refrigerator. Would you like to open it?\n'
         if yesorno():
@@ -85,13 +87,11 @@ def doStuff(x, y):
                             print 'No room in backpack. Item not added.\n'
                     else:
                         print 'Item not added.\n'
-                return
+
             else:
                 print 'The fridge is empty. Unfortunate.\n'
-                return
-        else:
-            return
-    if (x, y) == (1, 4):
+        return
+    elif (x, y) == (1, 4):
         print 'You have found the microwave. Use it?\n'
         displayImage('microwave.jpg')
         if yesorno():
@@ -102,23 +102,22 @@ def doStuff(x, y):
                 print 'Add 10 audience satisfaction points.'
                 hp+=50
                 score+=10
+                backpack.remove('breakfast')
             else:
                 print 'You don\'t have anything to microwave.'
-            return
-        else:
-            return
-    if (x, y) == (4, 0):
+        return
+    elif (x, y) == (4, 0):
         print 'You have found the bed. Take a quick nap?\n'
         displayImage('bed.JPG')
         if yesorno():
             print 'You hop in and snooze for a while.'
             print 'Add 50 HP points.'
             print 'The Tralfamadorians, however, are bored by your state of torpor.'
-            print 'Loss of 20 audience satisfaction points.\n'
+            print 'Loss of 15 audience satisfaction points.\n'
             hp+=50
-            score-=10
+            score-=15
         return
-    if (x, y) == (2, 0):
+    elif (x, y) == (2, 0):
         print 'You have found the bathroom. Enter?\n'
         displayImage('bathroom.jpg')
         if yesorno():
@@ -150,6 +149,50 @@ def doStuff(x, y):
                 else:
                     print 'Command not recognized. Try again.'
         return 
+    elif (x, y) == (3, 1):
+        print 'You have found your amorous female companion, Montana Wildhack.'
+        displayImage('montana.jpg')
+        print 'Interact?\n'
+        if yesorno():
+            while True:
+                print 'As you tap her on the shoulder, Montana turns around and smiles at you.'
+                print '\"Tell me a story,\" Montana says.'
+                print 'You have a wonderful story in mind, but you also happen to be feeling rather saucy.'
+                command = raw_input('To embrace lovingly, enter \'1\'. To tell a story, enter \'2\': ')
+                if command.strip() == '1':
+                    print '\nIgnoring Montana\'s request, you sweep her into your arms with grand romantic flourish.'
+                    if embraced:
+                        print 'Montana, now fed up that you have ignored her twice, pulls away and slaps you.'
+                        print 'Loss of 15 HP.'
+                        print 'The Tralfamadorians find the crude display of violence unpleasant.'
+                        print 'Loss of 10 audience satisfaction points.\n'
+                        hp-=15
+                        score-=10
+                    else:
+                        print 'The Tralfamadorian crowd is delighted, and so is Montana.'
+                        print 'Add 15 audience satisfaction points.\n'
+                        score+=15
+                        embraced = True
+                    break
+                elif command.strip() == '2':
+                    print '\nYou tell Montana about the bombing of Dresden and how the four guards, in their astonishment and grief, resembled a barber-shop quartet.'
+                    if story:
+                        print 'The Tralfamadorians are quickly bored by the sound of human speech.'
+                        print 'Loss of 5 audience satisfaction points.\n'
+                        score-=5
+                    else:
+                        print 'The Tralfamadorians find the story underwhelming and \"very human\".'
+                        print 'However, they do enjoy hearing the strange noises of human speech.'
+                        print 'Add 10 audience satisfaction points.\n'
+                        score+=15
+                        story = True
+                    break
+                else:
+                    print 'Command not recognized. Try again.'
+        return
+    else:
+        print 'Nothing here.'
+        return
 
 def yesorno():
     while True:
@@ -199,11 +242,11 @@ score = 0
 global zoo_grid
 zoo_grid = [[0 for x in range(5)] for y in range(5)]
 global fridge
-fridge= True
 global leaked 
-leaked = False
 global brushed
-brushed = False
+global embraced
+global story
+fridge, leaked, brushed, embraced, story = True, False, False, False, False
 
 start = [0, 0]
 

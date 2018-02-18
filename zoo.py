@@ -12,6 +12,7 @@ def move(pos):
     print 'Enter \'L\' to move left'
     print 'Enter \'U\' to move up'
     print 'Enter \'D\' to move down'
+    print 'Enter \'MAP\' to display a map of uncovered objects'
     while True:
         command = raw_input('\n').strip().upper()
         if command == 'R':
@@ -38,6 +39,10 @@ def move(pos):
                 break
             else: 
                 print 'Cannot move down. Try again.'
+        elif command == 'MAP':
+            makeMap(position)
+            hp-=25
+            move(position)
         else:
             print 'Invalid input. Please try again.'
     hp-=5
@@ -59,6 +64,7 @@ def doStuff(x, y):
     global embraced
     global story
     if (x, y) == (0, 2):
+        zoo_grid[2][0]='Fridge'
         print 'You have found the refrigerator. Would you like to open it?\n'
         if yesorno():
             if fridge:
@@ -92,6 +98,7 @@ def doStuff(x, y):
                 print 'The fridge is empty. Unfortunate.\n'
         return
     elif (x, y) == (1, 4):
+        zoo_grid[4][1]='Microwave'
         print 'You have found the microwave. Use it?\n'
         displayImage('microwave.jpg')
         if yesorno():
@@ -107,6 +114,7 @@ def doStuff(x, y):
                 print 'You don\'t have anything to microwave.'
         return
     elif (x, y) == (4, 0):
+        zoo_grid[0][4]='Bed'
         print 'You have found the bed. Take a quick nap?\n'
         displayImage('bed.JPG')
         if yesorno():
@@ -118,6 +126,7 @@ def doStuff(x, y):
             score-=15
         return
     elif (x, y) == (2, 0):
+        zoo_grid[0][2]='Bathroom'
         print 'You have found the bathroom. Enter?\n'
         displayImage('bathroom.jpg')
         if yesorno():
@@ -150,6 +159,7 @@ def doStuff(x, y):
                     print 'Command not recognized. Try again.'
         return 
     elif (x, y) == (3, 1):
+        zoo_grid[1][3]='Montana'
         print 'You have found your amorous female companion, Montana Wildhack.'
         displayImage('montana.jpg')
         print 'Interact?\n'
@@ -191,6 +201,7 @@ def doStuff(x, y):
                     print 'Command not recognized. Try again.'
         return
     elif (x, y) == (3, 3):
+        zoo_grid[3][3]='Television'
         print 'You have found the television, currently frozen on a western action film. Press play?\n'
         displayImage('television.jpg')
         if yesorno():
@@ -255,7 +266,22 @@ def checkVitals():
         score = 0
         move([4, 0])
     return
-        
+
+def makeMap(pos):
+    data = [row[:] for row in zoo_grid]
+    data[pos[1]][pos[0]] = 'YOU ARE HERE'
+    color_grid = [['paleturquoise' for x in range(5)] for y in range(5)]
+    color_grid[pos[1]][pos[0]] = 'lightcoral'
+    table = plt.table( #initialize table
+        cellText=data,
+        cellColours=color_grid,
+        cellLoc='center',
+        colLoc='center',
+        loc='center',bbox=None)
+    table.scale(1, 3.65)
+    plt.xticks([], [])
+    plt.yticks([], [])
+    plt.show()
 
 global backpack
 backpack = []
@@ -264,7 +290,7 @@ hp = 150
 global score
 score = 0
 global zoo_grid
-zoo_grid = [[0 for x in range(5)] for y in range(5)]
+zoo_grid = [['' for x in range(5)] for y in range(5)]
 global fridge
 global leaked 
 global brushed
@@ -282,7 +308,9 @@ print 'You are on the Planet Tralfamadore, on exhibit in a Tralfamadorian Zoo.\n
 print 'In order to return to Earth, you must entertain the Tralfamadorians!'
 print 'Travel around the room and interact with objects in an effort to elevate your audience satisfaction score.'
 print 'Don\'t dilly dally too much, though. Each step you take uses up valuable HP.'
-print 'If you run out of HP, you will be forced to sleep and restart.'
-print 'Good luck!\n'
+print 'If you run out of HP, you will be forced to sleep and restart.\n'
+print 'At any point, you may enter the command \'MAP\' to display a map of the zoo and the objects you have uncovered.'
+print 'However, doing so will invoke a cost of -25 HP.'
+print 'Choose wisely, and good luck!\n'
 
 move(start)

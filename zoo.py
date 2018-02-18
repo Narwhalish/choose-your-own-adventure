@@ -270,8 +270,8 @@ def checkVitals():
 def makeMap(pos):
     data = [row[:] for row in zoo_grid]
     data[pos[1]][pos[0]] = 'YOU ARE HERE'
-    color_grid = [['paleturquoise' for x in range(5)] for y in range(5)]
-    color_grid[pos[1]][pos[0]] = 'lightcoral'
+    color_grid = [['black' for x in range(5)] for y in range(5)]
+    color_grid[pos[1]][pos[0]] = 'indigo'
     table = plt.table( #initialize table
         cellText=data,
         cellColours=color_grid,
@@ -281,6 +281,11 @@ def makeMap(pos):
     table.scale(1, 3.65)
     plt.xticks([], [])
     plt.yticks([], [])
+    table_props = table.properties()
+    table_cells = table_props['child_artists']
+    for cell in table_cells:
+        cell._text.set_color('white')
+        cell.set_edgecolor('white')
     plt.show()
 
 global backpack

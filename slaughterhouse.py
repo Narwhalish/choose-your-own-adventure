@@ -12,6 +12,7 @@ In the slaughterhouse there are:
     Shrapnel
 ================================================================================
 """
+import matplotlib.pyplot as plt
 
 global space
 space = [[0]*5 for i in range(5)]
@@ -24,24 +25,40 @@ x = 1
 #         print i
 #         space[row][i]=x
 #         x+=1
-space[prow][pcolumn]=x
+
 def print_space():
     for row in space:
         print row
         print '\n'
-        # if row[2]==space[2][2]:
-        #     space[2][2]=x
-    
+
+def make_map():
+    data = [row[:] for row in space]
+    color_grid = [['black']*5 for i in range(5)]
+    pmap = plt.figure()
+    plt.xticks([])
+    plt.yticks([])
+    tmap = plt.table(cellText=data, cellColours=color_grid,
+            cellLoc='center', rowLoc='left', colLoc = 'center',
+            loc='center', bbox=None)
+    tmap.scale(1, 3.65)
+    table_cells = tmap.properties()['child_artists']
+    for cell in table_cells:
+        cell._text.set_color('white')
+        cell.set_edgecolor('white')
+    plt.show()
+
 def action():
     global prow, pcolumn
     action = raw_input('Up, Down, Right, Left (U,D,R,L): ')
     if 'U':
         space[prow][pcolumn]=0
         space[prow-1][pcolumn]=x
-        print_space()
+        make_map()
 
 def main():
-    print_space()
+    space[prow][pcolumn]=x
+    make_map()
+    #print_space()
     action()
     
 if __name__ == '__main__':

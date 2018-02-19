@@ -14,51 +14,64 @@ In the slaughterhouse there are:
 """
 import matplotlib.pyplot as plt
 
-global space
+global space, position
 space = [[0]*5 for i in range(5)]
 global prow, pcolumn
 prow = 2
 pcolumn = 2
-x = 1
-# for row in range(5):
-#     for i in range(5):
-#         print i
-#         space[row][i]=x
-#         x+=1
+x = "You"
 
 def print_space():
+    global space
     for row in space:
         print row
         print '\n'
 
 def make_map():
-    data = [row[:] for row in space]
+    global space
+    print "global"
+    print_space()
+    print "\n MAP OF SLAUGHTERHOUSE"
     color_grid = [['black']*5 for i in range(5)]
-    pmap = plt.figure()
-    plt.xticks([])
-    plt.yticks([])
-    tmap = plt.table(cellText=data, cellColours=color_grid,
+    
+    pmap = plt.table(cellText=space, cellColours=color_grid,
             cellLoc='center', rowLoc='left', colLoc = 'center',
             loc='center', bbox=None)
-    tmap.scale(1, 3.65)
-    table_cells = tmap.properties()['child_artists']
+    pmap.scale(1, 3.65)
+    plt.xticks([])
+    plt.yticks([])
+    table_cells = pmap.properties()['child_artists']
     for cell in table_cells:
         cell._text.set_color('white')
         cell.set_edgecolor('white')
     plt.show()
 
 def action():
-    global prow, pcolumn
+    global prow, pcolumn, space
     action = raw_input('Up, Down, Right, Left (U,D,R,L): ')
-    if 'U':
+    if ( action == 'U'):
         space[prow][pcolumn]=0
-        space[prow-1][pcolumn]=x
-        make_map()
+        if prow!=0:
+            prow=prow-1
+            space[prow][pcolumn]=x
+            make_map()
+        else:
+            print "You can't walk through a wall!"
+            #action() 
+    if (action=='D'):
+        space[prow][pcolumn]=0
+        if prow!=4:
+            prow=prow+1
+            space[prow][pcolumn]=x
+            make_map()
+        else:
+            print "You can't walk through a wall!"
+            #action() 
 
 def main():
+    global space
     space[prow][pcolumn]=x
     make_map()
-    #print_space()
     action()
     
 if __name__ == '__main__':

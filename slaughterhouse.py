@@ -48,8 +48,8 @@ def make_map():
 
 def action():
     global prow, pcolumn, space
-    action = raw_input('Up, Down, Right, Left (U,D,R,L): ')
-    if ( action == 'U'):
+    a = raw_input('Up, Down, Right, Left (U,D,R,L): ')
+    if ( a == 'U'):
         space[prow][pcolumn]=0
         if prow!=0:
             prow=prow-1
@@ -57,8 +57,8 @@ def action():
             make_map()
         else:
             print "You can't walk through a wall!"
-            #action() 
-    if (action=='D'):
+            action() 
+    if (a =='D'):
         space[prow][pcolumn]=0
         if prow!=4:
             prow=prow+1
@@ -66,7 +66,25 @@ def action():
             make_map()
         else:
             print "You can't walk through a wall!"
-            #action() 
+            action() 
+    if (a =='L'):
+        space[prow][pcolumn]=0
+        if pcolumn!=0:
+            pcolumn=pcolumn-1
+            space[prow][pcolumn]=x
+            make_map()
+        else:
+            print "You can't walk through a wall!"
+            action() 
+    if (a =='R'):
+        space[prow][pcolumn]=0
+        if pcolumn!=4:
+            pcolumn=pcolumn+1
+            space[prow][pcolumn]=x
+            make_map()
+        else:
+            print "You can't walk through a wall!"
+            action() 
 
 def main():
     global space

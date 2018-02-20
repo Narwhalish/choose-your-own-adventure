@@ -6,8 +6,10 @@ def move(pos):
     global hp
     global score
     position = pos
+    checkVitals()
     print 'Current HP: ' + str(hp) + '/150'
-    print 'Current score: ' + str(score) + '/50'
+    if not endable:
+        print 'Current score: ' + str(score) + '/50'
     print 'Enter \'R\' to move right'
     print 'Enter \'L\' to move left'
     print 'Enter \'U\' to move up'
@@ -51,7 +53,6 @@ def move(pos):
 def action(position):
     x, y = position[0], position[1]
     doStuff(x, y)
-    checkVitals()
     move(position)
 
 def doStuff(x, y):
@@ -63,6 +64,7 @@ def doStuff(x, y):
     global brushed
     global embraced
     global story
+    global endable
     if (x, y) == (0, 2):
         zoo_grid[2][0]='Fridge'
         print 'You have found the refrigerator. Would you like to open it?\n'
@@ -73,12 +75,13 @@ def doStuff(x, y):
                 print 'Would you like to take a bite of the continental breakfast?\n'
                 if yesorno():
                     print 'You take a bite eagerly, only to find that cold muffins and danishes do not taste very good.'
-                    print 'Loss of 10 HP points.'
-                    print 'The Tralfamadorians, though, are somewhat amused by your disgust.'
-                    print 'Add 5 audience satisfaction points.'
-                    print 'Disheartened, you toss the breakfast into the trash and continue.\n'
+                    print 'Loss of 10 HP points.\n'
+                    if not endable:
+                        print 'The Tralfamadorians, though, are somewhat amused by your disgust.'
+                        print 'Add 5 audience satisfaction points.'
+                        print 'Disheartened, you toss the breakfast into the trash and continue.\n'
+                        score+=5
                     hp-=10
-                    score+=5
                     fridge = False
                 else:
                     print 'Good for you! Cold breakfast would not taste very good.'
@@ -104,11 +107,12 @@ def doStuff(x, y):
         if yesorno():
             if 'breakfast' in backpack:
                 print 'You microwave your continental breakfast. Yum! Toasty muffins and danishes.'
-                print 'Add 50 HP points.'
-                print 'The Tralfamadorians are fascinated by this strange device and its magical warming powers.'
-                print 'Add 10 audience satisfaction points.'
+                print 'Add 50 HP points.\n'
+                if not endable:
+                    print 'The Tralfamadorians are fascinated by this strange device and its magical warming powers.'
+                    print 'Add 10 audience satisfaction points.\n'
+                    score+=10
                 hp+=50
-                score+=10
                 backpack.remove('breakfast')
             else:
                 print 'You don\'t have anything to microwave.'
@@ -119,11 +123,12 @@ def doStuff(x, y):
         displayImage('bed.JPG')
         if yesorno():
             print 'You hop in and snooze for a while.'
-            print 'Add 50 HP points.'
-            print 'The Tralfamadorians, however, are bored by your state of torpor.'
-            print 'Loss of 15 audience satisfaction points.\n'
+            print 'Add 50 HP points.\n'
+            if not endable:
+                print 'The Tralfamadorians, however, are bored by your state of torpor.'
+                print 'Loss of 15 audience satisfaction points.\n'
+                score-=15
             hp+=50
-            score-=15
         return
     elif (x, y) == (2, 0):
         zoo_grid[0][2]='Bathroom'
@@ -135,24 +140,28 @@ def doStuff(x, y):
                 command = raw_input('To brush teeth, enter \'1\'. To take a leak, enter \'2\': ')
                 if command.strip() == '1':
                     if brushed:
-                        print 'The Tralfamadorian crowd, having already seen this performance, is underwhelmed.'
-                        print 'Add 5 measly audience satisfaction points.\n'
-                        score+=5
+                        print 'The Tralfamadorian crowd, having already seen this performance, is underwhelmed.\n'
+                        if not endable:
+                            print 'Add 5 measly audience satisfaction points.\n'
+                            score+=5
                     else: 
-                        print 'The Tralfamadorians are intrigued by the strange, bristly stick with which you rub your teeth.'
-                        print 'Add 15 audience satisfaction points.\n'
-                        score+=15
+                        print 'The Tralfamadorians are intrigued by the strange, bristly stick with which you rub your teeth.\n'
+                        if not endable:
+                            print 'Add 15 audience satisfaction points.\n'
+                            score+=15
                         brushed = True
                     break
                 elif command.strip() == '2':
                     if leaked:
-                        print 'The Tralfamadorian crowd, having already seen this performance, is underwhelmed.'
-                        print 'Add 5 measly audience satisfaction points.\n'
-                        score+=5
+                        print 'The Tralfamadorian crowd, having already seen this performance, is underwhelmed.\n'
+                        if not endable:
+                            print 'Add 5 measly audience satisfaction points.\n'
+                            score+=5
                     else:
-                        print 'The Tralfamadorian crowd goes wild at your display!'
-                        print 'Add 25 audience satisfaction points.\n'
-                        score+=25
+                        print 'The Tralfamadorian crowd goes wild at your display!\n'
+                        if not endable:
+                            print 'Add 25 audience satisfaction points.\n'
+                            score+=25
                         leaked = True
                     break
                 else:
@@ -173,28 +182,32 @@ def doStuff(x, y):
                     print '\nIgnoring Montana\'s request, you sweep her into your arms with grand romantic flourish.'
                     if embraced:
                         print 'Montana, now fed up that you have ignored her twice, pulls away and slaps you.'
-                        print 'Loss of 15 HP.'
-                        print 'The Tralfamadorians find the crude display of violence extremely unpleasant.'
-                        print 'Loss of 10 audience satisfaction points.\n'
+                        print 'Loss of 15 HP.\n'
+                        if not endable:
+                            print 'The Tralfamadorians find the crude display of violence extremely unpleasant.'
+                            print 'Loss of 10 audience satisfaction points.\n'
+                            score-=10
                         hp-=15
-                        score-=10
                     else:
-                        print 'The Tralfamadorian crowd is delighted, and so is Montana.'
-                        print 'Add 15 audience satisfaction points.\n'
-                        score+=15
+                        print 'The Tralfamadorian crowd is delighted, and so is Montana.\n'
+                        if not endable:
+                            print 'Add 15 audience satisfaction points.\n'
+                            score+=15
                         embraced = True
                     break
                 elif command.strip() == '2':
                     print '\nYou tell Montana about the bombing of Dresden and how the four guards, in their astonishment and grief, resembled a barber-shop quartet.'
                     if story:
-                        print 'The Tralfamadorians are quickly bored by the sound of human speech.'
-                        print 'Loss of 5 audience satisfaction points.\n'
-                        score-=5
+                        print 'The Tralfamadorians are quickly bored by the sound of human speech.\n'
+                        if not endable:
+                            print 'Loss of 5 audience satisfaction points.\n'
+                            score-=5
                     else:
                         print 'The Tralfamadorians find the story underwhelming and \"very human\".'
-                        print 'However, they do enjoy hearing the strange noises of human speech.'
-                        print 'Add 10 audience satisfaction points.\n'
-                        score+=15
+                        print 'However, they do enjoy hearing the strange noises of human speech.\n'
+                        if not endable:
+                            print 'Add 10 audience satisfaction points.\n'
+                            score+=15
                         story = True
                     break
                 else:
@@ -212,11 +225,12 @@ def doStuff(x, y):
                 print 'You proceed to slam your fists at the screen and holler until you realize that the TV is nonfunctional.'
                 print 'The image of one cowboy killing another is merely pasted to the screen!'
                 print 'Mentally and physically drained, you proceed to cry for several hours.'
-                print 'Loss of 25 HP.'
-                print 'The Tralfamadorians, though, find your stupidity to be quite entertaining.'
-                print 'Add 15 audience satisfaction points.\n'
+                print 'Loss of 25 HP.\n'
+                if not endable:
+                    print 'The Tralfamadorians, though, find your stupidity to be quite entertaining.'
+                    print 'Add 15 audience satisfaction points.\n'
+                    score+=15
                 hp-=25
-                score+=15
             else:
                 print '\nYou intelligently deduce that the TV is nonfunctional.'
                 print 'The image of one cowboy killing another is merely pasted to the screen!'
@@ -224,8 +238,19 @@ def doStuff(x, y):
                 print 'Add 15 HP points.\n'
                 hp+=15
         return
+    elif (x, y) == (4, 2):
+        if endable:
+            print 'You have found the time portal!'
+            print 'Congratulations-- you have completed this chapter!'
+            print 'Thankful that you no longer have to deal with the Tralfamadorians, you hop through the portal and travel to Dresden, 1945.'
+            print '\n***\n'
+            raise SystemExit
+        else:
+            print 'Hmmm... there\'s something strange about the wall here, but you can\'t seem to discern what that might be.'
+            print 'Oh well!\n'
+            return
     else:
-        print 'Nothing here.'
+        print 'Nothing here.\n'
         return
 
 def yesorno():
@@ -255,18 +280,45 @@ def checkVitals():
         print 'Congratulations! You have successfully satisfied your audience.'
         print 'Your total score is: ' + str(score)
         print '\n***\n'
-        raise SystemExit
+        endGame()
     if hp > 150:
         hp = 150
     if hp <=0:
         print 'Oh no! You have run out of HP!'
-        print 'You will now be forced to sleep and rejuvenate.'
+        print 'You will now be forced to sleep and restart.'
         print '\n...\n'
-        hp = 150
-        score = 0
-        move([4, 0])
+        reset()
     return
 
+def endGame():
+    global endable
+    endable = True
+    print '\"Thank you Billy Pilgrim,\" a Tralfamadorian says through the zoo loudspeaker.'
+    print '\"That was an inspiring performance. Nicely done.\"'
+    askContinue()
+    print '\"Now will you tell me who\'s been playing with the clocks?\" you demand.'
+    askContinue()
+    print '\"Why would I do that?\" The Tralfamadorian makes a noise that vaguely resembles laughter.'
+    print '\"All I can do is give you a hint.\"'
+    askContinue()
+    print '\"What! You said you\'d tell me,\" you scream in outrage.'
+    askContinue()
+    print '\"I most certainly did not. I said I could help you, and help you I shall.\"'
+    print '\"The person playing with the clocks? You can find them in Dresden, 1945.\"'
+    askContinue()
+    print '\"Dresden... how do I get there?\" you ask.'
+    askContinue()
+    print '\"I can create a time portal for you. I\'m afraid you\'ll have to find it in the zoo yourself, though.\"'
+    print 'The Tralfamadorian makes the laughing sound again, then clicks off the loudspeaker.'
+    print 'You scream in spiteful frustration, wondering why all the bad things in life have to happen to you.'
+    askContinue()
+    print 'You have now been returned to your starting square, and your HP has been restored.' 
+    print 'However, as before, each step uses up valuable HP. If you run out before finding the portal, you will be forced to restart.'
+    print 'Good luck!' 
+    askContinue()
+    print '\n***\n'
+    move([0,0])
+    
 def makeMap(pos):
     data = [row[:] for row in zoo_grid]
     data[pos[1]][pos[0]] = 'YOU ARE HERE'
@@ -288,6 +340,31 @@ def makeMap(pos):
         cell.set_edgecolor('white')
     plt.show()
 
+def reset():
+    global backpack
+    backpack = []
+    global hp
+    hp = 150
+    global score
+    score = 0
+    global zoo_grid
+    zoo_grid = [['' for x in range(5)] for y in range(5)]
+    global fridge
+    global leaked 
+    global brushed
+    global embraced
+    global story
+    fridge, leaked, brushed, embraced, story = True, False, False, False, False
+    move([4, 0])
+
+def askContinue():
+    while True:
+        command = raw_input('Enter \'C\' to continue: ')
+        if command.strip().upper() == 'C':
+            return
+        else:
+            print 'Command not recognized. Try again.'
+    
 global backpack
 backpack = []
 global hp
@@ -301,21 +378,58 @@ global leaked
 global brushed
 global embraced
 global story
-fridge, leaked, brushed, embraced, story = True, False, False, False, False
+global endable
+fridge, leaked, brushed, embraced, story, endable = True, False, False, False, False, False
 
 start = [0, 0]
 
-print '\n***\n'
-print 'You wake up, delirious and foggy-eyed.'
-print 'It is strangely cold, and upon looking down, you realize that you are completely naked.'
-print '\"Oh no,\" you think to yourself. \"Not again.\"'
-print 'You are on the Planet Tralfamadore, on exhibit in a Tralfamadorian Zoo.\n'
-print 'In order to return to Earth, you must entertain the Tralfamadorians!'
-print 'Travel around the room and interact with objects in an effort to elevate your audience satisfaction score.'
-print 'Don\'t dilly dally too much, though. Each step you take uses up valuable HP.'
-print 'If you run out of HP, you will be forced to sleep and restart.\n'
-print 'At any point, you may enter the command \'MAP\' to display a map of the zoo and the objects you have uncovered.'
-print 'However, doing so will invoke a cost of -25 HP.'
-print 'Choose wisely, and good luck!\n'
-
-move(start)
+def main():
+    print '\n***\n'
+    
+    print 'You wake up, delirious and foggy-eyed.'
+    print 'It is strangely cold, and upon looking down, you realize that you are completely naked.'
+    print '\"Oh no,\" you think to yourself. \"Not again.\"'
+    askContinue()
+    
+    print 'You are on the Planet Tralfamadore, on exhibit in a Tralfamadorian Zoo.'
+    print 'Strange as it may seem, this isn\'t the first time you\'ve been abducted.'
+    print 'The Tralfamadorians love to study the human body, and they consider you to be a prime specimen (largely because they don\'t know any better).\n'
+    print 'This time, though, you are fed up with their antics.'
+    askContinue()
+    
+    print '\"Why am I here again?\" you shout, hoping that someone is around to hear you.'
+    print 'A Tralfamadorian appears to your right. \"Such a human thing to say.\"'
+    askContinue()
+    
+    print 'You feel somewhat offended, but ignore the cheeky comment.'
+    print '\"I\'m tired of being unstuck in time,\" you whine. \"Who\'s been playing with the clocks? Is it you?\"\n'
+    print '\"Nonsense. Do you think I care that much about you?\"'
+    askContinue()
+    
+    print '\"Will you at least let me go?\" you plead.\n'
+    print 'The Tralfamadorian pauses in consideration. \"Perhaps. But you must entertain the crowd first.\"'
+    askContinue()
+    
+    print '\"But I don\'t want to entertain the crowd. I want to go home.\"'
+    askContinue()
+    
+    print 'The Tralfamadorian chuckles. \"Humans and their obsession with free will. So amusing.\"'
+    print '\"But no, Billy Pilgrim, you will have to stay a while. If you perform well, I can even help you.\"'
+    print '\"Someone is, in fact, playing with the clocks. And I happen to know who that someone might be.\"'
+    askContinue()
+    
+    print '\n***\n'
+    
+    print 'In order to return to Earth, you must entertain the Tralfamadorians!'
+    print 'Travel around the zoo and interact with objects in an effort to elevate your audience satisfaction score.'
+    print 'Don\'t dilly dally too much, though. Each step you take uses up valuable HP.'
+    print 'If you run out of HP, you will be forced to sleep and restart this chapter of the game.\n'
+    
+    print 'At any point, you may enter the command \'MAP\' to display a map of the zoo and the objects you have uncovered.'
+    print 'However, doing so will invoke a cost of -25 HP.'
+    print 'Choose wisely, and good luck!'
+    askContinue()
+    
+    print '\n***\n'
+    
+    move(start)

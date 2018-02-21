@@ -18,6 +18,8 @@ def move(pos):
     print 'Enter \'L\' to move left'
     print 'Enter \'U\' to move up'
     print 'Enter \'D\' to move down'
+    print 'Enter \'MAP\' to display a map of uncovered objects'
+    
     while True:
         command = raw_input('\n').strip().upper()
         if command == 'R':
@@ -61,8 +63,100 @@ def doStuff(x, y):
     global backpack
     global hp
     global books
+    global drawer
     
-    if (x, y) ==
+    if (x, y) == (0, 0):
+        hospital_grid[0][0] = 'Bed'
+        print 'You have found your hospital bed.'
+        displayImage('hospitalbed.jpg')
+        while True:
+            command = raw_input('To take a quick nap, enter \'1\'. To look under mattress, enter \'2\': ')
+            if command.strip() == '1':
+                print 'You hop in and snooze for a while.'
+                print 'Add 50 HP points.\n'
+                hp+=50
+                break
+            elif command.strip() == '2':
+                if 'The Gospel from Outer Space' not in books:
+                    print '\nTo your surprise, you find a dusty book under your mattress.'
+                    print 'The title is "The Gospel from Outer Space" -- by Kilgore Trout.'
+                    print 'It seems that you borrowed one of Rosewater\'s novels and forgot to return it. Whoops!\n' 
+                    books.append('The Gospel from Outer Space')
+                else:
+                    print 'Nothing here!'
+                break
+            else:
+                print 'Command not recognized. Try again.'
+        return
+        
+    elif (x, y) == (2, 0):
+        hospital_grid[0][2] = 'Rosewater'
+        print 'You have found Eliot Rosewater\'s bed. Look under the mattress?\n'
+        displayImage('rosewater.jpg')
+        if yesorno():
+            print 'Rosewater, having been in the middle of a nap, jolts awake as you lift his bed.'
+            print '\"What are you doing?!\" he shrieks. He then proceeds to sock you in the face out of self defense.'
+            print 'Loss of 50 HP points.\n'
+            hp-=50
+        return
+    
+    elif (x, y) == (0, 2):
+        hospital_grid[2][0] = 'Drawer'
+        print 'You have found your bedside drawer.'
+        displayImage('table.jpg')
+        while True:
+            command = raw_input('Open Drawer 1 (\'1\'), Drawer 2 (\'2\'), Drawer 3 (\'3\'), or none (\'0\')? ')
+            if command.strip() == '1':
+                print 'Ouch! There is an ashtray with a cigarette still burning in the first drawer.'
+                print 'You burn your finger and burst out into pitiful tears.'
+                print 'Loss of 20 HP points.\n'
+                hp-=20
+                break
+            elif command.strip() == '2':
+                if drawer:
+                    print 'You find a light blue pill in the second drawer. When used, it can restore 15 HP points. Add to backpack?\n'
+                    if yesorno():
+                        if len(backpack)<10: 
+                            backpack.append('pill')
+                            drawer = False
+                            print 'Added!\n'
+                        else:
+                            print 'No room in backpack. Item not added.\n'
+                    else:
+                        print 'Item not added.\n'
+                else:
+                    print 'The drawer is empty!\n'
+                break
+            elif command.strip() == '3':
+                print 'Aha! You find a Kilgore Trout book entitled \"The Big Board.\"'
+                print 'It seems you are quite lousy at returning the books you borrow from Rosewater.\n'
+                books.append('The Big Board')
+                break
+            elif command.strip() == '0':
+                break
+            else:
+                print 'Command not recognized. Try again.'
+        return
+            
+    elif (x, y) == (3, 1):
+        hospital_grid[3][1] = 'Trunk'
+        print 'You have found Rosewater\'s steamer trunk.'
+        displayImage('trunk.jpg')
+        print 'Open trunk?\n'
+        if yesorno():
+            if 'The Gutless Wonder' not in books:
+                print 'You find \"The Gutless Wonder\" by Kilgore Trout.'
+                print '\"Rosewater, you idiot!\" you exlaim. \"One of your books is right here!\"'
+                print 'Eliot Rosewater throws a pillow at you. It hurts.\n'
+                books.append('The Gutless Wonder')
+            else:
+                print 'Nothing here!\n'
+        return
+        
+    else:
+        print 'Nothing here.\n'
+        return
+                    
 
 def yesorno():
     while True:
@@ -147,6 +241,8 @@ global hospital_grid
 hospital_grid = [['' for x in range(5)] for y in range(5)]
 global endable
 endable = False
+global drawer, trunk
+drawer = True
 
 start = [0, 0]
 

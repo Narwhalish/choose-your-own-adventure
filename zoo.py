@@ -18,6 +18,7 @@ def move(pos): #Accepts user input to move through room
     global hp
     global score
     position = pos #current position 
+    print '-'*100
     if not endable:
         checkVitals() #check to see if HP has been drained or score has been reached
         print 'Current score: ' + str(score) + '/50'   
@@ -269,6 +270,43 @@ def doStuff(x, y): #Runs interactive code based on user position
                 hp+=15
         return
         
+    elif (x, y) == (2, 2):
+        zoo_grid[2][2]='Tralfamadorian'
+        print 'You have found a Tralfamadorian in your room!'
+        displayImage('tralfamadorian.jpg')
+        print 'Speak to it?'
+        if yesorno():
+            if 'zooadithya' not in pocket:
+                print '\"Hello,\" it says. \"I have but a single question for you-- what is your favorite shape?\"'
+                while True:
+                    print '\nFor \'triangle,\' enter 0.'
+                    print 'For \'square,\' enter 1.'
+                    print 'For \'circle,\' enter 2.'
+                    print 'For \'pentagon,\' enter 3.'
+                    command = raw_input('What would you like to choose? ')
+                    if command.strip() == '1':
+                        print '\nThe Tralfamadorian blinks rapidly, as if in excitement.'
+                        print '\"Excellent!\" it exclaims. \"Mine is a square as well. Here, take this as a token of my gratitude.\"'
+                        print 'The Tralfamadorian hands you a small figurine of a very comely young man.'
+                        displayImage('adithya1.jpg')
+                        print 'You are not sure of its purpose, but you accept the gift nonetheless and continue on your journey.\n'
+                        pocket.append('zooadithya')
+                        break
+                    elif command.strip() in ('0','2','3'):
+                        print '\nThe Tralfamadorian closes its eye in disappointment.'
+                        print '\"How unfortunate,\" it muses. \"Carry on, then.\"'
+                        print 'Confused, you turn away and continue on your journey.\n' 
+                        break
+                    else: 
+                        print 'Command not recognized. Try again.'
+            else:
+                print 'The Tralfamadorian recognizes you and blinks happily.'
+                print '\"Hello! It was very pleasant speaking to you before. I am quite busy now, though. No time for chit chat!\"'
+                print 'You leave it to its work and continue on your journey.\n'
+        else:
+            print 'You ignore the Tralfamadorian and continue on your journey.\n'
+        return
+        
     elif (x, y) == (4, 2):
         if endable: #if user has already reached target score
             print 'You have found the time portal!'
@@ -332,22 +370,29 @@ def endGame(): #Function to continue narrative once user reaches target score
     print '\"Thank you Billy Pilgrim,\" a Tralfamadorian says through the zoo loudspeaker.'
     print '\"That was an inspiring performance. Nicely done.\"'
     askContinue()
+    print '-'*100
     print '\"Now will you tell me who\'s been playing with the clocks?\" you demand.'
     askContinue()
+    print '-'*100
     print '\"Why would I do that?\" The Tralfamadorian makes a noise that vaguely resembles laughter.'
     print '\"All I can do is give you a hint.\"'
     askContinue()
+    print '-'*100
     print '\"What! You said you\'d tell me,\" you scream in outrage.'
     askContinue()
+    print '-'*100
     print '\"I most certainly did not. I said I could help you, and help you I shall.\"'
     print '\"The person playing with the clocks? You can find them in Dresden, 1945.\"'
     askContinue()
+    print '-'*100
     print '\"Dresden... how do I get there?\" you ask.'
     askContinue()
+    print '-'*100
     print '\"I can create a time portal for you. I\'m afraid you\'ll have to find it in the zoo yourself, though.\"'
     print 'The Tralfamadorian makes the laughing sound again, then clicks off the loudspeaker.'
     print 'You scream in spiteful frustration, wondering why all the bad things in life have to happen to you.'
     askContinue()
+    print '-'*100
     print 'You have now been returned to your starting square, and your HP has been restored.' 
     print 'However, as before, each step uses up valuable HP. If you run out before finding the portal, you will be forced to restart.'
     print 'Good luck!' 
@@ -419,6 +464,8 @@ global brushed
 global embraced
 global story
 global endable
+global pocket
+pocket = []
 fridge, leaked, brushed, embraced, story, endable = True, False, False, False, False, False
 
 #start position
@@ -432,28 +479,34 @@ def main(): #Function gives background narrative and calls move() for the first 
     print '\"Oh no,\" you think to yourself. \"Not again.\"'
     askContinue() #delays display of text until user chooses to continue
     
+    print '-'*100
     print 'You are on the Planet Tralfamadore, on exhibit in a Tralfamadorian Zoo.'
     print 'Strange as it may seem, this isn\'t the first time you\'ve been abducted.'
     print 'The Tralfamadorians love to study the human body, and they consider you to be a prime specimen (largely because they don\'t know any better).\n'
     print 'This time, though, you are fed up with their antics.'
     askContinue()
     
+    print '-'*100
     print '\"Why am I here again?\" you shout, hoping that someone is around to hear you.'
     print 'A Tralfamadorian appears to your right. \"Such a human thing to say.\"'
     askContinue()
     
+    print '-'*100
     print 'You feel somewhat offended, but ignore the cheeky comment.'
     print '\"I\'m tired of being unstuck in time,\" you whine. \"Who\'s been playing with the clocks? Is it you?\"\n'
     print '\"Nonsense. Do you think I care that much about you?\"'
     askContinue()
     
+    print '-'*100
     print '\"Will you at least let me go?\" you plead.\n'
     print 'The Tralfamadorian pauses in consideration. \"Perhaps. But you must entertain the crowd first.\"'
     askContinue()
     
+    print '-'*100
     print '\"But I don\'t want to entertain the crowd. I want to go home.\"'
     askContinue()
     
+    print '-'*100
     print 'The Tralfamadorian chuckles. \"Humans and their obsession with free will. So amusing.\"'
     print '\"But no, Billy Pilgrim, you will have to stay a while. If you perform well, I can even help you.\"'
     print '\"Someone is, in fact, playing with the clocks. And I happen to know who that someone might be.\"'

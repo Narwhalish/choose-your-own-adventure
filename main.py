@@ -7,5 +7,5 @@ Description: Billy Pilgrim's Adventure Through Time
 
 def main():
     
-if __name__ == '___main___':
+if __name__ == '__main__':
     main()

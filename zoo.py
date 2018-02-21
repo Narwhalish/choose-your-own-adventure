@@ -382,8 +382,6 @@ def makeMap(pos): #Creates a map of user position and uncovered objects
     plt.show() #display table
 
 def reset(): #Resets default values of global variables
-    global backpack
-    backpack = []
     global hp
     hp = 150
     global score

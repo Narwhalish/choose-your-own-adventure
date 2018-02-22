@@ -5,8 +5,9 @@ def move(pos):
     global hospital_grid
     global hp
     position = pos
+    print '-'*100
     if not endable:
-        checkVitals() #check to see if HP has been drained or score has been reached
+        checkVitals() 
         print 'Current books: ' 
         for book in books:
             print '\t' + book
@@ -100,8 +101,8 @@ def doStuff(x, y):
             hp-=50
         return
     
-    elif (x, y) == (0, 2):
-        hospital_grid[2][0] = 'Drawer'
+    elif (x, y) == (1, 2):
+        hospital_grid[2][1] = 'Drawer'
         print 'You have found your bedside drawer.'
         displayImage('table.jpg')
         while True:
@@ -139,7 +140,7 @@ def doStuff(x, y):
         return
             
     elif (x, y) == (3, 1):
-        hospital_grid[3][1] = 'Trunk'
+        hospital_grid[1][3] = 'Trunk'
         print 'You have found Rosewater\'s steamer trunk.'
         displayImage('trunk.jpg')
         print 'Open trunk?\n'
@@ -152,10 +153,111 @@ def doStuff(x, y):
             else:
                 print 'Nothing here!\n'
         return
+    
+    elif (x, y) == (3, 3):
+        hospital_grid[3][3] = 'Nurse'
+        print 'You have found a nurse in your room.'
+        displayImage('nurse.jpg')
+        print 'Speak to her?'
+        if yesorno():
+            if 'hospitaladithya' not in pocket:
+                print '\"Hi!\" she says in greeting. \"I have a question for you-- what is the best snack?\"'
+                while True:
+                    print '\nFor \'pretzels,\' enter 0.'
+                    print 'For \'chocolate,\' enter 1.'
+                    print 'For \'Goldfish,\' enter 2.'
+                    print 'For \'granola bar,\' enter 3.'
+                    command = raw_input('What would you like to choose? ')
+                    if command.strip() == '2':
+                        print '\nThe nurse grins wildly, clapping her hands in delight.'
+                        print '\"Awesome!\" she exclaims. \"That\'s exactly what I thought. Here, take this as a token of my gratitude.\"'
+                        print 'She hands you a small figurine of a very comely young man.'
+                        displayImage('adithya2.png')
+                        print 'You are not sure of its purpose, but you accept the gift nonetheless and continue on your search.\n'
+                        pocket.append('hospitaladithya')
+                        break
+                    elif command.strip() in ('0','2','3'):
+                        print '\nThe nurse frowns in disappointment.'
+                        print '\"Dangit,\" she says. \"I don\'t seem to agree.. oh well. Carry on.\"'
+                        print 'Confused, you turn away and continue on your search.\n' 
+                        break
+                    else: 
+                        print 'Command not recognized. Try again.'
+            else:
+                print 'The nurse recognizes you and smiles.'
+                print '\"Hello! It was very pleasant speaking to you before. I am quite busy now, though. No time for chit chat!\"'
+                print 'You leave her to her work and continue on your search.\n'
+        else:
+            print 'You ignore the nurse and continue on your search.\n'
+        return
+    
+    elif (x, y) == (1, 4):
+        hospital_grid[4][1] = 'Floorboard'
+        print 'You have a loose floorboard.'
+        displayImage('floor.jpeg')
+        print 'Lift floorboard?\n'
+        if yesorno():
+            if 'Maniacs in the Fourth Dimension' not in books:
+                print 'After clearing away the dust, you find \"Maniacs in the Fourth Dimesnion\" by Kilgore Trout.'
+                print 'Somehow, it has ended up hidden underneath the floor. How strange... \n'
+                books.append('Maniacs in the Fourth Dimension')
+            else:
+                print 'Nothing here!\n'
+        return
+    
+    elif (x, y) == (4, 2):
+        hospital_grid[2][4] = 'Valencia'
+        print 'You find your wife, Valencia, sitting at the side of the room.'
+        print 'She is fast asleep, a half-eaten Three Musketeers candy bar still in her hand.'
+        displayImage('valencia.jpg')
+        print 'Interact?'
+        if yesorno():
+            while True:
+                command = raw_input('Wake up (\'1\'), look in purse (\'2\'), or take candy bar (\'3\')? ')
+                if command.strip() == '1':
+                    print 'You shake Valencia\'s shoulder gently. She jolts awake with a shriek.'
+                    print '\"FIND ME AMONGST THE GHOSTS!!\" she exclaims, whacking you in the face in the process.'
+                    print 'You cradle your swollen eye in pain as Valencia promptly falls back asleep.'
+                    print 'Loss of 20 HP points.\n'
+                    hp-=20
+                    break
+                elif command.strip() == '2':
+                    print 'Channeling your inner ninja skills, you sneak a glance into Valencia\'s purse.'
+                    print 'Sure enough, there\'s a Kilgore Trout book in it entitled \"The Money Tree.\"'
+                    print 'Unfortunately, the book is covered in chocolate stains. You hope Rosewater doesn\'t mind...\n'
+                    books.append('The Money Tree')
+                    break
+                elif command.strip() == '3':
+                    print 'Your stomach growling, you gingerly remove the candy bar from Valencia\'s grasp.'
+                    print 'She snores as if in protest, but doesn\'t wake up.'
+                    print 'You take a bite. Mmm... stale, but still delicious!'
+                    print 'Add 20 HP points.'
+                    hp+=20
+                    break
+                else:
+                    print 'Command not recognized. Try again.'
+        else:
+            print 'You ignore Valencia and continue on your search.\n'
+        return
+        
+    elif (x, y) == (4, 4):
+        hospital_grid[4][4] = 'Photo'
+        print 'You find a framed photo collage of two lovely figure skaters on the wall.'
+        displayImage('shomayuzu.jpg')
+        if not endable:
+            print 'How adorable!\n'
+        else:
+            print 'Perhaps this is the piece of artwork Rosewater mentioned.'
+            print 'It certainly is quite aesthetically pleasing.'
+            askContinue()
+            print 'As you gaze at the collage, a surge of affectionate emotion overcomes you.'
+            print 'Your breath quickens... your heart flutters... and you feel yourself becoming unstuck in time again...'
+            raise SystemExit
+        return
         
     else:
-        print 'Nothing here.\n'
-        return
+        print 'Nothing here!\n'
+        return  
                     
 
 def yesorno():
@@ -200,7 +302,38 @@ def reset():
     hospital_grid = [['' for x in range(5)] for y in range(5)]
 
 def endGame():
-    pass
+    global endable
+    endable = True
+    
+    print '\"Rosewater!\" you exclaim excitedly. \"I found all of your books!\"'
+    print 'You hand the stack of novels to him, grinning from ear to ear.'
+    askContinue()
+    print '-'*100
+    print '\"Thank you Billy Pilgrim,\" Rosewater says. \"I don\'t know what I\'d do without you.\"'
+    print 'He flips open \"The Money Tree\" and begins to read.'
+    askContinue()
+    print '-'*100
+    print '\"Um... didn\'t you say you were going to help me now?\" you ask, confused.'
+    askContinue()
+    print '-'*100
+    print 'He blinks. \"Did I? How unfortunate. I have no idea how to help you.\"'
+    askContinue()
+    print '-'*100
+    print 'You groan and collapse into a fetal position. \"I need to find out who\'s playing with my clocks!\"'
+    askContinue()
+    print '-'*100
+    print 'Rosewater pauses in thought. \"Well, whenever I\'m feeling down, I like to look at artwork.\"'
+    print 'He gestures vaguely at the other end of the room. \"One of my favorite pieces is over there. Maybe you should take a look.\"'
+    askContinue()
+    print '-'*100
+    print 'Without any other leads, you decide to take Rosewater\'s advice.'
+    print 'You must locate a piece of art in the hospital room in order to find your way out.'
+    print 'As before, if you run out of HP, you will be forced to restart this chapter.'
+    print 'Good luck!' 
+    askContinue()
+    print '\n***\n'
+    
+    move([2,0]) 
 
 def makeMap(pos):
     data = [row[:] for row in hospital_grid]
@@ -243,6 +376,8 @@ global endable
 endable = False
 global drawer, trunk
 drawer = True
+global pocket
+pocket = []
 
 start = [0, 0]
 
@@ -252,23 +387,28 @@ def main():
     print 'The sun is obscenely bright shining in from the open window, and your shield your eyes as you look around.'
     askContinue()
     
+    print '-'*100
     print 'You are lying in bed at a veterans hospital near Lake Placid, New York.'
     print 'It is still early morning. In the bed to your left lies Eliot Rosewater, a former infantry captain and avid Kilgore Trout fan.'
     print 'He sits propped up against his pillows, staring forlorningly at the whitewashed wall.'
     askContinue()
     
+    print '-'*100
     print '\"Rosewater!\" you exclaim. \"Have they been playing with your clocks too?\"'
     askContinue()
     
+    print '-'*100
     print '\"My clocks? No. My clocks are fine. They\'ve been playing with my books, though.\"'
     print 'He frowns, looking down sadly at his folded hands.'
     print '\"All of my Kilgore Trout books-- gone! I can\'t find them anywhere.\"'
     askContinue()
     
+    print '-'*100
     print '\"That\'s a pity, Rosewater.\"'
     print 'You pause for a moment to think. \"Say, if I help you find your books, will you help me find the person playing with my clocks?\"'
     askContinue()
     
+    print '-'*100
     print '\"I have no idea what that means, but I do want my books back. Sure, why not?\"'
     askContinue()
     

@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+import zoo
+import main
 
 def move(pos):
     global hospital_grid
@@ -20,6 +22,7 @@ def move(pos):
     print 'Enter \'U\' to move up'
     print 'Enter \'D\' to move down'
     print 'Enter \'MAP\' to display a map of uncovered objects'
+    print 'Enter \'BACKPACK\' to print the current contents of your backpack'
     
     while True:
         command = raw_input('\n').strip().upper()
@@ -51,6 +54,9 @@ def move(pos):
             makeMap(position) #call function to display map
             hp-=25
             move(position) #calls move function anew
+        elif command == 'BACKPACK':
+            print_backpack(backpack)
+            move(position)
         else:
             print 'Invalid input. Please try again.'
     action(position)
@@ -160,7 +166,7 @@ def doStuff(x, y):
         displayImage('nurse.jpg')
         print 'Speak to her?'
         if yesorno():
-            if 'hospitaladithya' not in pocket:
+            if 'hospitaladithya' not in eggs:
                 print '\"Hi!\" she says in greeting. \"I have a question for you-- what is the best snack?\"'
                 while True:
                     print '\nFor \'pretzels,\' enter 0.'
@@ -174,7 +180,7 @@ def doStuff(x, y):
                         print 'She hands you a small figurine of a very comely young man.'
                         displayImage('adithya2.png')
                         print 'You are not sure of its purpose, but you accept the gift nonetheless and continue on your search.\n'
-                        pocket.append('hospitaladithya')
+                        eggs.append('hospitaladithya')
                         break
                     elif command.strip() in ('0','2','3'):
                         print '\nThe nurse frowns in disappointment.'
@@ -252,7 +258,7 @@ def doStuff(x, y):
             askContinue()
             print 'As you gaze at the collage, a surge of affectionate emotion overcomes you.'
             print 'Your breath quickens... your heart flutters... and you feel yourself becoming unstuck in time again...'
-            raise SystemExit
+            zoo.main(backpack, hp, eggs)
         return
         
     else:
@@ -364,24 +370,33 @@ def askContinue(): #Delays display of text until user chooses to continue
         else:
             print 'Command not recognized. Try again.'
 
-global backpack
-backpack = []
-global hp
-hp = 150
-global books 
-books = []
-global hospital_grid
-hospital_grid = [['' for x in range(5)] for y in range(5)]
-global endable
-endable = False
-global drawer, trunk
-drawer = True
-global pocket
-pocket = []
+def print_backpack(backpack):
+    print '\nContents of Backpack:'
+    if len(backpack) == 0:
+        print 'Empty'
+    else:
+        for i in range (len(backpack)):
+            print str(i+1) + ': ' + backpack[i]
+    print ''
+    return
 
-start = [0, 0]
-
-def main():
+def main(b, h, e):
+    global backpack
+    backpack = b
+    global hp 
+    hp = h
+    global eggs 
+    eggs = e
+    global books 
+    books = []
+    global hospital_grid
+    hospital_grid = [['' for x in range(5)] for y in range(5)]
+    global endable
+    endable = False
+    global drawer
+    drawer = True
+    start = [0, 0]
+    
     print '\n***\n'
     print 'You wake up to the acrid smell of sterile sheets and antiseptic.'
     print 'The sun is obscenely bright shining in from the open window, and your shield your eyes as you look around.'

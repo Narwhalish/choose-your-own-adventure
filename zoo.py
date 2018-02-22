@@ -29,6 +29,7 @@ def move(pos): #Accepts user input to move through room
     print 'Enter \'U\' to move up'
     print 'Enter \'D\' to move down'
     print 'Enter \'MAP\' to display a map of uncovered objects'
+    print 'Enter \'BACKPACK\' to print the current contents of your backpack'
     
     #loops until user gives valid input
     while True:
@@ -61,6 +62,9 @@ def move(pos): #Accepts user input to move through room
             makeMap(position) #call function to display map
             hp-=25
             move(position) #calls move function anew
+        elif command == 'BACKPACK':
+            print_backpack(backpack)
+            move(position)
         else:
             print 'Invalid input. Please try again.'
     hp-=5
@@ -276,7 +280,7 @@ def doStuff(x, y): #Runs interactive code based on user position
         displayImage('tralfamadorian.jpg')
         print 'Speak to it?'
         if yesorno():
-            if 'zooadithya' not in pocket:
+            if 'zooadithya' not in eggs:
                 print '\"Hello,\" it says. \"I have but a single question for you-- what is your favorite shape?\"'
                 while True:
                     print '\nFor \'triangle,\' enter 0.'
@@ -290,7 +294,7 @@ def doStuff(x, y): #Runs interactive code based on user position
                         print 'The Tralfamadorian hands you a small figurine of a very comely young man.'
                         displayImage('adithya1.jpg')
                         print 'You are not sure of its purpose, but you accept the gift nonetheless and continue on your journey.\n'
-                        pocket.append('zooadithya')
+                        eggs.append('zooadithya')
                         break
                     elif command.strip() in ('0','2','3'):
                         print '\nThe Tralfamadorian closes its eye in disappointment.'
@@ -449,29 +453,39 @@ def askContinue(): #Delays display of text until user chooses to continue
         else:
             print 'Command not recognized. Try again.'
 
-#initialize global variables
-global backpack
-backpack = []
-global hp
-hp = 150
-global score
-score = 0
-global zoo_grid
-zoo_grid = [['' for x in range(5)] for y in range(5)]
-global fridge
-global leaked 
-global brushed
-global embraced
-global story
-global endable
-global pocket
-pocket = []
-fridge, leaked, brushed, embraced, story, endable = True, False, False, False, False, False
+def print_backpack(backpack):
+    print '\nContents of Backpack:'
+    if len(backpack) == 0:
+        print 'Empty'
+    else:
+        for i in range (len(backpack)):
+            print str(i+1) + ': ' + backpack[i]
+    print ''
+    return
 
-#start position
-start = [0, 0]
-
-def main(): #Function gives background narrative and calls move() for the first time
+def main(b, h, e): #Function gives background narrative and calls move() for the first time
+    #initialize global variables
+    global backpack
+    backpack = b
+    global hp
+    hp = h
+    global eggs
+    eggs = e
+    global score
+    score = 0
+    global zoo_grid
+    zoo_grid = [['' for x in range(5)] for y in range(5)]
+    global fridge
+    global leaked 
+    global brushed
+    global embraced
+    global story
+    global endable
+    fridge, leaked, brushed, embraced, story, endable = True, False, False, False, False, False
+    
+    #start position
+    start = [0, 0]
+    
     print '\n***\n'
     
     print 'You wake up, delirious and foggy-eyed.'

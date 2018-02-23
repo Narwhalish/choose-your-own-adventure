@@ -258,7 +258,7 @@ def doStuff(x, y):
             askContinue()
             print 'As you gaze at the collage, a surge of affectionate emotion overcomes you.'
             print 'Your breath quickens... your heart flutters... and you feel yourself becoming unstuck in time again...'
-            zoo.main(backpack, hp, eggs)
+            raise SystemExit
         return
         
     else:

@@ -3,17 +3,20 @@ Name: Emily Liu
 Choose Your Own Adventure
 Billy Pilgrim's Adventure Through Time
 
-Slaughterhouse Room (Need Certain Number of Items)
+Office Room (Too dark to see into)
 Goal: 
-    Leave the room! 
+    
 In the slaughterhouse there are:
-    Guards - Learn more about the room, get clues on how to leave, on Vonnegut
-    Syrup - Boosts HP
-    Spoon - Must have to eat syrup
-    Other Americans - Learn more about the game, more clues about Vonnegut
-    Shrapnel - Loses HP 
-    Shovel - Key to leave the room, must reach certain HP to use shovel
-    Door - only visible when shovel is found
+    Patient (4): Trivia about themselves to gain trust, then you can treat
+        1. Daniel Du
+        2. Colucci -osu
+        3. Sidhu Arakkal 
+    Sign - Allows you a view into the future
+    Book - Gives you hints on how to treat people
+    Owl Optometer - Gives chance to transport to any location in the past
+                    But you can only use it once
+    Cabinet - 3rd drawer is lamp 
+                    
     
 ** User Notes: Type %matplotlib inline in the kernel before playing game
                 All user entries are case-insensitive**
@@ -24,22 +27,21 @@ import matplotlib.image as mpimg
 
 global space, position
 space = [[" "]*5 for i in range(5)]
-global f_shovel, f_spoon
-f_shovel=False
-f_spoon=False
+global f_lamp, success
+success = False
+f_lamp = False
 
-space[0][1]="Guards"
-#space[0][3]="Door"
-space[3][3]="Americans"
-space[1][4]="Syrup"
+space[4][2]="Entrance"
 entrancepos=[4,2]
 doorpos = [0,3]
-guardpos = [0,1]
-syruppos = [1,4]
-spoonpos = [4,0]
-amerpos = [3,3]
-shrapnelpos = [2,1]
-shovelpos = [2,2]
+signpos = []
+bookpos = [1,4]
+owlpos = [4,0]
+cabinetpos = [3,3]
+danielpos = [2,1]
+coluccipos = [2,2]
+sidhupos
+
 
 global prow, pcolumn, position
 prow = 4
@@ -47,8 +49,8 @@ pcolumn = 2
 x = "YOU"
 position = [prow, pcolumn]
 
-global door
-found_door = False
+global f_lamp
+f_lamp = False
 
 def print_space():
     global space
@@ -66,9 +68,8 @@ def displayImage(name):
     
 def make_map():
     global space, position
-    #print_space()
         
-    print "\n MAP OF SLAUGHTERHOUSE"
+    print "\n MAP OF OFFICE"
     color_grid = [['black']*5 for i in range(5)]
     
     pmap = plt.table(cellText=space, cellColours=color_grid,
@@ -103,16 +104,18 @@ def action():
         if prow!=0:
             prow=prow-1
             position = [prow, pcolumn]
-            #print "Position = " + str(position)
             space[position[0]][position[1]]=x
-            if (position==doorpos or position==guardpos or  
-                position==syruppos or position==spoonpos or
-                position==amerpos or position==shrapnelpos or 
-                position==shovelpos or position==entrancepos):
+            if (position==entrancepos or position==doorpos or  
+                position==signpos or position==owlpos or
+                position==cabinetpos or position==danielpos or 
+                position==coluccipos or position==sidhupos):
                 items()
             else:
-                make_map()
-                space[prow][pcolumn]=" "
+                if (f_lamp==False):
+                    print "Nothing here!"
+                else:
+                    make_map()
+                    space[prow][pcolumn]=" "
         else:
             print "You can't walk through a wall!"
             action() 
@@ -122,14 +125,17 @@ def action():
             position = [prow, pcolumn]
             #print "Position = " + str(position)
             space[position[0]][position[1]]=x
-            if (position==doorpos or position==guardpos or  
-                position==syruppos or position==spoonpos or
-                position==amerpos or position==shrapnelpos or 
-                position==shovelpos or position==entrancepos):
+            if (position==entrancepos or position==doorpos or  
+                position==signpos or position==owlpos or
+                position==cabinetpos or position==danielpos or 
+                position==coluccipos or position==sidhupos):
                 items()
             else:
-                make_map()
-                space[prow][pcolumn]=" "
+                if (f_lamp==False):
+                    print "Nothing here!"
+                else:
+                    make_map()
+                    space[prow][pcolumn]=" "
         else:
             print "You can't walk through a wall!"
             action() 
@@ -138,14 +144,17 @@ def action():
             pcolumn=pcolumn-1
             position = [prow, pcolumn]
             space[position[0]][position[1]]=x
-            if (position==doorpos or position==guardpos or  
-                position==syruppos or position==spoonpos or
-                position==amerpos or position==shrapnelpos or
-                position==shovelpos or position==entrancepos):
+            if (position==entrancepos or position==doorpos or  
+                position==signpos or position==owlpos or
+                position==cabinetpos or position==danielpos or 
+                position==coluccipos or position==sidhupos):
                 items()
             else:
-                make_map()
-                space[prow][pcolumn]=" "
+                if (f_lamp==False):
+                    print "Nothing here!"
+                else:
+                    make_map()
+                    space[prow][pcolumn]=" "
 
         else:
             print "You can't walk through a wall!"
@@ -155,14 +164,17 @@ def action():
             pcolumn=pcolumn+1
             position = [prow, pcolumn]
             space[position[0]][position[1]]=x
-            if (position==doorpos or position==guardpos or  
-                position==syruppos or position==spoonpos or
-                position==amerpos or position==shrapnelpos or 
-                position==shovelpos or position==entrancepos):
+            if (position==entrancepos or position==doorpos or  
+                position==signpos or position==owlpos or
+                position==cabinetpos or position==danielpos or 
+                position==coluccipos or position==sidhupos):
                 items()
             else:
-                make_map()
-                space[prow][pcolumn]=" "
+                if (f_lamp==False):
+                    print "Nothing here!"
+                else:
+                    make_map()
+                    space[prow][pcolumn]=" "
         else:
             print "You can't walk through a wall!"
             action() 
@@ -171,15 +183,14 @@ def entrance():
     a = True
     space[entrancepos[0]][entrancepos[1]]="YOU\nEntrance"
     make_map()
-    space[entrancepos[0]][entrancepos[1]]="Entrance"
     while (a):
-        print "Do you want to leave the slaughterhouse?"
+        print "Do you want to leave the office?"
         d = (raw_input("To leave, press L. To stay, press S: ")).upper()
         if (d =='L'):
             pass #leads to last room 
             break
         elif (d == 'S'):
-            print "You decided to stay in the slaughterhouse."
+            print "You decided to stay in the office."
             print "Maybe there are more items!"
             break
         else:
@@ -348,28 +359,31 @@ def shrapnel():
     print "Oh no! You stepped on the shrapnel and lost HP!"
     #lose HP function
 
-def shovel():
-    global f_shovel
-    f_shovel=True
+def book():
+    global f_lamp
     a=True
-    space[shovelpos[0]][shovelpos[1]]="YOU\nShovel"
-    make_map()
-    space[shovelpos[0]][shovelpos[1]]="Shovel"
-    print "You found a shovel!"
-    print "Maybe the guards will let you leave if you help them bury the bodies?"
-    while (a):
-        d = (raw_input("\nDo you want to put it in your backpack? Y or N: ")).upper()
-        if (d=='Y'):
-            pass #backpack function
-            break
-        elif (d=='N'):
-            print "You left the shovel. It seems like a dangerous object."
-            break
-        else:
-            print "\nPlease enter a valid action!\n"
+    if (f_lamp==False):
+        print "There's an item, but it's too dark to see!"
+        return
+    elif (f_lamp==True):
+        space[bookpos[0]][bookpos[1]]="YOU\nBook"
+        make_map()
+        space[bookpos[0]][bookpos[1]]="Book"
+        print "You found a book!"
+        print "Maybe the guards will let you leave if you help them bury the bodies?"
+        while (a):
+            d = (raw_input("\nDo you want to put it in your backpack? Y or N: ")).upper()
+            if (d=='Y'):
+                pass #backpack function
+                break
+            elif (d=='N'):
+                print "You left the shovel. It seems like a dangerous object."
+                break
+            else:
+                print "\nPlease enter a valid action!\n"
 
 def items():
-    decisions = {str(doorpos): door,
+    decisions = {str(entrancepos): door,
                 str(guardpos): guards,
                 str(syruppos): syrup,
                 str(spoonpos): spoon,

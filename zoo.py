@@ -12,6 +12,7 @@ Objects:
 
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+import slaughterhouse
 
 def move(pos): #Accepts user input to move through room
     global zoo_grid
@@ -317,7 +318,7 @@ def doStuff(x, y): #Runs interactive code based on user position
             print 'Congratulations-- you have completed this chapter!'
             print 'Thankful that you no longer have to deal with the Tralfamadorians, you hop through the portal and travel to Dresden, 1945.'
             print '\n***\n'
-            raise SystemExit
+            slaughterhouse.main(backpack, hp, eggs)
         else: #if user has not yet reached target score
             print 'Hmmm... there\'s something strange about the wall here, but you can\'t seem to discern what that might be.'
             print 'Oh well!\n'

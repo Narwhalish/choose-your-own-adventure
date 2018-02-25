@@ -27,10 +27,17 @@ import matplotlib.image as mpimg
 
 global space, position
 space = [[" "]*5 for i in range(5)]
+
 global f_lamp, success, f_book
 success = 0
 f_lamp = False
 f_book = False
+
+global c_treated, d_treated, s_treated, f_egg
+c_treated = False
+d_treated = False
+s_treated = False
+f_egg = False
 
 space[4][2]="Entrance"
 entrancepos=[4,2]
@@ -101,23 +108,23 @@ def check_continue():
             print "Please press C." 
 
 def action():
-    global prow, pcolumn, space, position
+    global prow, pcolumn, space, position, f_lamp
     a = raw_input('Up, Down, Right, Left (U,D,R,L): ').upper()
     if ( a == 'U'):
         if prow!=0:
             prow=prow-1
             position = [prow, pcolumn]
-            space[position[0]][position[1]]=x
             if (position==entrancepos or position==doorpos or  
                 position==signpos or position==owlpos or
                 position==cabinetpos or position==danielpos or 
-                position==coluccipos or position==sidhupos):
+                position==coluccipos or position==sidhupos or position==bookpos):
                 items()
             else:
                 if (f_lamp==False):
                     print "Nothing here!"
                     space[prow][pcolumn]=" "
                 else:
+                    space[prow][pcolumn]=x
                     make_map()
                     space[prow][pcolumn]=" "
         else:
@@ -127,18 +134,17 @@ def action():
         if prow!=4:
             prow=prow+1
             position = [prow, pcolumn]
-            #print "Position = " + str(position)
-            space[position[0]][position[1]]=x
             if (position==entrancepos or position==doorpos or  
                 position==signpos or position==owlpos or
                 position==cabinetpos or position==danielpos or 
-                position==coluccipos or position==sidhupos):
+                position==coluccipos or position==sidhupos or position==bookpos):
                 items()
             else:
                 if (f_lamp==False):
                     print "Nothing here!"
                     space[prow][pcolumn]=" "
                 else:
+                    space[position[0]][position[1]]=x
                     make_map()
                     space[prow][pcolumn]=" "
         else:
@@ -148,17 +154,17 @@ def action():
         if pcolumn!=0:
             pcolumn=pcolumn-1
             position = [prow, pcolumn]
-            space[position[0]][position[1]]=x
             if (position==entrancepos or position==doorpos or  
                 position==signpos or position==owlpos or
                 position==cabinetpos or position==danielpos or 
-                position==coluccipos or position==sidhupos):
+                position==coluccipos or position==sidhupos or position==bookpos):
                 items()
             else:
                 if (f_lamp==False):
                     print "Nothing here!"
                     space[prow][pcolumn]=" "
                 else:
+                    space[position[0]][position[1]]=x
                     make_map()
                     space[prow][pcolumn]=" "
 
@@ -169,22 +175,25 @@ def action():
         if pcolumn!=4:
             pcolumn=pcolumn+1
             position = [prow, pcolumn]
-            space[position[0]][position[1]]=x
             if (position==entrancepos or position==doorpos or  
                 position==signpos or position==owlpos or
                 position==cabinetpos or position==danielpos or 
-                position==coluccipos or position==sidhupos):
+                position==coluccipos or position==sidhupos or position==bookpos):
                 items()
             else:
                 if (f_lamp==False):
                     print "Nothing here!"
                     space[prow][pcolumn]=" "
                 else:
+                    space[position[0]][position[1]]=x
                     make_map()
                     space[prow][pcolumn]=" "
         else:
             print "You can't walk through a wall!"
             action() 
+    else:
+        print "Please enter valid action!"
+        action()
 
 def entrance():
     global success, f_lamp
@@ -335,26 +344,27 @@ def owl():
 def cabinet():
     a = True
     global f_lamp
-    space[cabinetpos[0]][cabinetpos[1]]="YOU\nCabinet"
-    space[cabinetpos[0]][cabinetpos[1]]="Cabinet"
+    space[prow][pcolumn]="YOU\nCabinet"
+    #space[cabinetpos[0]][cabinetpos[1]]="YOU\nCabinet"
     print "You found a cabinet!"
     while (a):
         d = (raw_input("Will you look inside? Y or N: ")).upper()
         if (d=='Y'):
             print "You found three drawers!"
-            d = (raw_input("Select a drawer to look into (1,2,3): "))
-            if (d==1):
+            e = (raw_input("Select a drawer to look into (1,2,3): "))
+            if (e=='1'):
                 print "You found an old magazine! It looks boring so you leave it."
-                break
-            elif (d==2):
+                return
+            elif (e=='2'):
                 print "You found a watch! The clock is ticking...ticking...you don't \
                 \nhave much time..."
-                break
-            elif (d==3):
-                f_lamp == True
+                return
+            elif (e=='3'):
+                f_lamp = True
                 print "You found a lamp! Now you can see your surroundings!"
                 make_map()
-                break
+                space[cabinetpos[0]][cabinetpos[1]]="Cabinet"
+                return
             else:
                 print "Please enter a valid drawer!"
         elif (d=='N'):
@@ -365,7 +375,7 @@ def cabinet():
 
 def daniel():
     a = True
-    global f_lamp, f_book, success
+    global f_lamp, f_book, success, d_treated
     if (f_lamp==False):
         print "There seems to be something here, but it's too dark to see."
         return
@@ -375,150 +385,163 @@ def daniel():
         space[danielpos[0]][danielpos[1]]="Daniel"
         #display image
         print "You found Daniel!"
-        print "\"Dr. Pilgrim, help me! This is tragic! I can't believe this is happening!\""
-        print "Shaken and slightly terrified, you scream, \"What's the matter? Are you going \
-                \nblind?!\""
-        check_continue()
-        print "When you start screaming, Daniel begins to panic more and begins screaming too.\
-                \n\"No, no, Dr. Pilgrim -- well, yes, I can't seem to see anything -- but I CAN'T\
-                \nSEE JISOO ANYMORE! I CAN'T WATCH HER ON MY PHONE, I CAN'T SEE HER VIDEOS, I CAN'T \
-                \nEVEN FIND THE VOLUME BUTTON TO HEAR HER ANGELIC VOICE!\""
-        print "Overwhelmed by his own situation, he plops down on the ground and sobs."
-        if (f_book):
-            while (a):
-                d = (raw_input("Treat Daniel? Y or N: ")).upper()
-                if (d=='Y'):
-                    print "Thankfully, the book you found had all of Daniel's symptoms: juvenille progressive\
-                            \nblindness, and an affinity for Jisoos?"
-                    check_continue()
-                    print "Ah. Of course. Stargardt's disease. \"Daniel, with this disease, the afflicted \
-                            \nindividuals may not have cures. However, maybe you can discover one in the future! \
-                            \nIn regards to your infatuation with Jisoo... Unfortunately, that appears to be a \
-                            \nnatural symptom of all Daniels. It appears to be untreatable as well. I recommend\
-                            \nyou visit the k-pop specialist, Mr. Sivan Shulman, and/or your counseling agency.\""
-                    print "* * * NOTE: Not intended to be used as a diagnosis tool or prescription. * * * "
-                    check_continue()
-                    print "\"Thank you, Dr. Pilgrim!\" says Daniel. \"I was so worried that I couldn't see Jisoo \
-                            \nanymore, but now that I know I can always have someone to talk to, I won't be afraid\
-                            \nto face the future without her! I am not afraid, because I am the people's champ!!\""
-                    success +=1
-                    return
-                elif (d=='N'):
-                    print "\"Even you, Dr. Pilgrim? Do you not respect me as the people's champ???\""
-                    return
+        if (d_treated == False):
+            print "\"Dr. Pilgrim, help me! This is tragic! I can't believe this is happening!\""
+            if (f_book):
+                print "Shaken and slightly terrified, you scream, \"What's the matter? Are you going \
+                        \nblind?!\""
+                check_continue()
+                print "When you start screaming, Daniel begins to panic more and begins screaming too.\
+                        \n\"No, no, Dr. Pilgrim -- well, yes, I can't seem to see anything -- but I CAN'T\
+                        \nSEE JISOO ANYMORE! I CAN'T WATCH HER ON MY PHONE, I CAN'T SEE HER VIDEOS, I CAN'T \
+                        \nEVEN FIND THE VOLUME BUTTON TO HEAR HER ANGELIC VOICE!\""
+                print "Overwhelmed by his own situation, he plops down on the ground and sobs."
+                while (a):
+                    d = (raw_input("Treat Daniel? Y or N: ")).upper()
+                    if (d=='Y'):
+                        d_treated = True
+                        print "Thankfully, the book you found had all of Daniel's symptoms: juvenille progressive\
+                                \nblindness, and an affinity for Jisoos?"
+                        check_continue()
+                        print "Ah. Of course. Stargardt's disease. \"Daniel, with this disease, the afflicted \
+                                \nindividuals may not have cures. However, maybe you can discover one in the future! \
+                                \nIn regards to your infatuation with Jisoo... Unfortunately, that appears to be a \
+                                \nnatural symptom of all Daniels. It appears to be untreatable as well. I recommend\
+                                \nyou visit the k-pop specialist, Mr. Sivan Shulman, and/or your counseling agency.\""
+                        print "* * * NOTE: Not intended to be used as a diagnosis tool or prescription. * * * "
+                        check_continue()
+                        print "\"Thank you, Dr. Pilgrim!\" says Daniel. \"I was so worried that I couldn't see Jisoo \
+                                \nanymore, but now that I know I can always have someone to talk to, I won't be afraid\
+                                \nto face the future without her! I am not afraid, because I am the people's champ!!\""
+                        success +=1
+                        return
+                    elif (d=='N'):
+                        print "\"Even you, Dr. Pilgrim? Do you not respect me as the people's champ???\""
+                        return
+                    else:
+                        print "Please type a valid action!"
                 else:
-                    print "Please type a valid action!"
+                    print "\nYou don't seem to know what disease it is! Try looking around the room for \
+                    \nyour medical book."
+                    return
         else:
-            print "You don't seem to know what disease it is! Try looking around the room for \
-                        \nyour medical book."
-            return
+            print "You already treated Daniel!"
     
 
 def colucci():
     a = True
     b = True
-    global f_lamp, f_book, success
-    if (f_lamp==False):
-        print "There seems to be something here, but it's too dark to see."
-        return
-    if (f_lamp):
-        space[coluccipos[0]][coluccipos[1]]="YOU\nColucci"
-        make_map()
-        space[coluccipos[0]][coluccipos[1]]="Colucci"
-        #display image
-        print "You found Colucci!"
-        print "He is floundering around, scratching at his eyes. \"Dr. Pilgrim! \
-        \nMy eyes are killing me! They're burning! Please help me!\""
-        if (f_book):
-            while (a):
-                d = (raw_input("Treat Colucci? Y or N: ")).upper()
-                if (d=='Y'):
-                    print "Thankfully, the book you found had all of Colucci's symptoms: itchy eyes,\
-                            \na burning sensation, and a feeling of euphoria. The disease?"
-                    check_continue()
-                    print "\"Colucci, it appears to be that you had prelonged exposure to Adithya. \
-                            \nPlease be aware next time that his radiance will damage your retina if \
-                            \nyou stare directly at him. You can apply this ointment for your burns.\""
-                    check_continue()
-                    success +=1
-                    print "\"Thank you, Dr. Pilgrim!\" Colucci exclaims, relieved. \"But before I leave, \
-                            \nplease help me answer this question: "
-                    while (b):
-                        d = (raw_input("What is Adithya's favorite subject in school? \
-                                        \na. English\
-                                        \nb. Chemistry\
-                                        \nc. VEX\
-                                        \nd. History\
-                                        \nAnswer: ")).upper()
-                        if (d=='C'):
-                            print "You made a wild guess and guessed 'VEX'!"
-                            print "\"Congratulations, Dr. Pilgrim!! I can now unashamedly talk to\
-                                    \nAdithya! Please accept this egg as a token of my appreciation: "
-                            #display image
-                            print "?? It appears to be an Adithya! You don't question his choice of gift\
-                                    \nand calmly place it in your pocket."
-                            #egg+1
-                            return
-                        elif (d=='A' or d=='B' or d=='D'): 
-                            print "Colucci looks at you disappointedly and shakes his head. \"A flamingo\
-                                    \nwill always be a flamingo.\" You're confused when he walks out the\
-                                    \ndoor, refusing to pay you."
-                            return
-                        else:
-                            print "Please enter a valid answer!"
-                elif (d=='N'):
-                    print "You decide not to treat Colucci. \"Lucia will hear about this!\" he\
-                    \ncries, and runs away."
-                    return
-                else:
-                    print "Please enter a valid action!"
-            else:
-                print "You don't seem to know what disease it is! Try looking around the room for \
-                        \nyour medical book."
-                return
+    global f_lamp, f_book, success, c_treated, f_egg
+    if (c_treated == False):
+        if (f_lamp==False):
+            print "There seems to be something here, but it's too dark to see."
+            return
+        if (f_lamp):
+            space[coluccipos[0]][coluccipos[1]]="YOU\nColucci"
+            make_map()
+            space[coluccipos[0]][coluccipos[1]]="Colucci"
+            #display image
+            print "You found Colucci!"
+            print "He is floundering around, scratching at his eyes. \"Dr. Pilgrim! \
+            \nMy eyes are killing me! They're burning! Please help me!\""
+            if (f_book):
+                while (a):
+                    d = (raw_input("Treat Colucci? Y or N: ")).upper()
+                    if (d=='Y'):
+                        c_treated = True
+                        print "Thankfully, the book you found had all of Colucci's symptoms: itchy eyes,\
+                                \na burning sensation, and a feeling of euphoria. The disease?"
+                        check_continue()
+                        print "\"Colucci, it appears to be that you had prelonged exposure to Adithya. \
+                                \nPlease be aware next time that his radiance will damage your retina if \
+                                \nyou stare directly at him. You can apply this ointment for your burns.\""
+                        check_continue()
+                        success +=1
+                        if (f_egg==False):
+                            print "\"Thank you, Dr. Pilgrim!\" Colucci exclaims, relieved. \"But before I leave, \
+                                    \nplease help me answer this question: "
+                            while (b):
+                                d = (raw_input("What is Adithya's favorite subject in school? \
+                                                \na. English\
+                                                \nb. Chemistry\
+                                                \nc. VEX\
+                                                \nd. History\
+                                                \nAnswer: ")).upper()
+                                if (d=='C'):
+                                    f_egg = True
+                                    print "You made a wild guess and guessed 'VEX'!"
+                                    print "\"Congratulations, Dr. Pilgrim!! I can now unashamedly talk to\
+                                            \nAdithya! Please accept this egg as a token of my appreciation: "
+                                    #display image
+                                    print "?? It appears to be an Adithya! You don't question his choice of gift\
+                                            \nand calmly place it in your pocket."
+                                    #egg+1
+                                    return
+                                elif (d=='A' or d=='B' or d=='D'): 
+                                    print "Colucci looks at you disappointedly and shakes his head. \"A flamingo\
+                                            \nwill always be a flamingo.\" You're confused when he walks out the\
+                                            \ndoor, refusing to pay you."
+                                    return
+                                else:
+                                    print "Please enter a valid answer!"
+                    elif (d=='N'):
+                        print "You decide not to treat Colucci. \"Lucia will hear about this!\" he\
+                        \ncries, and runs away."
+                        return
+                    else:
+                        print "Please enter a valid action!"
+        else:
+            print "\nYou don't seem to know what disease it is! Try looking around the room for \
+                    \nyour medical book."
+            return
+    else:
+        print "You already treated Colucci!"
 
 def sidhu():
     a = True
-    global f_lamp, f_book, success
+    global f_lamp, f_book, success, s_treated
     if (f_lamp==False):
         print "There seems to be something here, but it's too dark to see."
         return
-    if (f_lamp):
+    if (f_lamp==True):
         space[sidhupos[0]][sidhupos[1]]="YOU\nSidhu"
         make_map()
         space[sidhupos[0]][sidhupos[1]]="Sidhu"
         #display image
         print "You found Sidhu!"
-        print "\"Dr. Pilgrim, help me! My eyes are so painful and I'm seeing spots everywhere.\""
-        print "You attempt to shine a flashlight at his face, but that only seems to make it \
-                \nworse. \"Argh! I can't see anymore!\""
-        if (f_book):
-            while (a):
-                d = (raw_input("Treat Sidhu? Y or N: ")).upper()
-                if (d=='Y'):
-                    print "Thankfully, the book you found had all of Sidhu's symptoms: pain,\
-                            \nlight sensitivity, dark spots, and vision loss. The disease?"
-                    check_continue()
-                    print "\"Uveitis, Sidhu, you have uveitis! How unfortunate. Here, I\
-                            \nwill prescribe for you some eye drops to ease inflammation. If it is \
-                            \nstill bothering you after a week, well, I am sorry for your loss.\""
-                    print "* * * NOTE: Not intended to be used as a diagnosis tool or prescription. * * * "
-                    check_continue()
-                    print "\"Thank you, Dr. Pilgrim!\" says Sidhu. \"I was so worried that my eyes were looking\
-                            \nkind of yucky, but now that I have these eyedrops, I can have eyes that accentuate \
-                            \nmy hair!"
-                    success +=1
-                    return
-                elif (d=='N'):
-                    print "Ach!!  Who will treat my eyes now? What if they never match my hair again?"
-                    return
-                else:
-                    print "Please type a valid action!"
-        else:
-            print "You don't seem to know what disease it is! Try looking around the room for \
+        if (s_treated==False):
+            print "\"Dr. Pilgrim, help me! My eyes are so painful and I'm seeing spots everywhere.\""
+            print "You attempt to shine a flashlight at his face, but that only seems to make it \
+                    \nworse. \"Argh! I can't see anymore!\""
+            if (f_book):
+                while (a):
+                    d = (raw_input("Treat Sidhu? Y or N: ")).upper()
+                    if (d=='Y'):
+                        s_treated = True
+                        print "Thankfully, the book you found had all of Sidhu's symptoms: pain,\
+                                \nlight sensitivity, dark spots, and vision loss. The disease?"
+                        check_continue()
+                        print "\"Uveitis, Sidhu, you have uveitis! How unfortunate. Here, I\
+                                \nwill prescribe for you some eye drops to ease inflammation. If it is \
+                                \nstill bothering you after a week, well, I am sorry for your loss.\""
+                        print "* * * NOTE: Not intended to be used as a diagnosis tool or prescription. * * * "
+                        check_continue()
+                        print "\"Thank you, Dr. Pilgrim!\" says Sidhu. \"I was so worried that my eyes were looking\
+                                \nkind of yucky, but now that I have these eyedrops, I can have eyes that accentuate \
+                                \nmy hair!"
+                        success +=1
+                        return
+                    elif (d=='N'):
+                        print "Ach!!  Who will treat my eyes now? What if they never match my hair again?"
+                        return
+                    else:
+                        print "Please type a valid action!"
+            else:
+                print "\nYou don't seem to know what disease it is! Try looking around the room for \
                         \nyour medical book."
-            return
-                    
+                return
+        else:
+            print "You already treated Sidhu!"
 
 def book():
     global f_lamp, f_book
@@ -549,11 +572,12 @@ def items():
                 str(cabinetpos): cabinet,
                 str(danielpos): daniel,
                 str(coluccipos): colucci,
-                str(sidhupos): sidhu}
+                str(sidhupos): sidhu,
+                str(bookpos): book}
     decisions[str(position)]()
     
 def main():
-    global success, f_lamp
+    global success
     print "\n****************************************************************\n"
     print "The first thing you notice about this room is how quiet it is. The air is \
             \nstiff and still, as if the windows had not been opened for decades. It \
@@ -573,12 +597,7 @@ def main():
     check_continue()
     print "\n****************************************************************\n"
     
-    global space, door, position
-    space[prow][pcolumn]=x
-    if (f_lamp):
-        make_map()
-    
-    while (success<3):
+    while (success<=3):
         action()
     
     

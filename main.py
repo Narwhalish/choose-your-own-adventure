@@ -7,7 +7,7 @@ Description: Billy Pilgrim -- Lost in Time
 Main program for game. start() provides introductory narrative, initializes 
 backpackand HP, and calls function for first room.
 """
-
+ 
 import hospital
 
 def askContinue(): #Delays display of text until user chooses to continue
@@ -17,7 +17,7 @@ def askContinue(): #Delays display of text until user chooses to continue
             return
         else:
             print 'Command not recognized. Try again.'
-            
+
 def start(): #Narrates introduction of game
     #initalize variables
     backpack = []

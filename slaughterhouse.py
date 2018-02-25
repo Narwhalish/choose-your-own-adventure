@@ -78,11 +78,10 @@ def make_map():
     plt.show()
 
 def check_continue():
-    c = (raw_input("Press C to continue: ")).upper()
     a = True
     while (a):
+        c = (raw_input("Press C to continue: ")).upper()
         if (c=='C'):
-            a = False
             return
         else: 
             print "Please press C." 
@@ -174,7 +173,7 @@ def entrance():
             pass #leads to last room 
             break
         elif (d == 'S'):
-            print "You decided to stay in the slaughterhouse."
+            print "You decide to stay in the slaughterhouse."
             print "Maybe there are more items!"
             break
         else:
@@ -196,7 +195,7 @@ def door():
                 print "Oops! You don't have the key to unlock this door!"
             break
         elif (d == 'S'):
-            print "You decided to stay in the slaughterhouse."
+            print "You decide to stay in the slaughterhouse."
             print "Maybe there are more items!"
             break
         else:
@@ -215,7 +214,7 @@ def guards():
             print "One of the guards sees and turns to you."
             a = False
             while (b):
-                print "GUARD: Stay inside! Dresden is being bombed."
+                print "GUARD: Stay inside!"
                 a = (raw_input("a. 'How can I leave?'\
                                 \nb. 'Where am I?' \
                                 \nc. 'What's syrup for?'\
@@ -240,7 +239,7 @@ def guards():
                     print "\nPlease enter a valid answer!\n"
             break
         elif (d == 'I'):
-            print "You decided to ignore the guards."
+            print "You decide to ignore the guards."
             break
         else:
             print "\nPlease enter a valid action!\n"
@@ -260,7 +259,7 @@ def syrup():
                 break
                 pass #boost HP
             elif (d=='L'):
-                print "You decided not to drink the syrup."
+                print "You decide not to drink the syrup."
                 break
             else:
                 print "\nPlease enter a valid action!\n"
@@ -282,7 +281,7 @@ def spoon():
             pass #put in backpack
         elif (d=='N'):
             break
-            print "You left the spoon on the floor. It wasn't sanitary anyway."
+            print "You leave the spoon on the floor. It isn't sanitary anyway."
         else: 
             print "\nPlease enter a valid action!\n"
     make_map()
@@ -293,7 +292,7 @@ def americans():
     print "You found your fellow Americans!"
     space[amerpos[0]][amerpos[1]]="YOU\nAmericans"
     make_map()
-    print "\nFive Americans were standing in a group, huddled together and eating\
+    print "\nFive Americans are standing in a group, huddled together and eating\
             \nsyrup. They ignore you when you go up to them."
     print "\"Where did you get the syrup?\" you ask, hoping to share in on their pleasure."
     print "\"It's somewhere in the slaughterhouse. You have to find it yourself.\""
@@ -377,7 +376,7 @@ def main():
             \nYour heart sank. You are in Dresden, 1945."
     check_continue()
     print "\n****************************************************************\n"
-    print "The underground slaughterhouse was named Slaughterhouse-Five. Minutes after you \
+    print "The underground slaughterhouse is named Slaughterhouse-Five. Minutes after you \
             \nrealize where you are, you hear the thundering sounds of bombs as their shells \
             \ncrack open above the ceiling." 
     check_continue()

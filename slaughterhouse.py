@@ -90,7 +90,6 @@ def action():
     global prow, pcolumn, space, position
     a = raw_input('Up, Down, Right, Left (U,D,R,L): ').upper()
     if ( a == 'U'):
-        space[prow][pcolumn]=" "
         if prow!=0:
             prow=prow-1
             position = [prow, pcolumn]
@@ -104,11 +103,11 @@ def action():
             else:
                 space[4][2]="Entrance"
                 make_map()
+                space[prow][pcolumn]=" "
         else:
             print "You can't walk through a wall!"
             action() 
     if (a =='D'):
-        space[prow][pcolumn]=" "
         if prow!=4:
             prow=prow+1
             position = [prow, pcolumn]
@@ -122,15 +121,14 @@ def action():
             else:
                 space[4][2]="Entrance"
                 make_map()
+                space[prow][pcolumn]=" "
         else:
             print "You can't walk through a wall!"
             action() 
     if (a =='L'):
-        space[prow][pcolumn]=" "
         if pcolumn!=0:
             pcolumn=pcolumn-1
             position = [prow, pcolumn]
-            #print "Position = " + str(position)
             space[position[0]][position[1]]=x
             if (position==doorpos or position==guardpos or  
                 position==syruppos or position==spoonpos or
@@ -140,15 +138,15 @@ def action():
             else:
                 space[4][2]="Entrance"
                 make_map()
+                space[prow][pcolumn]=" "
+
         else:
             print "You can't walk through a wall!"
             action() 
     if (a =='R'):
-        space[prow][pcolumn]=" "
         if pcolumn!=4:
             pcolumn=pcolumn+1
             position = [prow, pcolumn]
-            #print "Position = " + str(position)
             space[position[0]][position[1]]=x
             if (position==doorpos or position==guardpos or  
                 position==syruppos or position==spoonpos or
@@ -158,6 +156,7 @@ def action():
             else:
                 space[4][2]="Entrance"
                 make_map()
+                space[prow][pcolumn]=" "
         else:
             print "You can't walk through a wall!"
             action() 
@@ -184,6 +183,7 @@ def door():
     a = True
     space[doorpos[0]][doorpos[1]]="YOU\nDoor"
     make_map()
+    space[doorpos[0]][doorpos[1]]="Door"
     print "You found a door!"
     while (a):
         print "I wonder where this door leads... Will you open the door?"
@@ -206,6 +206,7 @@ def guards():
     b = True
     space[guardpos[0]][guardpos[1]]="YOU\nGuards"
     make_map()
+    space[guardpos[0]][guardpos[1]]="Guards"
     print "You found three guards!"
     while (a):
         print "Maybe they have information. Will you talk to them?"
@@ -251,6 +252,7 @@ def syrup():
     print "You found a bottle of syrup!"
     space[syruppos[0]][syruppos[1]]="YOU\nSyrup"
     make_map()
+    space[syruppos[0]][syruppos[1]]="Syrup"
     if (f_spoon):
         print "Use the spoon to drink the syrup and boost your HP!"
         while (a):
@@ -271,9 +273,11 @@ def spoon():
     a = True
     global f_spoon
     f_spoon=True
+    space[spoonpos[0]][spoonpos[1]]="YOU\nSpoon"
+    make_map()
+    space[spoonpos[0]][spoonpos[1]]="Spoon"
     print "You found a spoon!"
     print "Perhaps you can use it to eat something."
-    space[spoonpos[0]][spoonpos[1]]="YOU\nSpoon"
     while (a):
         d = (raw_input("Do you want to put it in your backpack? Y or N: ")).upper()
         if (d=='Y'):
@@ -284,15 +288,18 @@ def spoon():
             print "You leave the spoon on the floor. It isn't sanitary anyway."
         else: 
             print "\nPlease enter a valid action!\n"
-    make_map()
-    space[spoonpos[0]][spoonpos[1]]="Spoon"
 
 def americans():
     a = True
     print "You found your fellow Americans!"
     space[amerpos[0]][amerpos[1]]="YOU\nAmericans"
     make_map()
+<<<<<<< HEAD
     print "\nFive Americans are standing in a group, huddled together and eating\
+=======
+    space[amerpos[0]][amerpos[1]]="Americans"
+    print "\nFive Americans were standing in a group, huddled together and eating\
+>>>>>>> 38d648b0612fbb776dc5c8b65fa25f58f25a77fe
             \nsyrup. They ignore you when you go up to them."
     print "\"Where did you get the syrup?\" you ask, hoping to share in on their pleasure."
     print "\"It's somewhere in the slaughterhouse. You have to find it yourself.\""
@@ -331,9 +338,10 @@ def americans():
     
 
 def shrapnel():
-    print "You found shrapnel!"
-    space[shrapnelpos[0]][shrapnelpos[1]]="Shrapnel"
+    space[shrapnelpos[0]][shrapnelpos[1]]="YOU\nShrapnel"
     make_map()
+    space[shrapnelpos[0]][shrapnelpos[1]]="Shrapnel"
+    print "You found shrapnel!"
     print "Oh no! You stepped on the shrapnel and lost HP!"
     #lose HP function
 

@@ -1,21 +1,37 @@
+'''Choose Your Own Adventure: Hospital
+Code for the hospital room. User must find five Kilgore Trout books in the room 
+to be able to exit. Must achieve score before running out of HP. 
+Leads from: Train
+Leads to: Office
+Objects:
+    Hospital bed
+    Rosewater
+    Steamer trunk
+    Drawer
+    Valencia
+    Nurse
+    Loose Floorboard
+    Art collage
+'''
+
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
-import zoo
 import main
 
-def move(pos):
+def move(pos): #Accepts user input to move through room
     global hospital_grid
     global hp
-    position = pos
+    position = pos #current position 
     print '-'*100
-    if not endable:
-        checkVitals() 
+    if not endable: #if user has not yet found all five books
+        checkVitals() #check to see if HP has been drained or score has been reached
         print 'Current books: ' 
-        for book in books:
+        for book in books: #print list of found books
             print '\t' + book
-        if len(books)==0:
+        if len(books)==0: #if no books found
             print '\tNone'
         print ''
+    #print instructions for user
     print 'Current HP: ' + str(hp) + '/150'
     print 'Enter \'R\' to move right'
     print 'Enter \'L\' to move left'
@@ -24,29 +40,30 @@ def move(pos):
     print 'Enter \'MAP\' to display a map of uncovered objects'
     print 'Enter \'BACKPACK\' to print the current contents of your backpack'
     
+    #loops until user gives valid input
     while True:
         command = raw_input('\n').strip().upper()
         if command == 'R':
-            if position[0]<len(hospital_grid[0])-1:
-                position[0]+=1
+            if position[0]<len(hospital_grid[0])-1: #makes sure user is not at edge of room
+                position[0]+=1 #move right
                 break
             else: 
                 print 'Cannot move right. Try again.'
         elif command == 'L':
-            if position[0]>0:
-                position[0]-=1
+            if position[0]>0: #makes sure user is not at edge of room
+                position[0]-=1 #move left
                 break
             else: 
                 print 'Cannot move left. Try again.'
         elif command == 'U':
-            if position[1]>0:
-                position[1]-=1
+            if position[1]>0: #makes sure user is not at edge of room
+                position[1]-=1 #move up
                 break
             else: 
                 print 'Cannot move up. Try again.'
         elif command == 'D':
-            if position[1]<len(hospital_grid)-1:
-                position[1]+=1
+            if position[1]<len(hospital_grid)-1: #makes sure user is not at edge of room
+                position[1]+=1 #move down
                 break
             else: 
                 print 'Cannot move down. Try again.'
@@ -55,40 +72,40 @@ def move(pos):
             hp-=25
             move(position) #calls move function anew
         elif command == 'BACKPACK':
-            print_backpack(backpack)
-            move(position)
+            print_backpack(backpack) #call function to print backpack contents
+            move(position) #calls move function anew
         else:
             print 'Invalid input. Please try again.'
-    action(position)
+    action(position) #call function to act based on new position
 
-def action(position):
+def action(position): #Acts based on new user position
     x, y = position[0], position[1]
-    doStuff(x, y)
-    move(position)
+    doStuff(x, y) #calls function to perform action
+    move(position) #call move() for next user movement
 
-def doStuff(x, y):
+def doStuff(x, y): #Runs interactive code based on user position
     global backpack
     global hp
     global books
     global drawer
     
     if (x, y) == (0, 0):
-        hospital_grid[0][0] = 'Bed'
+        hospital_grid[0][0] = 'Bed' #add to map
         print 'You have found your hospital bed.'
         displayImage('hospitalbed.jpg')
-        while True:
+        while True: #loop until user gives proper input
             command = raw_input('To take a quick nap, enter \'1\'. To look under mattress, enter \'2\': ')
-            if command.strip() == '1':
+            if command.strip() == '1': #if nap
                 print 'You hop in and snooze for a while.'
                 print 'Add 50 HP points.\n'
                 hp+=50
                 break
-            elif command.strip() == '2':
+            elif command.strip() == '2': #if look under mattress
                 if 'The Gospel from Outer Space' not in books:
                     print '\nTo your surprise, you find a dusty book under your mattress.'
                     print 'The title is "The Gospel from Outer Space" -- by Kilgore Trout.'
                     print 'It seems that you borrowed one of Rosewater\'s novels and forgot to return it. Whoops!\n' 
-                    books.append('The Gospel from Outer Space')
+                    books.append('The Gospel from Outer Space') #add novel to list of found books
                 else:
                     print 'Nothing here!'
                 break
@@ -97,10 +114,10 @@ def doStuff(x, y):
         return
         
     elif (x, y) == (2, 0):
-        hospital_grid[0][2] = 'Rosewater'
+        hospital_grid[0][2] = 'Rosewater' #add to map
         print 'You have found Eliot Rosewater\'s bed. Look under the mattress?\n'
         displayImage('rosewater.jpg')
-        if yesorno():
+        if yesorno(): #if look under mattress
             print 'Rosewater, having been in the middle of a nap, jolts awake as you lift his bed.'
             print '\"What are you doing?!\" he shrieks. He then proceeds to sock you in the face out of self defense.'
             print 'Loss of 50 HP points.\n'
@@ -108,22 +125,22 @@ def doStuff(x, y):
         return
     
     elif (x, y) == (1, 2):
-        hospital_grid[2][1] = 'Drawer'
+        hospital_grid[2][1] = 'Drawer' #add to map
         print 'You have found your bedside drawer.'
         displayImage('table.jpg')
-        while True:
+        while True: #loop until user gives proper input
             command = raw_input('Open Drawer 1 (\'1\'), Drawer 2 (\'2\'), Drawer 3 (\'3\'), or none (\'0\')? ')
-            if command.strip() == '1':
+            if command.strip() == '1': #Drawer 1
                 print 'Ouch! There is an ashtray with a cigarette still burning in the first drawer.'
                 print 'You burn your finger and burst out into pitiful tears.'
                 print 'Loss of 20 HP points.\n'
                 hp-=20
                 break
-            elif command.strip() == '2':
-                if drawer:
+            elif command.strip() == '2': #Drawer 2
+                if drawer: #if drawer has not been opened yet
                     print 'You find a light blue pill in the second drawer. When used, it can restore 15 HP points. Add to backpack?\n'
                     if yesorno():
-                        if len(backpack)<10: 
+                        if len(backpack)<10: #add to backpack if sufficient room 
                             backpack.append('pill')
                             drawer = False
                             print 'Added!\n'
@@ -131,13 +148,16 @@ def doStuff(x, y):
                             print 'No room in backpack. Item not added.\n'
                     else:
                         print 'Item not added.\n'
-                else:
+                else: #if drawer has already been opened
                     print 'The drawer is empty!\n'
                 break
-            elif command.strip() == '3':
-                print 'Aha! You find a Kilgore Trout book entitled \"The Big Board.\"'
-                print 'It seems you are quite lousy at returning the books you borrow from Rosewater.\n'
-                books.append('The Big Board')
+            elif command.strip() == '3': #Drawer 3
+                if 'The Big Board' not in books: #if book has not been taken yet
+                    print 'Aha! You find a Kilgore Trout book entitled \"The Big Board.\"'
+                    print 'It seems you are quite lousy at returning the books you borrow from Rosewater.\n'
+                    books.append('The Big Board') #add novel to list of found books
+                else: #if book has already been taken
+                    print 'The drawer is empty!'
                 break
             elif command.strip() == '0':
                 break
@@ -146,43 +166,43 @@ def doStuff(x, y):
         return
             
     elif (x, y) == (3, 1):
-        hospital_grid[1][3] = 'Trunk'
+        hospital_grid[1][3] = 'Trunk' #add to map
         print 'You have found Rosewater\'s steamer trunk.'
         displayImage('trunk.jpg')
         print 'Open trunk?\n'
         if yesorno():
-            if 'The Gutless Wonder' not in books:
+            if 'The Gutless Wonder' not in books: #if book had not been taken yet
                 print 'You find \"The Gutless Wonder\" by Kilgore Trout.'
                 print '\"Rosewater, you idiot!\" you exlaim. \"One of your books is right here!\"'
                 print 'Eliot Rosewater throws a pillow at you. It hurts.\n'
-                books.append('The Gutless Wonder')
-            else:
+                books.append('The Gutless Wonder') #add novel to list of found books
+            else: #if book has already been taken
                 print 'Nothing here!\n'
         return
     
     elif (x, y) == (3, 3):
-        hospital_grid[3][3] = 'Nurse'
+        hospital_grid[3][3] = 'Nurse' #add to map
         print 'You have found a nurse in your room.'
         displayImage('nurse.jpg')
         print 'Speak to her?'
         if yesorno():
-            if 'hospitaladithya' not in eggs:
+            if 'hospitaladithya' not in eggs: #if adithya has not been taken yet
                 print '\"Hi!\" she says in greeting. \"I have a question for you-- what is the best snack?\"'
-                while True:
+                while True: #loop until user gives proper input
                     print '\nFor \'pretzels,\' enter 0.'
                     print 'For \'chocolate,\' enter 1.'
                     print 'For \'Goldfish,\' enter 2.'
                     print 'For \'granola bar,\' enter 3.'
                     command = raw_input('What would you like to choose? ')
-                    if command.strip() == '2':
+                    if command.strip() == '2': #if correct answer 
                         print '\nThe nurse grins wildly, clapping her hands in delight.'
                         print '\"Awesome!\" she exclaims. \"That\'s exactly what I thought. Here, take this as a token of my gratitude.\"'
                         print 'She hands you a small figurine of a very comely young man.'
                         displayImage('adithya2.png')
                         print 'You are not sure of its purpose, but you accept the gift nonetheless and continue on your search.\n'
-                        eggs.append('hospitaladithya')
+                        eggs.append('hospitaladithya') #add figurine to list of found adithyas
                         break
-                    elif command.strip() in ('0','2','3'):
+                    elif command.strip() in ('0','2','3'): #if incorrect answer 
                         print '\nThe nurse frowns in disappointment.'
                         print '\"Dangit,\" she says. \"I don\'t seem to agree.. oh well. Carry on.\"'
                         print 'Confused, you turn away and continue on your search.\n' 
@@ -198,42 +218,45 @@ def doStuff(x, y):
         return
     
     elif (x, y) == (1, 4):
-        hospital_grid[4][1] = 'Floorboard'
+        hospital_grid[4][1] = 'Floorboard' #add to map
         print 'You have a loose floorboard.'
         displayImage('floor.jpeg')
         print 'Lift floorboard?\n'
         if yesorno():
-            if 'Maniacs in the Fourth Dimension' not in books:
+            if 'Maniacs in the Fourth Dimension' not in books: #if book has not been taken yet
                 print 'After clearing away the dust, you find \"Maniacs in the Fourth Dimesnion\" by Kilgore Trout.'
                 print 'Somehow, it has ended up hidden underneath the floor. How strange... \n'
-                books.append('Maniacs in the Fourth Dimension')
-            else:
+                books.append('Maniacs in the Fourth Dimension') #add novel to list of found books
+            else: #if book has already been taken
                 print 'Nothing here!\n'
         return
     
     elif (x, y) == (4, 2):
-        hospital_grid[2][4] = 'Valencia'
+        hospital_grid[2][4] = 'Valencia' #add to map
         print 'You find your wife, Valencia, sitting at the side of the room.'
         print 'She is fast asleep, a half-eaten Three Musketeers candy bar still in her hand.'
         displayImage('valencia.jpg')
         print 'Interact?'
         if yesorno():
-            while True:
+            while True: #loop until user gives proper input
                 command = raw_input('Wake up (\'1\'), look in purse (\'2\'), or take candy bar (\'3\')? ')
-                if command.strip() == '1':
+                if command.strip() == '1': #wake up
                     print 'You shake Valencia\'s shoulder gently. She jolts awake with a shriek.'
                     print '\"FIND ME AMONGST THE GHOSTS!!\" she exclaims, whacking you in the face in the process.'
                     print 'You cradle your swollen eye in pain as Valencia promptly falls back asleep.'
                     print 'Loss of 20 HP points.\n'
                     hp-=20
                     break
-                elif command.strip() == '2':
+                elif command.strip() == '2': #look in purse
                     print 'Channeling your inner ninja skills, you sneak a glance into Valencia\'s purse.'
-                    print 'Sure enough, there\'s a Kilgore Trout book in it entitled \"The Money Tree.\"'
-                    print 'Unfortunately, the book is covered in chocolate stains. You hope Rosewater doesn\'t mind...\n'
-                    books.append('The Money Tree')
+                    if 'The Money Tree' not in books: #if book has not been taken yet
+                        print 'Sure enough, there\'s a Kilgore Trout book in it entitled \"The Money Tree.\"'
+                        print 'Unfortunately, the book is covered in chocolate stains. You hope Rosewater doesn\'t mind...\n'
+                        books.append('The Money Tree') #add novel to list of found books
+                    else: #if book has already been taken
+                        print 'Unfortunately, there\'s nothing in it.'
                     break
-                elif command.strip() == '3':
+                elif command.strip() == '3': #take candy bar
                     print 'Your stomach growling, you gingerly remove the candy bar from Valencia\'s grasp.'
                     print 'She snores as if in protest, but doesn\'t wake up.'
                     print 'You take a bite. Mmm... stale, but still delicious!'
@@ -247,18 +270,18 @@ def doStuff(x, y):
         return
         
     elif (x, y) == (4, 4):
-        hospital_grid[4][4] = 'Photo'
+        hospital_grid[4][4] = 'Photo' #add to map
         print 'You find a framed photo collage of two lovely figure skaters on the wall.'
         displayImage('shomayuzu.jpg')
-        if not endable:
+        if not endable: #if user has not found all five books yet
             print 'How adorable!\n'
-        else:
+        else: #if user has found all five books
             print 'Perhaps this is the piece of artwork Rosewater mentioned.'
             print 'It certainly is quite aesthetically pleasing.'
             askContinue()
             print 'As you gaze at the collage, a surge of affectionate emotion overcomes you.'
             print 'Your breath quickens... your heart flutters... and you feel yourself becoming unstuck in time again...'
-            raise SystemExit
+            raise SystemExit #exit room
         return
         
     else:
@@ -266,30 +289,32 @@ def doStuff(x, y):
         return  
                     
 
-def yesorno():
+def yesorno(): #General function to ask user yes-or-no question
+    #loop until user gives proper input
     while True:
         command = raw_input('Enter \'Y\' for yes or \'N\' for no: ')
-        if command.strip().upper() == 'Y':
+        if command.strip().upper() == 'Y': #if yes
             return True
-        elif command.strip().upper() == 'N':
+        elif command.strip().upper() == 'N': #if no
             return False
-        else:
+        else: #if improper input
             print 'Command not recognized. Try again.'
             
-def displayImage(name):
+def displayImage(name): #General function to display image in kernel
     image = mpimg.imread(name)
     ax = plt.axes(frameon=False)
+    #make axes invisible
     ax.axes.get_xaxis().set_visible(False)
     ax.axes.get_yaxis().set_visible(False)
     plt.imshow(image)
-    plt.show()
+    plt.show() #show image
 
-def checkVitals():
+def checkVitals(): #Checks if HP and number of books are within bounds
     global hp
-    if len(books) == 5: 
+    if len(books) == 5: #user has found all five books
         print 'Congratulations! You have found all five books.'
         print '\n***\n'
-        endGame()
+        endGame() #call function to end game
     if hp > 150: #hp exceeds bounds
         hp = 150
     if hp <=0: #hp deplenished 
@@ -299,17 +324,18 @@ def checkVitals():
         reset() #call function to restart game
     return
 
-def reset():
+def reset(): #Resets default values of global variables
     global books
     books = []
     global hp
     hp = 150
     global hospital_grid
     hospital_grid = [['' for x in range(5)] for y in range(5)]
+    move([0,0]) #restart movement at bed square
 
-def endGame():
+def endGame(): #Function to continue narrative once user finds all books
     global endable
-    endable = True
+    endable = True #allows user to exit room
     
     print '\"Rosewater!\" you exclaim excitedly. \"I found all of your books!\"'
     print 'You hand the stack of novels to him, grinning from ear to ear.'
@@ -339,11 +365,11 @@ def endGame():
     askContinue()
     print '\n***\n'
     
-    move([2,0]) 
+    move([2,0]) #restart movement starting at Rosweater's bed
 
-def makeMap(pos):
-    data = [row[:] for row in hospital_grid]
-    data[pos[1]][pos[0]] = 'YOU ARE HERE'
+def makeMap(pos): #Creates a map of user position and uncovered objects
+    data = [row[:] for row in hospital_grid] #copy of zoo_grid
+    data[pos[1]][pos[0]] = 'YOU ARE HERE' #maps user position
     color_grid = [['black' for x in range(5)] for y in range(5)]
     color_grid[pos[1]][pos[0]] = 'indigo'
     table = plt.table( #initialize table
@@ -352,6 +378,7 @@ def makeMap(pos):
         cellLoc='center',
         colLoc='center',
         loc='center',bbox=None)
+    #format table
     table.scale(1, 3.65)
     plt.xticks([], [])
     plt.yticks([], [])
@@ -360,7 +387,7 @@ def makeMap(pos):
     for cell in table_cells:
         cell._text.set_color('white')
         cell.set_edgecolor('white')
-    plt.show()
+    plt.show() #display table
 
 def askContinue(): #Delays display of text until user chooses to continue
     while True: #loops until user gives proper input
@@ -370,17 +397,18 @@ def askContinue(): #Delays display of text until user chooses to continue
         else:
             print 'Command not recognized. Try again.'
 
-def print_backpack(backpack):
+def print_backpack(backpack): #Prints list of current backpack contents
     print '\nContents of Backpack:'
-    if len(backpack) == 0:
+    if len(backpack) == 0: #if backpack is empty
         print 'Empty'
     else:
         for i in range (len(backpack)):
-            print str(i+1) + ': ' + backpack[i]
+            print str(i+1) + ': ' + backpack[i] #print number and item
     print ''
     return
 
-def main(b, h, e):
+def main(b, h, e): #Function gives background narrative and calls move() for the first time
+    #initialize global variables
     global backpack
     backpack = b
     global hp 
@@ -395,14 +423,17 @@ def main(b, h, e):
     endable = False
     global drawer
     drawer = True
+    #start position
     start = [0, 0]
     
+    #narrative
     print '\n***\n'
     print 'You wake up to the acrid smell of sterile sheets and antiseptic.'
     print 'The sun is obscenely bright shining in from the open window, and your shield your eyes as you look around.'
-    askContinue()
+    askContinue() #delays display of text until user chooses to continue
     
     print '-'*100
+    print 'It is 1948, three years after the end of the war.'
     print 'You are lying in bed at a veterans hospital near Lake Placid, New York.'
     print 'It is still early morning. In the bed to your left lies Eliot Rosewater, a former infantry captain and avid Kilgore Trout fan.'
     print 'He sits propped up against his pillows, staring forlorningly at the whitewashed wall.'
@@ -442,4 +473,4 @@ def main(b, h, e):
     
     print '\n***\n'
     
-    move(start)
+    move(start) #begin movement

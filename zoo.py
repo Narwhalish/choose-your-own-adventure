@@ -1,6 +1,8 @@
 '''Choose Your Own Adventure: Zoo
-Code for the zoo room. Implements an HP and score system to determine when gameplay is over.
- 
+Code for the zoo room. User must make choices to achieve target score before 
+being able to exit. Must achieve score before running out of HP. 
+Leads from: Office
+Leads to: Slaughterhouse
 Objects:
     Bathroom
     Bed
@@ -8,6 +10,7 @@ Objects:
     Television
     Refrigerator
     Microwave
+    Tralfamadorian
 '''
 
 import matplotlib.pyplot as plt
@@ -63,9 +66,9 @@ def move(pos): #Accepts user input to move through room
             makeMap(position) #call function to display map
             hp-=25
             move(position) #calls move function anew
-        elif command == 'BACKPACK':
-            print_backpack(backpack)
-            move(position)
+        elif command == 'BACKPACK': 
+            print_backpack(backpack) #call function to print backpack contents
+            move(position) #calls move function anew
         else:
             print 'Invalid input. Please try again.'
     hp-=5
@@ -98,7 +101,8 @@ def doStuff(x, y): #Runs interactive code based on user position
                 displayImage('breakfast.jpg') #print image to kernel
                 print 'Would you like to take a bite of the continental breakfast?\n'
                 if yesorno():
-                    print 'You take a bite eagerly, only to find that cold muffins and danishes do not taste very good.'
+                    print 'You take a bite eagerly, only to find that cold \
+                    \nmuffins and danishes do not taste very good.'
                     print 'Loss of 10 HP points.\n'
                     if not endable: #if user hasn't reached target score yet
                         print 'The Tralfamadorians, though, are somewhat amused by your disgust.'
@@ -136,7 +140,8 @@ def doStuff(x, y): #Runs interactive code based on user position
                 print 'You microwave your continental breakfast. Yum! Toasty muffins and danishes.'
                 print 'Add 50 HP points.\n'
                 if not endable:
-                    print 'The Tralfamadorians are fascinated by this strange device and its magical warming powers.'
+                    print 'The Tralfamadorians are fascinated by this strange \
+                    \ndevice and its magical warming powers.'
                     print 'Add 10 audience satisfaction points.\n'
                     score+=10
                 #update hp, global state of backpack
@@ -166,18 +171,21 @@ def doStuff(x, y): #Runs interactive code based on user position
         print 'You have found the bathroom. Enter?\n'
         displayImage('bathroom.jpg')
         if yesorno():
-            print 'Delightful! The room is a pleasant mint green, furnished with appliances from the Sears Roebuck warehouse in Iowa City, Iowa.'
+            print 'Delightful! The room is a pleasant mint green, furnished with\
+            \nappliances from the Sears Roebuck warehouse in Iowa City, Iowa.'
             #loop until user gives proper input
             while True:
                 command = raw_input('To brush teeth, enter \'1\'. To take a leak, enter \'2\': ')
                 if command.strip() == '1': #to brush teeth
                     if brushed: #if user has already brushed
-                        print 'The Tralfamadorian crowd, having already seen this performance, is underwhelmed.\n'
+                        print 'The Tralfamadorian crowd, having already seen\
+                        \nthis performance, is underwhelmed.\n'
                         if not endable:
                             print 'Add 5 measly audience satisfaction points.\n'
                             score+=5
                     else: #if user has not brushed yet
-                        print 'The Tralfamadorians are intrigued by the strange, bristly stick with which you rub your teeth.\n'
+                        print 'The Tralfamadorians are intrigued by the strange,\
+                        \nbristly stick with which you rub your teeth.\n'
                         if not endable:
                             print 'Add 15 audience satisfaction points.\n'
                             score+=15
@@ -185,7 +193,8 @@ def doStuff(x, y): #Runs interactive code based on user position
                     break
                 elif command.strip() == '2': #to take a leak
                     if leaked: #if user has already taken a leak
-                        print 'The Tralfamadorian crowd, having already seen this performance, is underwhelmed.\n'
+                        print 'The Tralfamadorian crowd, having already seen\
+                        \nthis performance, is underwhelmed.\n'
                         if not endable:
                             print 'Add 5 measly audience satisfaction points.\n'
                             score+=5
@@ -231,7 +240,8 @@ def doStuff(x, y): #Runs interactive code based on user position
                         embraced = True
                     break
                 elif command.strip() == '2': #to tell a story
-                    print '\nYou tell Montana about the bombing of Dresden and how the four guards, in their astonishment and grief, resembled a barber-shop quartet.'
+                    print '\nYou tell Montana about the bombing of Dresden and\
+                    \nhow the four guards, in their astonishment and grief, resembled a barber-shop quartet.'
                     if story: #if user has already told story
                         print 'The Tralfamadorians are quickly bored by the sound of human speech.\n'
                         if not endable:
@@ -280,31 +290,31 @@ def doStuff(x, y): #Runs interactive code based on user position
         print 'You have found a Tralfamadorian in your room!'
         displayImage('tralfamadorian.jpg')
         print 'Speak to it?'
-        if yesorno():
-            if 'zooadithya' not in eggs:
+        if yesorno(): #if user wants to speak
+            if 'zooadithya' not in eggs: #if user has not received adithya yet
                 print '\"Hello,\" it says. \"I have but a single question for you-- what is your favorite shape?\"'
-                while True:
+                while True: #loop until user gives proper input
                     print '\nFor \'triangle,\' enter 0.'
                     print 'For \'square,\' enter 1.'
                     print 'For \'circle,\' enter 2.'
                     print 'For \'pentagon,\' enter 3.'
                     command = raw_input('What would you like to choose? ')
-                    if command.strip() == '1':
+                    if command.strip() == '1': #if correct answer
                         print '\nThe Tralfamadorian blinks rapidly, as if in excitement.'
                         print '\"Excellent!\" it exclaims. \"Mine is a square as well. Here, take this as a token of my gratitude.\"'
                         print 'The Tralfamadorian hands you a small figurine of a very comely young man.'
                         displayImage('adithya1.jpg')
                         print 'You are not sure of its purpose, but you accept the gift nonetheless and continue on your journey.\n'
-                        eggs.append('zooadithya')
+                        eggs.append('zooadithya') #add figurine to list of adithyas
                         break
-                    elif command.strip() in ('0','2','3'):
+                    elif command.strip() in ('0','2','3'): #if incorrect answer
                         print '\nThe Tralfamadorian closes its eye in disappointment.'
                         print '\"How unfortunate,\" it muses. \"Carry on, then.\"'
                         print 'Confused, you turn away and continue on your journey.\n' 
                         break
                     else: 
                         print 'Command not recognized. Try again.'
-            else:
+            else: #if user has already received adithya
                 print 'The Tralfamadorian recognizes you and blinks happily.'
                 print '\"Hello! It was very pleasant speaking to you before. I am quite busy now, though. No time for chit chat!\"'
                 print 'You leave it to its work and continue on your journey.\n'
@@ -316,11 +326,13 @@ def doStuff(x, y): #Runs interactive code based on user position
         if endable: #if user has already reached target score
             print 'You have found the time portal!'
             print 'Congratulations-- you have completed this chapter!'
-            print 'Thankful that you no longer have to deal with the Tralfamadorians, you hop through the portal and travel to Dresden, 1945.'
+            print 'Thankful that you no longer have to deal with the Tralfamadorians,\
+            \nyou hop through the portal and travel to Dresden, 1945.'
             print '\n***\n'
             slaughterhouse.main(backpack, hp, eggs)
         else: #if user has not yet reached target score
-            print 'Hmmm... there\'s something strange about the wall here, but you can\'t seem to discern what that might be.'
+            print 'Hmmm... there\'s something strange about the wall here, but\
+            \nyou can\'t seem to discern what that might be.'
             print 'Oh well!\n'
             return
             
@@ -369,7 +381,7 @@ def checkVitals(): #Checks if HP and score values are within bounds
 
 def endGame(): #Function to continue narrative once user reaches target score
     global endable
-    endable = True 
+    endable = True #allows user to exit room
     global hp
     
     print '\"Thank you Billy Pilgrim,\" a Tralfamadorian says through the zoo loudspeaker.'
@@ -454,13 +466,13 @@ def askContinue(): #Delays display of text until user chooses to continue
         else:
             print 'Command not recognized. Try again.'
 
-def print_backpack(backpack):
+def print_backpack(backpack): #Prints list of current backpack contents
     print '\nContents of Backpack:'
-    if len(backpack) == 0:
+    if len(backpack) == 0: #if backpack is empty
         print 'Empty'
     else:
         for i in range (len(backpack)):
-            print str(i+1) + ': ' + backpack[i]
+            print str(i+1) + ': ' + backpack[i] #print number and item
     print ''
     return
 
@@ -487,6 +499,7 @@ def main(b, h, e): #Function gives background narrative and calls move() for the
     #start position
     start = [0, 0]
     
+    #narrative
     print '\n***\n'
     
     print 'You wake up, delirious and foggy-eyed.'
@@ -495,9 +508,11 @@ def main(b, h, e): #Function gives background narrative and calls move() for the
     askContinue() #delays display of text until user chooses to continue
     
     print '-'*100
+    print 'It is the year 1967.'
     print 'You are on the Planet Tralfamadore, on exhibit in a Tralfamadorian Zoo.'
     print 'Strange as it may seem, this isn\'t the first time you\'ve been abducted.'
-    print 'The Tralfamadorians love to study the human body, and they consider you to be a prime specimen (largely because they don\'t know any better).\n'
+    print 'The Tralfamadorians love to study the human body, and they consider\
+    \nyou to be a prime specimen (largely because they don\'t know any better).\n'
     print 'This time, though, you are fed up with their antics.'
     askContinue()
     

@@ -1,3 +1,10 @@
+'''Choose Your Own Adventure: Boss Battle
+Final boss battle of the game. User must correctly answer ten trivia questions
+about Slaughterhouse Five to defeat Kurt Vonnegut and win. If the user fails,
+return to the beginning of the game.
+Leads from: Slaughterhouse
+'''
+
 import main 
 
 def askContinue(): #Delays display of text until user chooses to continue
@@ -8,17 +15,17 @@ def askContinue(): #Delays display of text until user chooses to continue
         else:
             print 'Command not recognized. Try again.'
             
-def getAnswer(): 
-    while True:
+def getAnswer(): #Function to ask for user input of answer choice
+    while True: #loop until user gives proper input
         command = raw_input('Enter answer: ')
-        if command.strip().upper() in ['A','B','C','D']:
-            return command.strip().upper()
-        else: 
+        if command.strip().upper() in ['A','B','C','D']: #if proper input
+            return command.strip().upper() #return answer choice
+        else: #if improper input
             print 'Command not recognized. Try again.'
 
-def trivia(e):
-    eggs = len(e)
-    while True:
+def trivia(e): #Function to ask user trivia questions
+    eggs = len(e) #number of lives 
+    while True: #continue until lives run out or until questions finish
         print 'Lives: ' + str(eggs) + '/7'
         print 'Question 1:'
         print 'In Chapter 1, Vonnegut sketches the plot of the novel on a piece of wallpaper.'
@@ -27,7 +34,7 @@ def trivia(e):
         print 'B. Mental breakdowns'
         print 'C. Post-war period'
         print 'D. The firebombing'
-        if getAnswer() == 'D':
+        if getAnswer() == 'D': #call getAnswer() function
             print 'Correct!'
         else:
             print 'Wrong! Correct answer is D.'
@@ -201,14 +208,14 @@ def trivia(e):
         askContinue()
         break
     
-    return eggs
+    return eggs #return number of lives remaining
             
-def narrate(e):
+def narrate(e): #Function to narrate end of game
     print '\n***\n'
     
     print 'You exit the Dresden slaughterhouse, slightly wary of what awaits you.'
     print 'The sight is unlike anything you could have imagined.'
-    askContinue()
+    askContinue() #delay until user chooses to continue
     
     print '-'*100
     print 'The sky is black with smoke. Dresden is like the moon now-- nothing but minerals.'
@@ -301,8 +308,8 @@ def narrate(e):
     
     print '\n***\n'
     
-    eggs = trivia(e)
-    if eggs < 0:
+    eggs = trivia(e) #call trivia() function
+    if eggs < 0: #if user ran out of lives
         print '\n***\n'
         print 'Oh no! You have run out of lives and lost the boss battle.'
         print 'Kurt Vonnegut laughs once again.'
@@ -317,8 +324,8 @@ def narrate(e):
         print '-'*100
         print 'He ignores your screams of protest, and you feel yourself becoming \
         \nunstuck in time... all the way back to the beginning.'
-        main.start()
-    else:
+        main.start() #restart game
+    else: #if user completed questions
         print '\n***\n'
         print 'Congratulations! You have won the boss battle!'
         print 'Kurt Vonnegut chuckles, admitting defeat.'

@@ -16,7 +16,7 @@ Objects:
 
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
-import main
+#import office
 
 def move(pos): #Accepts user input to move through room
     global hospital_grid
@@ -281,7 +281,7 @@ def doStuff(x, y): #Runs interactive code based on user position
             askContinue()
             print 'As you gaze at the collage, a surge of affectionate emotion overcomes you.'
             print 'Your breath quickens... your heart flutters... and you feel yourself becoming unstuck in time again...'
-            raise SystemExit #exit room
+            office.main(backpack, hp, eggs) #exit room
         return
         
     else:

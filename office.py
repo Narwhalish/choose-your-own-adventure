@@ -24,6 +24,8 @@ In the slaughterhouse there are:
 """
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+import woods
+#import train
 import hospital
 import zoo
 
@@ -331,11 +333,14 @@ def owl():
                                         \nc. Hopsital\
                                         \nAnswer: ")).upper()
                         if (d=='A'):
-                            pass #link to woods
+                            print "You can feel yourself getting dizzier...dizzier..."
+                            woods.main(backpack, hp, eggs)
                         if (d=='B'):
-                            pass #link to train
+                            print "You can feel yourself getting dizzier....dizzier..."
+                            train.main(backpack, hp, eggs)
                         if (d=='C'):
-                            pass #link to hospital
+                            print "You can feel yourself getting dizzier...dizzier..."
+                            hospital.main(backpack, hp, eggs)
                         else:
                             print "Please enter a valid answer!"
                 elif (d=='N'):

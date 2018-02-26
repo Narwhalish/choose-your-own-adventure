@@ -441,7 +441,7 @@ def main(b, h, e): #Function gives background narrative and calls move() for the
     
     print '-'*100
     print 'You look up at the sky and see that some time has passed.'
-    print 'Upset, you cast the most upsetting frown you could muster at the tree.'
+    print 'Deeply disappointed, you cast the most upsetting frown you could muster at the tree.'
     print 'The tree frowns back.'
     askContinue()
     
@@ -449,11 +449,11 @@ def main(b, h, e): #Function gives background narrative and calls move() for the
     print 'You blink frantically in confusion and the tree vanishes.'
     print 'But the frown is still there. Instead, you realize, your father stands before you.'
     print 'His face contorts with anger and he opens his mouth to shout at you.'
-    print 'But all that came out was a melodious tune.
+    print 'But all that came out was a melodious tune.'
     askContinue()
     
     print '-'*100
-    print 'You open your mouth to respond, but then it occurs to you that you\'re underwater. And you do know how to swim.'
+    print 'You open your mouth to respond, but then it occurs to you that you\'re underwater. And you don\'t know how to swim.'
     print 'Chlorinated pool water fills your lungs. The beautiful symphony follows you to the floor of the pool.'
     print 'As the world grows dark, you embrace the darkness eagerly.'
     askContinue()
@@ -463,9 +463,13 @@ def main(b, h, e): #Function gives background narrative and calls move() for the
     print 'You wake up in the forest shaking violently. You wonder why you\'re having a seizure.'
     print 'Weary stops shaking you and punches you in the face.'
     print '\"The Three Musketers never leave anyone behind, not even your sorry bum. C\'mon hurry up, we gotta go.\"'
+    askContinue()
+    
+    print '\n***\n'
+    
     print '"Oh shoot! I\'ve lost all my precious belongings. This is all your fault! We\'re not leaving until we find my BULLETPROOF BIBLE, TRENCH KNIFE, and GAS MASK.\"'
-    print 'Feeling sorry for Weary, you stumble out of your daze and begin shuffling about the forest."
-    print 'If you run out of HP, you will be forced to sleep and restart this chapter of the game.\n'
+    print 'Feeling sorry for Weary, you stumble out of your daze and begin shuffling about the forest in search of his belongings.'
+    print 'Objective: Find all of Weary\'s belongings to procede to the next stage. Beware, it might be smarter to pick up some items before others.\n'
     
     print 'At any point, you may enter the command \'MAP\' to display a map of the room and the objects you have uncovered.'
     print 'However, doing so will invoke a cost of -25 HP.'

@@ -1,15 +1,12 @@
 '''Choose Your Own Adventure: Woods
-Code for the woods room. User must find all of Weary's belongings before
-they can be captured by the Germans. Objects must be found in particular order.
+Code for the woods room. User must find all of Weary's belongings before they can be captured by the Germans. Objects must be found in particular order.
 Leads to: Train
 Objects:
-    Bulletproof Bible
-    Weary
-    Trench Knife
-    Gas Mask
-    Bear Trap
-    German Patrols
-    Voodoo Doll
+    Food x2
+    Water x1
+    Sleep x1
+    Wild Bob
+    Hobo
 '''
 
 import matplotlib.pyplot as plt
@@ -17,7 +14,7 @@ import matplotlib.image as mpimg
 import train
 
 def move(pos): #Accepts user input to move through room
-    global woods_grid
+    global train_grid
     global hp
     position = pos #current position 
     print '-'*100
@@ -42,7 +39,7 @@ def move(pos): #Accepts user input to move through room
     while True:
         command = raw_input('\n').strip().upper()
         if command == 'R':
-            if position[0]<len(woods_grid[0])-1: #makes sure user is not at edge of room
+            if position[0]<len(train_grid[0])-1: #makes sure user is not at edge of room
                 position[0]+=1 #move right
                 break
             else: 
@@ -60,7 +57,7 @@ def move(pos): #Accepts user input to move through room
             else: 
                 print 'Cannot move up. Try again.'
         elif command == 'D':
-            if position[1]<len(woods_grid)-1: #makes sure user is not at edge of room
+            if position[1]<len(train_grid)-1: #makes sure user is not at edge of room
                 position[1]+=1 #move down
                 break
             else: 
@@ -86,7 +83,7 @@ def doStuff(x, y): #Runs interactive code based on user position
     global items
     
     if (x, y) == (0, 0):
-        woods_grid[0][0] = 'Gas Mask' #add to map
+        train_grid[0][0] = 'Gas Mask' #add to map
         print 'You spot oddly shaped gas mask tangled on a mass of branches.'
         displayImage('gas_mask.jpg')
         while True: #loop until user gives proper input
@@ -114,7 +111,7 @@ def doStuff(x, y): #Runs interactive code based on user position
         return
         
     elif (x, y) == (1, 1):
-        woods_grid[1][1] = 'Weary' #add to map
+        train_grid[1][1] = 'Weary' #add to map
         print 'It\'s Weary and he does not look very happy. Speak with him?\n'
         displayImage('weary.jpg')
         if yesorno(): #if speak to Weary
@@ -123,7 +120,7 @@ def doStuff(x, y): #Runs interactive code based on user position
         return
     
     elif (x, y) == (3, 0):
-        woods_grid[0][3] = 'Trench Knife' #add to map
+        train_grid[0][3] = 'Trench Knife' #add to map
         print 'You catch the glint of a shiny, serrated metal edge poking out from beneath a pile of leaves.'
         displayImage('trench_knife.jpg')
         print 'Pick it up?\n'
@@ -137,7 +134,7 @@ def doStuff(x, y): #Runs interactive code based on user position
         return
             
     elif (x, y) == (0, 4):
-        woods_grid[0][4] = 'Voodoo Doll' #add to map
+        train_grid[0][4] = 'Voodoo Doll' #add to map
         print 'An eerie looking doll sits abandoned next to a decaying tree stump.'
         displayImage('voodoo.jpg')
         while True: #loop until user gives proper input
@@ -173,7 +170,7 @@ def doStuff(x, y): #Runs interactive code based on user position
         return
     
     elif (x, y) == (4, 3):
-        woods_grid[3][4] = 'German Patrols' #add to map
+        train_grid[3][4] = 'German Patrols' #add to map
         print 'Wandering about in search of Weary\'s items, you suddenly bump into a German infantry unit.'
         print 'You stand there, not knowing what to do.'
         print 'One of them picks up his rifle, aims down his sight, and -- BAM! You\'ve been shot right through the heart!'
@@ -194,7 +191,7 @@ def doStuff(x, y): #Runs interactive code based on user position
         return
     
     elif (x, y) == (4, 4):
-        woods_grid[4][4] = 'Bear Trap' #add to map
+        train_grid[4][4] = 'Bear Trap' #add to map
         print 'It\'s a tarp!'
         print 'You managed to release the tarp, but you\'ve hurt yourself.'
         hp-=40
@@ -241,8 +238,8 @@ def reset(): #Resets default values of global variables
     items = []
     global hp
     hp = 150
-    global woods_grid
-    woods_grid = [['' for x in range(5)] for y in range(5)]
+    global train_grid
+    train_grid = [['' for x in range(5)] for y in range(5)]
     move([0,0]) #restart movement at bed square
 
 def endGame(): #Function to continue narrative once user finds all items
@@ -265,7 +262,7 @@ def endGame(): #Function to continue narrative once user finds all items
     
 
 def makeMap(pos): #Creates a map of user position and uncovered objects
-    data = [row[:] for row in woods_grid] #copy of zoo_grid
+    data = [row[:] for row in train_grid] #copy of zoo_grid
     data[pos[1]][pos[0]] = 'YOU ARE HERE' #maps user position
     color_grid = [['black' for x in range(5)] for y in range(5)]
     color_grid[pos[1]][pos[0]] = 'indigo'
@@ -314,10 +311,12 @@ def main(b, h, e): #Function gives background narrative and calls move() for the
     eggs = e
     global items 
     items = []
-    global woods_grid
-    woods_grid = [['' for x in range(5)] for y in range(5)]
+    global train_grid
+    train_grid = [['' for x in range(5)] for y in range(5)]
     global endable
     endable = False
+    global drawer
+    drawer = True
     #start position
     start = [2, 2]
     
@@ -366,11 +365,9 @@ def main(b, h, e): #Function gives background narrative and calls move() for the
     
     print '\n***\n'
     
-    print '"Oh shoot! I\'ve lost all my precious belongings. This is all your fault!'
-    print 'We\'re not leaving until we find my BULLETPROOF BIBLE, TRENCH KNIFE, and GAS MASK.\"'
+    print '"Oh shoot! I\'ve lost all my precious belongings. This is all your fault! We\'re not leaving until we find my BULLETPROOF BIBLE, TRENCH KNIFE, and GAS MASK.\"'
     print 'Feeling sorry for Weary, you stumble out of your daze and begin shuffling about the forest in search of his belongings.'
-    print 'Objective: Find all of Weary\'s belongings to procede to the next stage.'
-    print 'Beware, it might be smarter to pick up some items before others.\n'
+    print 'Objective: Find all of Weary\'s belongings to procede to the next stage. Beware, it might be smarter to pick up some items before others.\n'
     
     print 'At any point, you may enter the command \'MAP\' to display a map of the room and the objects you have uncovered.'
     print 'However, doing so will invoke a cost of -25 HP.'

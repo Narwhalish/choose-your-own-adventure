@@ -16,11 +16,13 @@ Objects:
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import slaughterhouse
+import backpack
 
 def move(pos): #Accepts user input to move through room
     global zoo_grid
     global hp
     global score
+    global bp
     position = pos #current position 
     print '-'*100
     if not endable:
@@ -33,7 +35,7 @@ def move(pos): #Accepts user input to move through room
     print 'Enter \'U\' to move up'
     print 'Enter \'D\' to move down'
     print 'Enter \'MAP\' to display a map of uncovered objects'
-    print 'Enter \'BACKPACK\' to print the current contents of your backpack'
+    print 'Enter \'BACKPACK\' to access backpack functions'
     
     #loops until user gives valid input
     while True:
@@ -67,7 +69,7 @@ def move(pos): #Accepts user input to move through room
             hp-=25
             move(position) #calls move function anew
         elif command == 'BACKPACK': 
-            print_backpack(backpack) #call function to print backpack contents
+            bp, hp = backpack.main(bp, hp) #call function to print backpack contents
             move(position) #calls move function anew
         else:
             print 'Invalid input. Please try again.'
@@ -80,7 +82,7 @@ def action(position): #Acts based on new user position
     move(position) #call move() for next user movement
 
 def doStuff(x, y): #Runs interactive code based on user position
-    global backpack
+    global bp
     global hp
     global score
     global fridge
@@ -118,8 +120,8 @@ def doStuff(x, y): #Runs interactive code based on user position
                     print 'However, a microwave would do a nice job of warming it up.'
                     print 'Add breakfast to backpack?'
                     if yesorno():
-                        if len(backpack)<10: #if there's room, add breakfast to bag
-                            backpack.append('breakfast')
+                        if len(bp)<5: #if there's room, add breakfast to bag
+                            bp.append('breakfast')
                             fridge = False
                             print 'Added! Now time to find the microwave...\n'
                         else:
@@ -136,7 +138,7 @@ def doStuff(x, y): #Runs interactive code based on user position
         print 'You have found the microwave. Use it?\n'
         displayImage('microwave.jpg')
         if yesorno():
-            if 'breakfast' in backpack: #if user carries breakfast, allow them to use microwave
+            if 'breakfast' in bp: #if user carries breakfast, allow them to use microwave
                 print 'You microwave your continental breakfast. Yum! Toasty muffins and danishes.'
                 print 'Add 50 HP points.\n'
                 if not endable:
@@ -146,7 +148,7 @@ def doStuff(x, y): #Runs interactive code based on user position
                     score+=10
                 #update hp, global state of backpack
                 hp+=50
-                backpack.remove('breakfast')
+                bp.remove('breakfast')
             else: #if user doesn't have breakfast, print message
                 print 'You don\'t have anything to microwave.'
         return
@@ -329,7 +331,7 @@ def doStuff(x, y): #Runs interactive code based on user position
             print 'Thankful that you no longer have to deal with the Tralfamadorians,\
             \nyou hop through the portal and travel to Dresden, 1945.'
             print '\n***\n'
-            slaughterhouse.main(backpack, hp, eggs)
+            slaughterhouse.main(bp, hp, eggs)
         else: #if user has not yet reached target score
             print 'Hmmm... there\'s something strange about the wall here, but\
             \nyou can\'t seem to discern what that might be.'
@@ -466,20 +468,10 @@ def askContinue(): #Delays display of text until user chooses to continue
         else:
             print 'Command not recognized. Try again.'
 
-def print_backpack(backpack): #Prints list of current backpack contents
-    print '\nContents of Backpack:'
-    if len(backpack) == 0: #if backpack is empty
-        print 'Empty'
-    else:
-        for i in range (len(backpack)):
-            print str(i+1) + ': ' + backpack[i] #print number and item
-    print ''
-    return
-
 def main(b, h, e): #Function gives background narrative and calls move() for the first time
     #initialize global variables
-    global backpack
-    backpack = b
+    global bp
+    bp = b
     global hp
     hp = h
     global eggs

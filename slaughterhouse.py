@@ -22,6 +22,7 @@ In the slaughterhouse there are:
 import matplotlib.pyplot as plt
 import boss_battle
 import zoo
+import backpack
 import matplotlib.image as mpimg
 
 global space, position
@@ -161,8 +162,8 @@ def action(): #allows user to move around on the map or print backpack
             print "You can't walk through a wall!"
             action() 
     elif (a=='B'): #if user wants to view backpack
-        print_backpack(backpack) #calls print_backpack function
-        action() 
+       bp, hp = backpack.main(bp, hp) #call function to print backpack contents
+       action() 
     else: 
         print "Please enter a valid action!"
         action()
@@ -176,7 +177,7 @@ def entrance(): #if user lands on entrance position, allows user to go back to l
         print "Do you want to leave the slaughterhouse?"
         d = (raw_input("To leave, press L. To stay, press S: ")).upper()
         if (d =='L'):
-            zoo.main(backpack, hp, eggs) #leads to last room, zoo
+            zoo.main(bp, hp, eggs) #leads to last room, zoo
         elif (d == 'S'):
             print "You decided to stay in the slaughterhouse."
             print "Maybe there are more items!"
@@ -194,7 +195,7 @@ def door(): #if user lands on door position, allows user to move to next room if
         print "I wonder where this door leads... Will you open the door?"
         d = (raw_input("To enter, press E. To stay, press S: ")).upper()
         if (d =='E'):
-            if ('shovel' in backpack): #if user has a shovel
+            if ('shovel' in bp): #if user has a shovel
                 boss_battle.narrate(eggs) #leads to next room, the boss battle
             else: #if user doesn't have a shovel
                 print "Oops! You don't have the key to unlock this door!"
@@ -258,7 +259,7 @@ def syrup(): #if user lands on syrup position, can drink to raise HP by 25 point
     space[syruppos[0]][syruppos[1]]="YOU\nSyrup"
     make_map()
     space[syruppos[0]][syruppos[1]]="Syrup"
-    if ('spoon' in backpack): #can only drink syrup if user has a spoon in backpack
+    if ('spoon' in bp): #can only drink syrup if user has a spoon in backpack
         print "Use the spoon to drink the syrup and boost your HP!"
         while (a):
             d = (raw_input("To drink, press 'D'. To leave, press 'L': ")).upper()
@@ -276,7 +277,7 @@ def syrup(): #if user lands on syrup position, can drink to raise HP by 25 point
     
 def spoon(): #if user lands on spoon position, can put in backpack
     a = True
-    if ('spoon' not in backpack): #if the user doesn't already have a spoon
+    if ('spoon' not in bp): #if the user doesn't already have a spoon
         space[spoonpos[0]][spoonpos[1]]="YOU\nSpoon"
         make_map()
         print "You found a spoon!"
@@ -284,7 +285,7 @@ def spoon(): #if user lands on spoon position, can put in backpack
         while (a):
             d = (raw_input("Do you want to put it in your backpack? Y or N: ")).upper()
             if (d=='Y'):
-                backpack.append('spoon') #put in backpack
+                bp.append('spoon') #put in backpack
                 space[spoonpos[0]][spoonpos[1]]=" "
                 return
             elif (d=='N'): #if user doesn't want spoon
@@ -354,7 +355,7 @@ def shrapnel(): #if user steps on shrapnel, loses 50 HP
 
 def shovel(): #if user lands on shovel position, can keep it in backpack as key to leave the room
     a=True
-    if ('shovel' not in backpack): #if shovel not already in backpack
+    if ('shovel' not in bp): #if shovel not already in backpack
         space[shovelpos[0]][shovelpos[1]]="YOU\nShovel"
         make_map()
         print "You found a shovel!"
@@ -362,7 +363,7 @@ def shovel(): #if user lands on shovel position, can keep it in backpack as key 
         while (a):
             d = (raw_input("\nDo you want to put it in your backpack? Y or N: ")).upper()
             if (d=='Y'): #put shovel in backpack
-                backpack.append('shovel')
+                bp.append('shovel')
                 space[shovelpos[0]][shovelpos[1]]=" "
                 return
             elif (d=='N'): #leave shovel 
@@ -421,19 +422,9 @@ def items(): #redirects users from action() to a specific position function
                 str(adithyapos): adithya}
     decisions[str(position)]()
  
-def print_backpack(backpack): #Prints list of current backpack contents
-    print '\nContents of Backpack:'
-    if len(backpack) == 0: #if backpack is empty
-        print 'Empty'
-    else:
-        for i in range (len(backpack)):
-            print str(i+1) + ': ' + backpack[i] #print number and item
-    print ''
-    return
-       
 def main(b, h, e): #backpack, HP, eggs from last room
-    global backpack, hp, eggs
-    backpack = b
+    global bp, hp, eggs
+    bp = b
     hp = h
     eggs = e
     print "\n****************************************************************\n"

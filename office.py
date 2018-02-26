@@ -28,6 +28,7 @@ import woods
 import train
 import hospital
 import zoo
+import backpack
 
 global space, position
 space = [[" "]*5 for i in range(5)]
@@ -192,7 +193,7 @@ def action(): #helps user move around the map
             print "You can't walk through a wall!"
             action() 
     elif (a=='B'): #if user wants to see what is in backpack
-        print_backpack(backpack) #calls backpack function
+        bp, hp = backpack.main(bp, hp) #call function to print backpack contents
         action() #calls itself
     else:
         print "Please enter valid action!" #if user enters an invalid character
@@ -209,7 +210,7 @@ def entrance(): #if user lands on entrance position, lets user go back to last r
         print "Do you want to leave the office?" 
         d = (raw_input("To leave, press L. To stay, press S: ")).upper()
         if (d =='L'):
-            hospital.main(backpack, hp, eggs) #leads to the next room, the hospital
+            hospital.main(bp, hp, eggs) #leads to the next room, the hospital
             break
         elif (d == 'S'):
             print "You decided to stay in the office."
@@ -234,7 +235,7 @@ def door(): #when user lands on door function, lets user go to next room if all 
                 print "I wonder where this door leads... Will you open the door?"
                 d = (raw_input("To enter, press E. To stay, press S: ")).upper()
                 if (d =='E'):
-                    zoo.main(backpack, hp, eggs) #enter next room, zoo
+                    zoo.main(bp, hp, eggs) #enter next room, zoo
                     break
                 elif (d == 'S'):
                     print "You decided to stay in the office."
@@ -333,13 +334,13 @@ def owl(): #if user lands on owl position, allows user to select room from past 
                                         \nAnswer: ")).upper()
                         if (d=='A'): #if user wants to go back to the woods
                             print "You can feel yourself getting dizzier...dizzier..."
-                            woods.main(backpack, hp, eggs)
+                            woods.main(bp, hp, eggs)
                         if (d=='B'): #if user  wants to go back to the train
                             print "You can feel yourself getting dizzier....dizzier..."
-                            train.main(backpack, hp, eggs)
+                            train.main(bp, hp, eggs)
                         if (d=='C'): #if user wants to go back to the hospital
                             print "You can feel yourself getting dizzier...dizzier..."
-                            hospital.main(backpack, hp, eggs)
+                            hospital.main(bp, hp, eggs)
                         else:
                             print "Please enter a valid answer!"
                 elif (d=='N'): #if user decides not to look at owl
@@ -555,12 +556,12 @@ def book(): #if user lands on book position
         print "There's an item, but it's too dark to see!"
         return
     elif (f_lamp): #if user has found lamp 
-        if ('book' not in backpack): #if book is not already in backpack
+        if ('book' not in bp): #if book is not already in backpack
             space[bookpos[0]][bookpos[1]]="YOU\nBook"
             make_map()
             space[bookpos[0]][bookpos[1]]="Book"
             print "You found a book!"
-            backpack.append('book') #user can pick up book and put in backpack
+            bp.append('book') #user can pick up book and put in backpack
             print "Wow. What a heavy book, you think. I wonder what's in it."
             check_continue()
             print "It appears to be a medical dictionary with 1,488 pages of text and \
@@ -585,20 +586,10 @@ def items(): #redirects user from action() to specific position functions
                 str(sidhupos): sidhu,
                 str(bookpos): book}
     decisions[str(position)]()
-  
-def print_backpack(backpack): #Prints list of current backpack contents
-    print '\nContents of Backpack:'
-    if len(backpack) == 0: #if backpack is empty
-        print 'Empty'
-    else:
-        for i in range (len(backpack)):
-            print str(i+1) + ': ' + backpack[i] #print number and item
-    print ''
-    return
-      
+    
 def main(b, h, e): #gets backpack, hp, and eggs from last code
-    global success, backpack, hp, eggs
-    backpack = b
+    global success, bp, hp, eggs
+    bp = b
     hp = h
     eggs = e
     print "\n****************************************************************\n"

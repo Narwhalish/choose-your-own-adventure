@@ -89,12 +89,12 @@ def doStuff(x, y): #Runs interactive code based on user position
         print 'You spot oddly shaped gas mask tangled on a mass of branches.'
         displayImage('gas_mask.jpg')
         while True: #loop until user gives proper input
-            command = raw_input('To inspect it, enter \'1\'. To tug on it, enter \'2\'. To do nothing, enter \'0\': ')
+            command = raw_input('To inspect it, enter \'1\'. To try to take it, enter \'2\'. To do nothing, enter \'0\': ')
             if command.strip() == '1': #if inspect
                 print 'Yep, it\s really tangled up in there.'
                 break
             elif command.strip() == '2' and 'Trench Knife' in items: #if has trench knife and cuts through straps
-                if 'Gas Mask' not in items:
+                if 'Gas Mask' not in items: #if mask not taken yet
                     print '\nYou glance at the heavy trench knife in your hand.'
                     print 'In a glorious bout of ingenuity, you slice through the straps of the gas mask, freeing it from its wooden prison.'
                     print 'The glass lens are all scratched up. You can\'t see anything through them now! Oh well...'
@@ -102,7 +102,11 @@ def doStuff(x, y): #Runs interactive code based on user position
                 else:
                     print 'Just a bunch of cut up fabric and branches.'
                 break
-            elif command.strip() == '0':
+            elif command.strip() == '2' and 'Trench Knife' not in items: #if no trench knife
+                print 'You tug with all your might on the mask.'
+                print 'The mask snaps off its straps. Oh no, the lens are shattered and the mask is warped!'
+                items.append('Broken Gas Mask') #add broken gas mask to list of found items
+            elif command.strip() == '0': #if do nothing
                 break
             else:
                 print 'Command not recognized. Try again.'
@@ -120,60 +124,67 @@ def doStuff(x, y): #Runs interactive code based on user position
     elif (x, y) == (3, 0):
         woods_grid[0][3] = 'Trench Knife' #add to map
         print 'You catch the glint of a shiny, serrated metal edge poking out from beneath a pile of leaves.'
-        displayImage('table.jpg')
-        
+        displayImage('trench_knife.jpg')
+        print 'Pick it up?\n'
+        if yesorno():
+            if 'Trench Knife' not in items: #if knife was not taken yet
+                print 'In your haste to grab it, you slice yourself on the blade.'
+                print 'You manage to put it away before you hurt yourself more.'
+                items.append('Trench Knife') #add trench knife to list of found items
+            else:
+                print 'How could Weary have dropped this?'
         return
             
-    elif (x, y) == (3, 1):
-        woods_grid[1][3] = 'Trunk' #add to map
-        print 'You have found Rosewater\'s steamer trunk.'
-        displayImage('trunk.jpg')
-        print 'Open trunk?\n'
-        if yesorno():
-            if 'The Gutless Wonder' not in items: #if book had not been taken yet
-                print 'You find \"The Gutless Wonder\" by Kilgore Trout.'
-                print '\"Rosewater, you idiot!\" you exlaim. \"One of your items is right here!\"'
-                print 'Eliot Rosewater throws a pillow at you. It hurts.\n'
-                items.append('The Gutless Wonder') #add novel to list of found items
-            else: #if book has already been taken
-                print 'Nothing here!\n'
+    elif (x, y) == (0, 4):
+        woods_grid[0][4] = 'Voodoo Doll' #add to map
+        print 'An eerie looking doll sits abandoned next to a decaying tree stump.'
+        displayImage('voodoo.jpg')
+        while True: #loop until user gives proper input
+            command = raw_input('To inspect it, enter \'1\'. To try to take it, enter \'2\'. To do nothing, enter \'0\': ')
+            if command.strip() == '1': #if inspect
+                print 'Something tells you that you shouln\'t look at it directly.'
+                print 'But wait, there seems to be a small book laying right next to it.'
+                print 'Could it be the bulletproof Bible that Weary lost?
+                break
+            elif command.strip() == '2' and 'Gas Mask' in items: #if has gas mask and goes closer
+                if 'Bulletproof Bible' not in items: #if bible not taken yet
+                    print '\nPutting on the scratched up gas mask so you couldn\'t see the doll, you stumble towards the tree stump.'
+                    print 'Feeling around, your hands land on something leathery and brick-shaped.'
+                    print 'You hurriedly stuff the bulletproof Bible in your breast pocket and you book it.'
+                    items.append('Bulletproof Bible') #add bible to list of found items
+                else:
+                    print 'Where did the doll go? You could\'ve sworn it was there a moment ago.'
+                break
+            elif command.strip() == '2' and 'Broken Gas Mask' in items: #if broken gas mask
+                print 'You put on the warped gas mask, it barely covering your face.'
+                print 'The doll is just in the corner of your eye, and you couldn\'t help but to glance at it.'
+                print 'Suddenly a dreadful feeling washes over you.'
+                hp-=200 #instantly kill billy
+            elif command.strip() == '0': #if do nothing
+                break
+            else:
+                print 'Command not recognized. Try again.'
         return
     
-    elif (x, y) == (3, 3):
-        woods_grid[3][3] = 'Nurse' #add to map
-        print 'You have found a nurse in your room.'
-        displayImage('nurse.jpg')
-        print 'Speak to her?'
-        if yesorno():
-            if 'hospitaladithya' not in eggs: #if adithya has not been taken yet
-                print '\"Hi!\" she says in greeting. \"I have a question for you-- what is the best snack?\"'
-                while True: #loop until user gives proper input
-                    print '\nFor \'pretzels,\' enter 0.'
-                    print 'For \'chocolate,\' enter 1.'
-                    print 'For \'Goldfish,\' enter 2.'
-                    print 'For \'granola bar,\' enter 3.'
-                    command = raw_input('What would you like to choose? ')
-                    if command.strip() == '2': #if correct answer 
-                        print '\nThe nurse grins wildly, clapping her hands in delight.'
-                        print '\"Awesome!\" she exclaims. \"That\'s exactly what I thought. Here, take this as a token of my gratitude.\"'
-                        print 'She hands you a small figurine of a very comely young man.'
-                        displayImage('adithya2.png')
-                        print 'You are not sure of its purpose, but you accept the gift nonetheless and continue on your search.\n'
-                        eggs.append('hospitaladithya') #add figurine to list of found adithyas
-                        break
-                    elif command.strip() in ('0','2','3'): #if incorrect answer 
-                        print '\nThe nurse frowns in disappointment.'
-                        print '\"Dangit,\" she says. \"I don\'t seem to agree.. oh well. Carry on.\"'
-                        print 'Confused, you turn away and continue on your search.\n' 
-                        break
-                    else: 
-                        print 'Command not recognized. Try again.'
-            else:
-                print 'The nurse recognizes you and smiles.'
-                print '\"Hello! It was very pleasant speaking to you before. I am quite busy now, though. No time for chit chat!\"'
-                print 'You leave her to her work and continue on your search.\n'
+    elif (x, y) == (4, 3):
+        woods_grid[3][4] = 'German Patrols' #add to map
+        print 'Wandering about in search of Weary\'s items, you suddenly bump into a German infantry unit.'
+        print 'You stand there, not knowing what to do.'
+        print 'One of them picks up his rifle, aims down his sight, and -- BAM! You\'ve been shot right through the heart!'
+        print 'The pain keeps you on the ground. You hear the laughter of the soldiers in the background as they set up camp.'
+        if 'Bulletproof Bible' in items: #if has bible
+            print 'Why aren\'t you dead? Then, you remember that you had placed the bulletproof bible in your left breastpocket.'
+            displayImage('bulletproof_bible.jpg')
+            hp-=25
+            for n, item in enumerate(items):
+                if item == 'Bulletproof Bible':
+                    items[n] = 'Damaged Bible'
+        elif 'Damaged Bible' in items:
+            print 'You wisely turn away from the camp and walk the other way before you are noticed.'
         else:
-            print 'You ignore the nurse and continue on your search.\n'
+            print 'The world darkens and fades away. Time slips and cracks.'
+            print 'This isn\'t how you remembered your death to be like!'
+            hp-=200 #instantly kill billy
         return
     
     elif (x, y) == (1, 4):

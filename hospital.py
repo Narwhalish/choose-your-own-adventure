@@ -16,11 +16,13 @@ Objects:
 
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
-#import office
+import backpack
+import office
 
 def move(pos): #Accepts user input to move through room
     global hospital_grid
     global hp
+    global bp
     position = pos #current position 
     print '-'*100
     if not endable: #if user has not yet found all five books
@@ -38,7 +40,7 @@ def move(pos): #Accepts user input to move through room
     print 'Enter \'U\' to move up'
     print 'Enter \'D\' to move down'
     print 'Enter \'MAP\' to display a map of uncovered objects'
-    print 'Enter \'BACKPACK\' to print the current contents of your backpack'
+    print 'Enter \'BACKPACK\' to access backpack functions'
     
     #loops until user gives valid input
     while True:
@@ -72,7 +74,7 @@ def move(pos): #Accepts user input to move through room
             hp-=25
             move(position) #calls move function anew
         elif command == 'BACKPACK':
-            print_backpack(backpack) #call function to print backpack contents
+            bp, hp = backpack.main(bp, hp) #call function to print backpack contents
             move(position) #calls move function anew
         else:
             print 'Invalid input. Please try again.'
@@ -84,7 +86,7 @@ def action(position): #Acts based on new user position
     move(position) #call move() for next user movement
 
 def doStuff(x, y): #Runs interactive code based on user position
-    global backpack
+    global bp
     global hp
     global books
     global drawer
@@ -140,8 +142,8 @@ def doStuff(x, y): #Runs interactive code based on user position
                 if drawer: #if drawer has not been opened yet
                     print 'You find a light blue pill in the second drawer. When used, it can restore 15 HP points. Add to backpack?\n'
                     if yesorno():
-                        if len(backpack)<10: #add to backpack if sufficient room 
-                            backpack.append('pill')
+                        if len(bp)<5: #add to backpack if sufficient room 
+                            bp.append('pill')
                             drawer = False
                             print 'Added!\n'
                         else:
@@ -281,7 +283,7 @@ def doStuff(x, y): #Runs interactive code based on user position
             askContinue()
             print 'As you gaze at the collage, a surge of affectionate emotion overcomes you.'
             print 'Your breath quickens... your heart flutters... and you feel yourself becoming unstuck in time again...'
-            office.main(backpack, hp, eggs) #exit room
+            office.main(bp, hp, eggs) #exit room
         return
         
     else:
@@ -397,20 +399,10 @@ def askContinue(): #Delays display of text until user chooses to continue
         else:
             print 'Command not recognized. Try again.'
 
-def print_backpack(backpack): #Prints list of current backpack contents
-    print '\nContents of Backpack:'
-    if len(backpack) == 0: #if backpack is empty
-        print 'Empty'
-    else:
-        for i in range (len(backpack)):
-            print str(i+1) + ': ' + backpack[i] #print number and item
-    print ''
-    return
-
 def main(b, h, e): #Function gives background narrative and calls move() for the first time
     #initialize global variables
-    global backpack
-    backpack = b
+    global bp
+    bp = b
     global hp 
     hp = h
     global eggs 

@@ -25,7 +25,7 @@ In the slaughterhouse there are:
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import woods
-#import train
+import train
 import hospital
 import zoo
 import backpack
@@ -207,7 +207,7 @@ def entrance(): #if user lands on entrance position, lets user go back to last r
         make_map()
         space[entrancepos[0]][entrancepos[1]]=="Entrance"
     while (a):
-        print "Do you want to leave the office?" 
+        print "Do you want to leave the office and return to the prior room?" 
         d = (raw_input("To leave, press L. To stay, press S: ")).upper()
         if (d =='L'):
             hospital.main(bp, hp, eggs) #leads to the next room, the hospital
@@ -428,10 +428,10 @@ def daniel(): #if user finds patient Daniel Du
                         return
                     else:
                         print "Please type a valid action!"
-                else: #if user has not yet found the book 
-                    print "\nYou don't seem to know what disease it is! Try looking around the room for \
-                    \nyour medical book."
-                    return
+            else: #if user has not yet found the book 
+                print "\nYou don't seem to know what disease it is! Try looking around the room for \
+                \nyour medical book."
+                return
         else: #if user has already treated Daniel and goes back to position
             print "You already treated Daniel!"
     
@@ -497,10 +497,10 @@ def colucci(): #if user lands on patient Colucci
                         return
                     else:
                         print "Please enter a valid action!"
-        else: #if user hasn't found the book yet
-            print "\nYou don't seem to know what disease it is! Try looking around the room for \
-                    \nyour medical book."
-            return
+            else: #if user hasn't found the book yet
+                print "\nYou don't seem to know what disease it is! Try looking around the room for \
+                        \nyour medical book."
+                return
     else: #if user tries to treat Colucci again
         print "You already treated Colucci!"
 
@@ -556,7 +556,7 @@ def book(): #if user lands on book position
         print "There's an item, but it's too dark to see!"
         return
     elif (f_lamp): #if user has found lamp 
-        if ('book' not in bp): #if book is not already in backpack
+        if not f_book: #if book is not already in backpack
             space[bookpos[0]][bookpos[1]]="YOU\nBook"
             make_map()
             space[bookpos[0]][bookpos[1]]="Book"
@@ -570,6 +570,7 @@ def book(): #if user lands on book position
                     \nagainst it."
             print "It's always nice to have a refresher on your craft as an optometrist,\
                 \nyou think, but it can never compare to the Merriam Webster's Dictionary."
+            f_book = True
         else: #deletes book from the map
             space[bookpos[0]][bookpos[1]]=x
             make_map()

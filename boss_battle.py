@@ -26,7 +26,7 @@ def getAnswer(): #Function to ask for user input of answer choice
 def trivia(e): #Function to ask user trivia questions
     eggs = len(e) #number of lives 
     while True: #continue until lives run out or until questions finish
-        print 'Lives: ' + str(eggs) + '/7'
+        print 'Lives: ' + str(eggs) + '/4'
         print 'Question 1:'
         print 'In Chapter 1, Vonnegut sketches the plot of the novel on a piece of wallpaper.'
         print 'What does orange cross-hatching represent?'
@@ -45,7 +45,7 @@ def trivia(e): #Function to ask user trivia questions
         askContinue()
         
         print '-'*100
-        print 'Lives: ' + str(eggs) + '/7'
+        print 'Lives: ' + str(eggs) + '/4'
         print 'Question 2:'
         print 'What is Ronald Weary\'s position in the army?'
         print 'A. Scout'
@@ -63,7 +63,7 @@ def trivia(e): #Function to ask user trivia questions
         askContinue()
     
         print '-'*100
-        print 'Lives: ' + str(eggs) + '/7'
+        print 'Lives: ' + str(eggs) + '/4'
         print 'Question 3:'
         print 'What do Weary and Billy\'s captors discover in Weary\'s pocket?'
         print 'A. A cigar'
@@ -81,7 +81,7 @@ def trivia(e): #Function to ask user trivia questions
         askContinue()
         
         print '-'*100
-        print 'Lives: ' + str(eggs) + '/7'
+        print 'Lives: ' + str(eggs) + '/4'
         print 'Question 4:'
         print 'What does the arrival of the Tralfamadorian spacecraft sound like?'
         print 'A. A nightingale'
@@ -99,7 +99,7 @@ def trivia(e): #Function to ask user trivia questions
         askContinue()
         
         print '-'*100
-        print 'Lives: ' + str(eggs) + '/7'
+        print 'Lives: ' + str(eggs) + '/4'
         print 'Question 5:'
         print 'What does Billy read in his zoo encolsure on the Tralfamadorian planet?'
         print 'A. Valley of the Dolls'
@@ -117,7 +117,7 @@ def trivia(e): #Function to ask user trivia questions
         askContinue()
         
         print '-'*100
-        print 'Lives: ' + str(eggs) + '/7'
+        print 'Lives: ' + str(eggs) + '/4'
         print 'Question 6:'
         print 'What color is Billy\'s experience of his death?'
         print 'A. Azure'
@@ -135,7 +135,7 @@ def trivia(e): #Function to ask user trivia questions
         askContinue()
         
         print '-'*100
-        print 'Lives: ' + str(eggs) + '/7'
+        print 'Lives: ' + str(eggs) + '/4'
         print 'Question 7:'
         print 'What is the name of the mountain that Billy\'s plane crashes into?'
         print 'A. Sugarbush Mountain'
@@ -153,7 +153,7 @@ def trivia(e): #Function to ask user trivia questions
         askContinue()
         
         print '-'*100
-        print 'Lives: ' + str(eggs) + '/7'
+        print 'Lives: ' + str(eggs) + '/4'
         print 'Question 8:'
         print 'What is Professor Bertram Copeland Rumfoord recovering from?'
         print 'A. A car accident'
@@ -171,7 +171,7 @@ def trivia(e): #Function to ask user trivia questions
         askContinue()
         
         print '-'*100
-        print 'Lives: ' + str(eggs) + '/7'
+        print 'Lives: ' + str(eggs) + '/4'
         print 'Question 9:'
         print 'In Kilgore Trout\'s book The Big Board, aliens capture an earthlight \
         \nand ask him about which two things?'
@@ -190,7 +190,7 @@ def trivia(e): #Function to ask user trivia questions
         askContinue()
         
         print '-'*100
-        print 'Lives: ' + str(eggs) + '/7'
+        print 'Lives: ' + str(eggs) + '/4'
         print 'Question 10:'
         print 'How does the Maori digger from Dresden die?'
         print 'A. In the firebombing'

@@ -68,6 +68,7 @@ def move(pos): #Accepts user input to move through room
             else: 
                 print 'Cannot move down. Try again.'
         elif command == 'MAP':
+            hp-=25
             makeMap(position) #call function to display map
             move(position) #calls move function anew
         elif command == 'BACKPACK':

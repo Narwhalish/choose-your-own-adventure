@@ -91,7 +91,7 @@ def doStuff(x, y): #Runs interactive code based on user position
         while True: #loop until user gives proper input
             command = raw_input('To inspect it, enter \'1\'. To try to take it, enter \'2\'. To do nothing, enter \'0\': ')
             if command.strip() == '1': #if inspect
-                print 'Yep, it\s really tangled up in there.'
+                print 'Yep, it\'s really tangled up in there.'
                 break
             elif command.strip() == '2' and 'Trench Knife' in items: #if has trench knife and cuts through straps
                 if 'Gas Mask' not in items: #if mask not taken yet
@@ -144,7 +144,7 @@ def doStuff(x, y): #Runs interactive code based on user position
             if command.strip() == '1': #if inspect
                 print 'Something tells you that you shouln\'t look at it directly.'
                 print 'But wait, there seems to be a small book laying right next to it.'
-                print 'Could it be the bulletproof Bible that Weary lost?
+                print 'Could it be the bulletproof Bible that Weary lost?'
                 break
             elif command.strip() == '2' and 'Gas Mask' in items: #if has gas mask and goes closer
                 if 'Bulletproof Bible' not in items: #if bible not taken yet
@@ -187,77 +187,13 @@ def doStuff(x, y): #Runs interactive code based on user position
             hp-=200 #instantly kill billy
         return
     
-    elif (x, y) == (1, 4):
-        woods_grid[4][1] = 'Floorboard' #add to map
-        print 'You have a loose floorboard.'
-        displayImage('floor.jpeg')
-        print 'Lift floorboard?\n'
-        if yesorno():
-            if 'Maniacs in the Fourth Dimension' not in items: #if book has not been taken yet
-                print 'After clearing away the dust, you find \"Maniacs in the Fourth Dimesnion\" by Kilgore Trout.'
-                print 'Somehow, it has ended up hidden underneath the floor. How strange... \n'
-                items.append('Maniacs in the Fourth Dimension') #add novel to list of found items
-            else: #if book has already been taken
-                print 'Nothing here!\n'
-        return
-    
-    elif (x, y) == (4, 2):
-        woods_grid[2][4] = 'Valencia' #add to map
-        print 'You find your wife, Valencia, sitting at the side of the room.'
-        print 'She is fast asleep, a half-eaten Three Musketeers candy bar still in her hand.'
-        displayImage('valencia.jpg')
-        print 'Interact?'
-        if yesorno():
-            while True: #loop until user gives proper input
-                command = raw_input('Wake up (\'1\'), look in purse (\'2\'), or take candy bar (\'3\')? ')
-                if command.strip() == '1': #wake up
-                    print 'You shake Valencia\'s shoulder gently. She jolts awake with a shriek.'
-                    print '\"FIND ME AMONGST THE GHOSTS!!\" she exclaims, whacking you in the face in the process.'
-                    print 'You cradle your swollen eye in pain as Valencia promptly falls back asleep.'
-                    print 'Loss of 20 HP points.\n'
-                    hp-=20
-                    break
-                elif command.strip() == '2': #look in purse
-                    print 'Channeling your inner ninja skills, you sneak a glance into Valencia\'s purse.'
-                    if 'The Money Tree' not in items: #if book has not been taken yet
-                        print 'Sure enough, there\'s a Kilgore Trout book in it entitled \"The Money Tree.\"'
-                        print 'Unfortunately, the book is covered in chocolate stains. You hope Rosewater doesn\'t mind...\n'
-                        items.append('The Money Tree') #add novel to list of found items
-                    else: #if book has already been taken
-                        print 'Unfortunately, there\'s nothing in it.'
-                    break
-                elif command.strip() == '3': #take candy bar
-                    print 'Your stomach growling, you gingerly remove the candy bar from Valencia\'s grasp.'
-                    print 'She snores as if in protest, but doesn\'t wake up.'
-                    print 'You take a bite. Mmm... stale, but still delicious!'
-                    print 'Add 20 HP points.'
-                    hp+=20
-                    break
-                else:
-                    print 'Command not recognized. Try again.'
-        else:
-            print 'You ignore Valencia and continue on your search.\n'
-        return
-        
     elif (x, y) == (4, 4):
-        woods_grid[4][4] = 'Photo' #add to map
-        print 'You find a framed photo collage of two lovely figure skaters on the wall.'
-        displayImage('shomayuzu.jpg')
-        if not endable: #if user has not found all five items yet
-            print 'How adorable!\n'
-        else: #if user has found all five items
-            print 'Perhaps this is the piece of artwork Rosewater mentioned.'
-            print 'It certainly is quite aesthetically pleasing.'
-            askContinue()
-            print 'As you gaze at the collage, a surge of affectionate emotion overcomes you.'
-            print 'Your breath quickens... your heart flutters... and you feel yourself becoming unstuck in time again...'
-            office.main(backpack, hp, eggs) #exit room
-        return
-        
-    else:
-        print 'Nothing here!\n'
-        return  
-                    
+        woods_grid[4][4] = 'Bear Trap' #add to map
+        print 'It\'s a tarp!'
+        print 'You managed to release the tarp, but you\'ve hurt yourself.'
+        hp-=40
+        displayImage('bear_trap.jpg')
+        return                    
 
 def yesorno(): #General function to ask user yes-or-no question
     #loop until user gives proper input
@@ -394,7 +330,7 @@ def main(b, h, e): #Function gives background narrative and calls move() for the
     global drawer
     drawer = True
     #start position
-    start = [0, 0]
+    start = [2, 2]
     
     #narrative
     print '\n***\n'

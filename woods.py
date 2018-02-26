@@ -21,7 +21,7 @@ def move(pos): #Accepts user input to move through room
     position = pos #current position 
     print '-'*100
     if not endable: #whether or not user has found all of Weary's items
-        checkInventory() #check to see if HP has been drained or score has been reached
+        checkVitals() #check to see if HP has been drained or score has been reached
         print 'Current items: ' 
         for item in items: #print list of found objects
             print '\t' + book
@@ -220,7 +220,7 @@ def displayImage(name): #General function to display image in kernel
     plt.imshow(image)
     plt.show() #show image
 
-def checkInventory(): #Checks if HP and number of items are within bounds
+def checkVitals(): #Checks if HP and number of items are within bounds
     global hp
     if len(items) == 5: #user has found all five items
         print 'Congratulations! You have found all three of Weary\'s belongings.'

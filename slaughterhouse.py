@@ -285,9 +285,15 @@ def spoon(): #if user lands on spoon position, can put in backpack
         while (a):
             d = (raw_input("Do you want to put it in your backpack? Y or N: ")).upper()
             if (d=='Y'):
-                bp.append('spoon') #put in backpack
-                space[spoonpos[0]][spoonpos[1]]=" "
-                return
+                if len(bp) < 5:
+                    bp.append('spoon') #put in backpack
+                    print 'Added!'
+                    space[spoonpos[0]][spoonpos[1]]=" "
+                    return
+                else:
+                    print 'Not enough space. Item not added.'
+                    space[spoonpos[0]][spoonpos[1]]="Spoon"
+                    return
             elif (d=='N'): #if user doesn't want spoon
                 print "You left the spoon on the floor. It wasn't sanitary anyway."
                 space[spoonpos[0]][spoonpos[1]]="Spoon"
@@ -363,9 +369,15 @@ def shovel(): #if user lands on shovel position, can keep it in backpack as key 
         while (a):
             d = (raw_input("\nDo you want to put it in your backpack? Y or N: ")).upper()
             if (d=='Y'): #put shovel in backpack
-                bp.append('shovel')
-                space[shovelpos[0]][shovelpos[1]]=" "
-                return
+                if len(bp) < 5:
+                    bp.append('shovel')
+                    print 'Added!'
+                    space[shovelpos[0]][shovelpos[1]]=" "
+                    return
+                else:
+                    print 'Not enough space. Item not added.'
+                    space[shovelpos[0]][shovelpos[1]]="Shovel"
+                    return
             elif (d=='N'): #leave shovel 
                 print "You left the shovel. It seems like a dangerous object."
                 space[shovelpos[0]][shovelpos[1]]="Shovel"

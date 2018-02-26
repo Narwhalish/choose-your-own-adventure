@@ -33,10 +33,9 @@ import backpack
 global space, position
 space = [[" "]*5 for i in range(5)]
 
-global f_lamp, success, f_book
+global f_lamp, success
 success = 0
 f_lamp = False
-f_book = False
 
 global c_treated, d_treated, s_treated
 c_treated = False
@@ -61,10 +60,9 @@ pcolumn = 2
 x = "YOU"
 position = [prow, pcolumn]
 
-global f_lamp, f_book, owl_use
+global f_lamp, owl_use
 f_lamp = False
 owl_use = False
-f_book = False
 
 def displayImage(name): #displays the image using matplotlib
     #name is the name of the image file
@@ -108,7 +106,7 @@ def check_continue(): #delays the narration according to user
             print "Please press C." 
 
 def action(): #helps user move around the map 
-    global prow, pcolumn, space, position, f_lamp, bp
+    global prow, pcolumn, space, position, f_lamp, bp, hp
     a = raw_input('Up, Down, Right, Left, Backpack (U,D,R,L,B): ').upper()
     if ( a == 'U'): #if user wants to move up
         if prow!=0:
@@ -383,7 +381,7 @@ def cabinet(): #if user lands on cabinet position, can choose to open the drawer
 
 def daniel(): #if user finds patient Daniel Du
     a = True
-    global f_lamp, f_book, success, d_treated
+    global f_lamp, success, d_treated
     if (f_lamp==False): #if user has no lamp
         print "There seems to be something here, but it's too dark to see."
         return
@@ -395,7 +393,7 @@ def daniel(): #if user finds patient Daniel Du
         print "You found Daniel!"
         if (d_treated == False): #if user has not yet treated Daniel
             print "\"Dr. Pilgrim, help me! This is tragic! I can't believe this is happening!\""
-            if (f_book):
+            if ('book' in bp):
                 print "Shaken and slightly terrified, you scream, \"What's the matter? Are you going \
                         \nblind?!\""
                 check_continue()
@@ -439,7 +437,7 @@ def daniel(): #if user finds patient Daniel Du
 def colucci(): #if user lands on patient Colucci 
     a = True
     b = True
-    global f_lamp, f_book, success, c_treated
+    global f_lamp, success, c_treated
     if (c_treated == False): #if user has not yet treated Colucci
         if (f_lamp==False): #if user cannot see Colucci
             print "There seems to be something here, but it's too dark to see."
@@ -452,7 +450,7 @@ def colucci(): #if user lands on patient Colucci
             print "You found Colucci!"
             print "He is floundering around, scratching at his eyes. \"Dr. Pilgrim! \
             \nMy eyes are killing me! They're burning! Please help me!\""
-            if (f_book):
+            if ('book' in bp):
                 while (a):
                     d = (raw_input("Treat Colucci? Y or N: ")).upper()
                     if (d=='Y'): #if user decides to treat Colucci
@@ -506,7 +504,7 @@ def colucci(): #if user lands on patient Colucci
 
 def sidhu(): #if user lands on patient Sidhu position
     a = True
-    global f_lamp, f_book, success, s_treated
+    global f_lamp, success, s_treated
     if (f_lamp==False): #if user hasnt' found lamp
         print "There seems to be something here, but it's too dark to see."
         return
@@ -520,7 +518,7 @@ def sidhu(): #if user lands on patient Sidhu position
             print "\"Dr. Pilgrim, help me! My eyes are so painful and I'm seeing spots everywhere.\""
             print "You attempt to shine a flashlight at his face, but that only seems to make it \
                     \nworse. \"Argh! I can't see anymore!\""
-            if (f_book):
+            if ('book' in bp):
                 while (a):
                     d = (raw_input("Treat Sidhu? Y or N: ")).upper()
                     if (d=='Y'): #if user decides to treat Sidhu
@@ -551,17 +549,16 @@ def sidhu(): #if user lands on patient Sidhu position
             print "You already treated Sidhu!"
 
 def book(): #if user lands on book position
-    global f_lamp, f_book
+    global f_lamp
     if (f_lamp==False): #if user hasn't found lamp
         print "There's an item, but it's too dark to see!"
         return
     elif (f_lamp): #if user has found lamp 
-        if not f_book: #if book is not already in backpack
+        if 'book' not in bp: #if book is not already in backpack
             space[bookpos[0]][bookpos[1]]="YOU\nBook"
             make_map()
             space[bookpos[0]][bookpos[1]]="Book"
             print "You found a book!"
-            bp.append('book') #user can pick up book and put in backpack
             print "Wow. What a heavy book, you think. I wonder what's in it."
             check_continue()
             print "It appears to be a medical dictionary with 1,488 pages of text and \
@@ -570,7 +567,24 @@ def book(): #if user lands on book position
                     \nagainst it."
             print "It's always nice to have a refresher on your craft as an optometrist,\
                 \nyou think, but it can never compare to the Merriam Webster's Dictionary."
-            f_book = True
+            while (True):
+                d = (raw_input("\nDo you want to the book in your backpack? Y or N: ")).upper()
+                if (d=='Y'): #put book in backpack
+                    if len(bp) < 5:
+                        bp.append('book')
+                        print 'Added!'
+                        space[bookpos[0]][bookpos[1]]=''
+                        return
+                    else:
+                        print 'Not enough space. Item not added.'
+                        space[bookpos[0]][bookpos[1]]='Book'
+                        return
+                elif (d=='N'): #leave shovel 
+                    print "You left the book. It seems tedious to carry."
+                    space[bookpos[0]][bookpos[1]]='Book'
+                    return
+                else:
+                    print "\nPlease enter a valid action!\n"
         else: #deletes book from the map
             space[bookpos[0]][bookpos[1]]=x
             make_map()

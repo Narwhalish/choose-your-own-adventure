@@ -63,6 +63,7 @@ def move(pos): #Accepts user input to move through room
             else: 
                 print 'Cannot move down. Try again.'
         elif command == 'MAP':
+            hp-=25
             makeMap(position) #call function to display map
             move(position) #calls move function anew
         elif command == 'BACKPACK':
@@ -183,9 +184,12 @@ def doStuff(x, y): #Runs interactive code based on user position
     
     elif (x, y) == (2, 4):
         print 'You have found the exit!'
-        print 'As you step out of the boxcar, you begin to feel a little woozy...'
-        print 'Your clocks begin to turn as you become unstuck in time again.'
-        hospital.main(bp, hp, eggs)
+        if endable:
+            print 'As you step out of the boxcar, you begin to feel a little woozy...'
+            print 'Your clocks begin to turn as you become unstuck in time again.'
+            hospital.main(bp, hp, eggs)
+        else:
+            print 'You\'re too drained to do anything else right now. Keep looking for those essentials!'
         
     else:
          print 'Nothing here!'

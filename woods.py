@@ -160,6 +160,11 @@ def doStuff(x, y): #Runs interactive code based on user position
                 print 'The doll is just in the corner of your eye, and you couldn\'t help but to glance at it.'
                 print 'Suddenly a dreadful feeling washes over you.'
                 hp-=200 #instantly kill billy
+            elif command.strip() == '2': #has no mask at all
+                print 'You couldn\'t help but to stare into the beads of the voodoo doll.'
+                print 'Much to your surprise, it stared back.'
+                print 'Suddenly a dreadful feeling washes over you.'
+                hp-=200 #instantly kill billy
             elif command.strip() == '0': #if do nothing
                 break
             else:

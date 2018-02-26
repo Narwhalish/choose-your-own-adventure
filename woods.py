@@ -13,7 +13,7 @@ Objects:
 
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
-
+import train
 
 def move(pos): #Accepts user input to move through room
     global woods_grid
@@ -243,35 +243,20 @@ def endGame(): #Function to continue narrative once user finds all items
     global endable
     endable = True #allows user to exit room
     
-    print '\"Rosewater!\" you exclaim excitedly. \"I found all of your items!\"'
-    print 'You hand the stack of novels to him, grinning from ear to ear.'
+    print '\"Finally! That took you long enough.\"'
+    print 'You hand him the items.'
     askContinue()
     print '-'*100
-    print '\"Thank you Billy Pilgrim,\" Rosewater says. \"I don\'t know what I\'d do without you.\"'
-    print 'He flips open \"The Money Tree\" and begins to read.'
+    print 'Weary stares at the holey Bible.'
+    print '\"Hey, what happened to my Bible?\"'
+    print 'You tell him that you were shot by a German soldier.'
     askContinue()
     print '-'*100
-    print '\"Um... didn\'t you say you were going to help me now?\" you ask, confused.'
-    askContinue()
-    print '-'*100
-    print 'He blinks. \"Did I? How unfortunate. I have no idea how to help you.\"'
-    askContinue()
-    print '-'*100
-    print 'You groan and collapse into a fetal position. \"I need to find out who\'s playing with my clocks!\"'
-    askContinue()
-    print '-'*100
-    print 'Rosewater pauses in thought. \"Well, whenever I\'m feeling down, I like to look at artwork.\"'
-    print 'He gestures vaguely at the other end of the room. \"One of my favorite pieces is over there. Maybe you should take a look.\"'
-    askContinue()
-    print '-'*100
-    print 'Without any other leads, you decide to take Rosewater\'s advice.'
-    print 'You must locate a piece of art in the hospital room in order to find your way out.'
-    print 'As before, if you run out of HP, you will be forced to restart this chapter.'
-    print 'Good luck!' 
+    print '\"Haha! That\'s quite the story. Be grateful that you had my bulletproof Bible with you, or you would have been dead!'
     askContinue()
     print '\n***\n'
+    train.main(backpack, hp, eggs)
     
-    move([2,0]) #restart movement starting at Rosweater's bed
 
 def makeMap(pos): #Creates a map of user position and uncovered objects
     data = [row[:] for row in woods_grid] #copy of zoo_grid

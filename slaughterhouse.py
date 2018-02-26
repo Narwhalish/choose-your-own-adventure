@@ -20,12 +20,9 @@ In the slaughterhouse there are:
 ================================================================================
 """
 import matplotlib.pyplot as plt
-<<<<<<< HEAD
 import boss_battle
 import zoo
-=======
 import matplotlib.image as mpimg
->>>>>>> office
 
 global space, position
 space = [[" "]*5 for i in range(5)]
@@ -110,10 +107,7 @@ def action():
                 position==shovelpos or position==entrancepos):
                 items()
             else:
-<<<<<<< HEAD
                 space[position[0]][position[1]]=x
-=======
->>>>>>> office
                 make_map()
                 space[prow][pcolumn]=" "
         else:
@@ -129,10 +123,7 @@ def action():
                 position==shovelpos or position==entrancepos):
                 items()
             else:
-<<<<<<< HEAD
                 space[position[0]][position[1]]=x
-=======
->>>>>>> office
                 make_map()
                 space[prow][pcolumn]=" "
         else:
@@ -148,10 +139,7 @@ def action():
                 position==shovelpos or position==entrancepos):
                 items()
             else:
-<<<<<<< HEAD
                 space[position[0]][position[1]]=x
-=======
->>>>>>> office
                 make_map()
                 space[prow][pcolumn]=" "
 
@@ -168,10 +156,7 @@ def action():
                 position==shovelpos or position==entrancepos):
                 items()
             else:
-<<<<<<< HEAD
                 space[position[0]][position[1]]=x
-=======
->>>>>>> office
                 make_map()
                 space[prow][pcolumn]=" "
         else:

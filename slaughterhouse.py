@@ -47,15 +47,6 @@ pcolumn = 2
 x = "YOU"
 position = [prow, pcolumn]
 
-global door
-found_door = False
-
-def print_space():
-    global space
-    for row in space:
-        print row
-        print '\n'
-
 def displayImage(name):
     image = mpimg.imread(name)
     ax = plt.axes(frameon=False)
@@ -68,9 +59,9 @@ def make_map():
     global space, position
         
     print "\n MAP OF SLAUGHTERHOUSE"
-    color_grid = [['black']*5 for i in range(5)]
+    color_grid = [['black']*5 for i in range(5)] #makes all of the grids spaces black
     
-    pmap = plt.table(cellText=space, cellColours=color_grid,
+    pmap = plt.table(cellText=space, cellColours=color_grid, #formats the table on matplotlib
             cellLoc='center', rowLoc='left', colLoc = 'center',
             loc='center', bbox=None)
 
@@ -83,10 +74,10 @@ def make_map():
         cell._text.set_color('white')
         cell.set_edgecolor('white')
     
-    plt.show()
-    print "HP: " + str(hp) + " / 150"
+    plt.show() #displays the map
+    print "HP: " + str(hp) + " / 150" #prints out the HP of the user
 
-def check_continue():
+def check_continue(): #allows user to delay narration
     a = True
     while (a):
         c = (raw_input("Press C to continue: ")).upper()
@@ -96,11 +87,11 @@ def check_continue():
         else: 
             print "Please press C." 
 
-def action():
+def action(): #allows user to move around on the map or print backpack
     global prow, pcolumn, space, position
     a = raw_input('Up, Down, Right, Left, Backpack (U,D,R,L,B): ').upper()
-    if ( a == 'U'):
-        if prow!=0:
+    if ( a == 'U'): #if user chooses to go up 
+        if prow!=0: #prevents user from going off map
             prow=prow-1
             position = [prow, pcolumn]
             if (position==doorpos or position==guardpos or  
@@ -108,15 +99,16 @@ def action():
                 position==amerpos or position==shrapnelpos or 
                 position==shovelpos or position==entrancepos or 
                 position==adithyapos):
-                items()
+                #if user happens to land on one of the positions with an item
+                items() #redirects to various other functions
             else:
-                space[position[0]][position[1]]=x
+                space[position[0]][position[1]]=x #makes position say "YOU"
                 make_map()
-                space[prow][pcolumn]=" "
+                space[prow][pcolumn]=" " #resets position
         else:
             print "You can't walk through a wall!"
             action() 
-    elif (a =='D'):
+    elif (a =='D'): #if user wants to move down
         if prow!=4:
             prow=prow+1
             position = [prow, pcolumn]
@@ -133,7 +125,7 @@ def action():
         else:
             print "You can't walk through a wall!"
             action() 
-    elif (a =='L'):
+    elif (a =='L'): #if user wants to move left
         if pcolumn!=0:
             pcolumn=pcolumn-1
             position = [prow, pcolumn]
@@ -151,7 +143,7 @@ def action():
         else:
             print "You can't walk through a wall!"
             action() 
-    elif (a =='R'):
+    elif (a =='R'): #if user wants to move right
         if pcolumn!=4:
             pcolumn=pcolumn+1
             position = [prow, pcolumn]
@@ -168,14 +160,14 @@ def action():
         else:
             print "You can't walk through a wall!"
             action() 
-    elif (a=='B'):
-        print_backpack(backpack)
-        action()
+    elif (a=='B'): #if user wants to view backpack
+        print_backpack(backpack) #calls print_backpack function
+        action() 
     else: 
         print "Please enter a valid action!"
         action()
 
-def entrance():
+def entrance(): #if user lands on entrance position, allows user to go back to last room
     a = True
     space[entrancepos[0]][entrancepos[1]]="YOU\nEntrance"
     make_map()
@@ -184,7 +176,7 @@ def entrance():
         print "Do you want to leave the slaughterhouse?"
         d = (raw_input("To leave, press L. To stay, press S: ")).upper()
         if (d =='L'):
-            zoo.main(backpack, hp, eggs) #leads to last room 
+            zoo.main(backpack, hp, eggs) #leads to last room, zoo
         elif (d == 'S'):
             print "You decided to stay in the slaughterhouse."
             print "Maybe there are more items!"
@@ -192,31 +184,29 @@ def entrance():
         else:
             print "\nPlease enter a valid action!\n"
 
-def door():
+def door(): #if user lands on door position, allows user to move to next room if shovel is found
     a = True
     space[doorpos[0]][doorpos[1]]="YOU\nDoor"
     make_map()
     space[doorpos[0]][doorpos[1]]="Door"
     print "You found a door!"
-    while (a):
-        global found_door
+    while (a): 
         print "I wonder where this door leads... Will you open the door?"
         d = (raw_input("To enter, press E. To stay, press S: ")).upper()
         if (d =='E'):
-            if ('shovel' in backpack):
-                found_door = True
-                boss_battle.narrate(eggs) #leads to new room
-            else: 
+            if ('shovel' in backpack): #if user has a shovel
+                boss_battle.narrate(eggs) #leads to next room, the boss battle
+            else: #if user doesn't have a shovel
                 print "Oops! You don't have the key to unlock this door!"
             break
-        elif (d == 'S'):
+        elif (d == 'S'): 
             print "You decided to stay in the slaughterhouse."
             print "Maybe there are more items!"
             return
         else:
             print "\nPlease enter a valid action!\n"
 
-def guards():
+def guards(): #if user lands on guards position, can talk to guards for hints
     a = True
     b = True
     space[guardpos[0]][guardpos[1]]="YOU\nGuards"
@@ -226,56 +216,56 @@ def guards():
     while (a):
         print "Maybe they have information. Will you talk to them?"
         d = (raw_input("To talk, press T. To ignore, press I: ")).upper()
-        if (d =='T'):
+        if (d =='T'): #if user talks to guards
             print "One of the guards sees and turns to you."
-            a = False
+            a = False #so that loop doesn't keep looping
             while (b):
-                print "GUARD: Stay inside! Dresden is being bombed."
+                print "GUARD: Stay inside! Dresden was bombed. You can't leave without our persmission!." 
                 a = (raw_input("a. 'How can I leave?'\
                                 \nb. 'Where am I?' \
                                 \nc. 'What's syrup for?'\
                                 \nd. 'Tell me more about the game.'")).upper()
-                if (a=='A'):
+                if (a=='A'): #guard gives hint about key
                     print "GUARD: You cannot leave without our permission!"
                     print "GUARD: There are a lot of dead bodies around and we need\
                             \nall the help we can get to shovel them."
                     break
-                elif (a=='B'):
+                elif (a=='B'): #guard tells user room
                     print "GUARD: You flamingo! You're in the underground Slaughterhouse.\
                             \nIf you weren't, you'd be dead by now."
                     break
-                elif (a=='C'):
+                elif (a=='C'): #guard informs about syrup
                     print "GUARD: It gives you energy and raises your HP."
                     break
-                elif (a=='D'):
-                    print "GUARD: Find Kurt Vonnegut and save us. He is the master of this\
+                elif (a=='D'): #guard gives hint about the clock master
+                    print "GUARD: Find the clockmaster outside and save us. He is the master of this\
                             \ngame and the one who made us suffer through Dresden."
                     break
                 else:
                     print "\nPlease enter a valid answer!\n"
             break
-        elif (d == 'I'):
+        elif (d == 'I'): #if user doesn't talk to guards
             print "You decided to ignore the guards."
             break
         else:
             print "\nPlease enter a valid action!\n"
 
     
-def syrup():
+def syrup(): #if user lands on syrup position, can drink to raise HP by 25 points
     global hp
     a = True
-    print "You found a bottle of syrup!"
+    print "You found a bottle of syrup!" 
     space[syruppos[0]][syruppos[1]]="YOU\nSyrup"
     make_map()
     space[syruppos[0]][syruppos[1]]="Syrup"
-    if ('spoon' in backpack):
+    if ('spoon' in backpack): #can only drink syrup if user has a spoon in backpack
         print "Use the spoon to drink the syrup and boost your HP!"
         while (a):
             d = (raw_input("To drink, press 'D'. To leave, press 'L': ")).upper()
-            if (d=='D'):
+            if (d=='D'): #if user drinks 
                 break
                 hp+=25 #boost HP
-            elif (d=='L'):
+            elif (d=='L'): #if user doesn't drink
                 print "You decided not to drink the syrup."
                 break
             else:
@@ -284,9 +274,9 @@ def syrup():
         print "You don't have the means to drink the syrup!"
             
     
-def spoon():
+def spoon(): #if user lands on spoon position, can put in backpack
     a = True
-    if ('spoon' not in backpack):
+    if ('spoon' not in backpack): #if the user doesn't already have a spoon
         space[spoonpos[0]][spoonpos[1]]="YOU\nSpoon"
         make_map()
         print "You found a spoon!"
@@ -297,19 +287,19 @@ def spoon():
                 backpack.append('spoon') #put in backpack
                 space[spoonpos[0]][spoonpos[1]]=" "
                 return
-            elif (d=='N'):
+            elif (d=='N'): #if user doesn't want spoon
                 print "You left the spoon on the floor. It wasn't sanitary anyway."
                 space[spoonpos[0]][spoonpos[1]]="Spoon"
                 return
             else: 
                 print "\nPlease enter a valid action!\n"
-    else:
+    else: #deletes spoon from map
         space[spoonpos[0]][spoonpos[1]]=x
         make_map()
         space[spoonpos[0]][spoonpos[1]]=" "
 
 
-def americans():
+def americans(): #if user lands on americans position, can converse with them for hints
     a = True
     print "You found your fellow Americans!"
     space[amerpos[0]][amerpos[1]]="YOU\nAmericans"
@@ -327,19 +317,19 @@ def americans():
                     \nb. How do I leave?\
                     \nc. Do you know who is messing with the clocks?\
                     \nd. Nevermind.\nAnswer: ")).upper()
-        if (d=='A'):
+        if (d=='A'): #gives hints about the guards
             print "\nThe American squints at you. The dim lighting in the slaughterhouse seems\
                     \nto have gotten to his eyesight."
             print "He says gruffly, \"Yeah, we spoke to the guards... They don't want to let \
                     \nus out though. I don't know when they will.\" He turns back around, ending \
                     \nthe conversation."
             break
-        elif (d=='B'):
+        elif (d=='B'): #gives hints about the key to leave
             print "\n\"I don't know. We spoke to the guards an they don't want to let us leave. We're\
                     \nsurviving on syrup, but I think we'll die pretty soon. There's only enough syrup\
                     \nto go around for so long. I wish I told my wife goodbye.\""
             break
-        elif (d=='C'):
+        elif (d=='C'): #gives hints about the clockmaster
             print "\nHe looks dazed by your question. \"Clocks? What clocks? All I know is that there is \
                     \nsomeone suspicious the guards were talking about... someone outside of here. But they \
                     \nwon't let us out, so I'm not going to worry about it.\""
@@ -347,79 +337,79 @@ def americans():
             print "\"I think they mentioned something about a wagon.\" He turned around, \
                     \nfocusing on this syrup."
             break
-        elif (d=='D'):
+        elif (d=='D'): #if user doesn't want to talk 
             break
         else:
             print "\nPlease print a valid answer!\n"
     
 
-def shrapnel():
+def shrapnel(): #if user steps on shrapnel, loses 50 HP
     global hp
     space[shrapnelpos[0]][shrapnelpos[1]]="YOU\nShrapnel"
     make_map()
     space[shrapnelpos[0]][shrapnelpos[1]]="Shrapnel"
     print "You found shrapnel!"
     print "Oh no! You stepped on the shrapnel and lost HP!"
-    hp-=50
+    hp-=50 #decrease HP by 50 points
 
-def shovel():
+def shovel(): #if user lands on shovel position, can keep it in backpack as key to leave the room
     a=True
-    if ('shovel' not in backpack):
+    if ('shovel' not in backpack): #if shovel not already in backpack
         space[shovelpos[0]][shovelpos[1]]="YOU\nShovel"
         make_map()
         print "You found a shovel!"
         print "Maybe the guards will let you leave if you help them bury the bodies?"
         while (a):
             d = (raw_input("\nDo you want to put it in your backpack? Y or N: ")).upper()
-            if (d=='Y'):
+            if (d=='Y'): #put shovel in backpack
                 backpack.append('shovel')
                 space[shovelpos[0]][shovelpos[1]]=" "
                 return
-            elif (d=='N'):
+            elif (d=='N'): #leave shovel 
                 print "You left the shovel. It seems like a dangerous object."
                 space[shovelpos[0]][shovelpos[1]]="Shovel"
                 return
             else:
                 print "\nPlease enter a valid action!\n"
-    else:
+    else: #delete the shovel from the map
         space[shovelpos[0]][shovelpos[1]]=x
         make_map()
         space[shovelpos[0]][shovelpos[1]]=" "
 
-def adithya():
+def adithya(): #if the user finds Sally the ghost, can receive an easter egg from her
     a = True
-    if ('slaughterhouseadithya' not in eggs):
+    if ('slaughterhouseadithya' not in eggs): #if user has not already gotten the egg
         print "You have found Sally!" 
         print "\"Hello, Billy. My name is Sally. Although I am not mentioned in the book,\
                 \nI was actually a ghost who lived in the corner of Slaughterhouse-Five.\""
         check_continue()
         print "You're confused, but you let her continue. \"I will give you one chance to \
                 \nmake a difference in your fate. Answer this question:"
-        while (a):
+        while (a): #trivia question to receive the egg
             d = (raw_input("How tall is Adithya? \
                             \na. Adithya-short\
                             \nb. Short\
                             \nc. Tall\
                             \nd. Lebron James - tall\
                             \nAnswer: ")).upper()
-            if (d == 'B'):
+            if (d == 'B'): #if user answers correctly
                 print "Sally looks extremely ecstatic. \"Correct!\" she cheers. \"To award you for\
                         \nyour smartness, take this: "
-                displayImage('adithya4.jpg')
+                displayImage('adithya4.jpg') #displays image of egg
                 print "It appears to be an Adithya. You don't know why, but you take it anyway."
-                eggs.append('slaughterhouseadithya')
+                eggs.append('slaughterhouseadithya') #adds egg to easter egg list
                 return
-            if (d=='A' or d=='C' or d=='D'):
+            if (d=='A' or d=='C' or d=='D'): #if user answers incorrectly 
                 print "Sally looks disappointed. \"You could've done better. Baiyo.\" She floats away\
                         \ngloomily."
                 return
             else:
                 print "Please enter a valid answer!"
-    else:
+    else: #don't do anything about Sally. She does not appear on the list because she is a ghost.
         pass
             
 
-def items():
+def items(): #redirects users from action() to a specific position function
     decisions = {str(doorpos): door,
                 str(guardpos): guards,
                 str(syruppos): syrup,
@@ -441,7 +431,7 @@ def print_backpack(backpack): #Prints list of current backpack contents
     print ''
     return
        
-def main(b, h, e):
+def main(b, h, e): #backpack, HP, eggs from last room
     global backpack, hp, eggs
     backpack = b
     hp = h
@@ -465,13 +455,14 @@ def main(b, h, e):
     print "\n****************************************************************\n"
     
     global space, door, position
-    space[prow][pcolumn]=x
+    space[prow][pcolumn]=x #makes the first position "YOU"
     make_map()
     space[entrancepos[0]][entrancepos[1]]="Entrance"
+    a=True #loops the action()
     
-    while (found_door==False):
+    while (a):
         action()
     
     
-if __name__ == '__main__':
-    main([], 150, [])
+# if __name__ == '__main__':   (used for testing purposes)
+#     main([], 150, [])

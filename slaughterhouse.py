@@ -89,7 +89,7 @@ def check_continue(): #allows user to delay narration
             print "Please press C." 
 
 def action(): #allows user to move around on the map or print backpack
-    global prow, pcolumn, space, position
+    global prow, pcolumn, space, position, bp
     a = raw_input('Up, Down, Right, Left, Backpack (U,D,R,L,B): ').upper()
     if ( a == 'U'): #if user chooses to go up 
         if prow!=0: #prevents user from going off map

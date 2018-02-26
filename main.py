@@ -43,7 +43,7 @@ def start(): #Narrates introduction of game
     print 'Traverse through a series of events in your life in order to find \
     \nwho has been tampering with your sense of time.'
     print 'You are supplied with 150 points and a backpack to store any items\
-    \nyou find over the course of your quest (maximum 10).'
+    \nyou find over the course of your quest (maximum 5).'
     print '\nGood luck -- let\'s begin!'
     askContinue()
     

@@ -15,17 +15,19 @@ Objects:
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import train
+import backpack
 
 def move(pos): #Accepts user input to move through room
     global woods_grid
     global hp
+    global bp
     position = pos #current position 
     print '-'*100
     if not endable: #whether or not user has found all of Weary's items
         checkVitals() #check to see if HP has been drained or score has been reached
         print 'Current items: ' 
         for item in items: #print list of found objects
-            print '\t' + book
+            print '\t' + item
         if len(items)==0: #if no items found
             print '\tNone'
         print ''
@@ -69,7 +71,7 @@ def move(pos): #Accepts user input to move through room
             makeMap(position) #call function to display map
             move(position) #calls move function anew
         elif command == 'BACKPACK':
-            print_backpack(backpack) #call function to print backpack contents
+            bp, hp = backpack.main(bp, hp) #call function to print backpack contents
             move(position) #calls move function anew
         else:
             print 'Invalid input. Please try again.'
@@ -81,7 +83,7 @@ def action(position): #Acts based on new user position
     move(position) #call move() for next user movement
 
 def doStuff(x, y): #Runs interactive code based on user position
-    global backpack
+    global bp
     global hp
     global items
     
@@ -180,7 +182,7 @@ def doStuff(x, y): #Runs interactive code based on user position
         print 'The pain keeps you on the ground. You hear the laughter of the soldiers in the background as they set up camp.'
         if 'Bulletproof Bible' in items: #if has bible
             print 'Why aren\'t you dead? Then, you remember that you had placed the bulletproof bible in your left breastpocket.'
-            displayImage('bulletproof_bible.jpg')
+            displayImage('bulletproof_bible.jpeg')
             hp-=25
             for n, item in enumerate(items):
                 if item == 'Bulletproof Bible':
@@ -223,7 +225,7 @@ def displayImage(name): #General function to display image in kernel
 
 def checkVitals(): #Checks if HP and number of items are within bounds
     global hp
-    if len(items) == 5: #user has found all five items
+    if len(items) == 3: #user has found all three items
         print 'Congratulations! You have found all three of Weary\'s belongings.'
         print '\n***\n'
         endGame() #call function to end game
@@ -241,6 +243,8 @@ def reset(): #Resets default values of global variables
     items = []
     global hp
     hp = 150
+    global bp 
+    bp = []
     global woods_grid
     woods_grid = [['' for x in range(5)] for y in range(5)]
     move([0,0]) #restart movement at bed square
@@ -253,14 +257,8 @@ def endGame(): #Function to continue narrative once user finds all items
     print 'You hand him the items.'
     askContinue()
     print '-'*100
-    print 'Weary stares at the holey Bible.'
-    print '\"Hey, what happened to my Bible?\"'
-    print 'You tell him that you were shot by a German soldier.'
+    print 'Suddenly, you begin to feel dizzy. Your surroundings blur as you become unstuck in time again...'
     askContinue()
-    print '-'*100
-    print '\"Haha! That\'s quite the story. Be grateful that you had my bulletproof Bible with you, or you would have been dead!'
-    askContinue()
-    print '\n***\n'
     train.main(backpack, hp, eggs)
     
 
@@ -294,20 +292,10 @@ def askContinue(): #Delays display of text until user chooses to continue
         else:
             print 'Command not recognized. Try again.'
 
-def print_backpack(backpack): #Prints list of current backpack contents
-    print '\nContents of Backpack:'
-    if len(backpack) == 0: #if backpack is empty
-        print 'Empty'
-    else:
-        for i in range (len(backpack)):
-            print str(i+1) + ': ' + backpack[i] #print number and item
-    print ''
-    return
-
 def main(b, h, e): #Function gives background narrative and calls move() for the first time
     #initialize global variables
-    global backpack
-    backpack = b
+    global bp
+    bp = b
     global hp 
     hp = h
     global eggs 

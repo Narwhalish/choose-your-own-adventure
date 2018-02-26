@@ -25,7 +25,7 @@ In the slaughterhouse there are:
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import woods
-import train
+#import train
 import hospital
 import zoo
 import backpack
@@ -108,7 +108,7 @@ def check_continue(): #delays the narration according to user
             print "Please press C." 
 
 def action(): #helps user move around the map 
-    global prow, pcolumn, space, position, f_lamp
+    global prow, pcolumn, space, position, f_lamp, bp
     a = raw_input('Up, Down, Right, Left, Backpack (U,D,R,L,B): ').upper()
     if ( a == 'U'): #if user wants to move up
         if prow!=0:

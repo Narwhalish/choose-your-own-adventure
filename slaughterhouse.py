@@ -199,10 +199,12 @@ def door():
     space[doorpos[0]][doorpos[1]]="Door"
     print "You found a door!"
     while (a):
+        global found_door
         print "I wonder where this door leads... Will you open the door?"
         d = (raw_input("To enter, press E. To stay, press S: ")).upper()
         if (d =='E'):
             if ('shovel' in backpack):
+                found_door = True
                 boss_battle.narrate(eggs) #leads to new room
             else: 
                 print "Oops! You don't have the key to unlock this door!"

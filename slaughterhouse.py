@@ -39,6 +39,7 @@ spoonpos = [4,0]
 amerpos = [3,3]
 shrapnelpos = [2,1]
 shovelpos = [2,2]
+adithyapos = [0,4]
 
 global prow, pcolumn, position
 prow = 4
@@ -90,7 +91,7 @@ def check_continue():
         c = (raw_input("Press C to continue: ")).upper()
         if (c=='C'):
             a = False
-            return
+            break
         else: 
             print "Please press C." 
 
@@ -104,7 +105,8 @@ def action():
             if (position==doorpos or position==guardpos or  
                 position==syruppos or position==spoonpos or
                 position==amerpos or position==shrapnelpos or 
-                position==shovelpos or position==entrancepos):
+                position==shovelpos or position==entrancepos or 
+                position==adithyapos):
                 items()
             else:
                 space[position[0]][position[1]]=x
@@ -120,7 +122,8 @@ def action():
             if (position==doorpos or position==guardpos or  
                 position==syruppos or position==spoonpos or
                 position==amerpos or position==shrapnelpos or 
-                position==shovelpos or position==entrancepos):
+                position==shovelpos or position==entrancepos or
+                position==adithyapos):
                 items()
             else:
                 space[position[0]][position[1]]=x
@@ -136,7 +139,8 @@ def action():
             if (position==doorpos or position==guardpos or  
                 position==syruppos or position==spoonpos or
                 position==amerpos or position==shrapnelpos or
-                position==shovelpos or position==entrancepos):
+                position==shovelpos or position==entrancepos or 
+                position==adithyapos):
                 items()
             else:
                 space[position[0]][position[1]]=x
@@ -153,7 +157,8 @@ def action():
             if (position==doorpos or position==guardpos or  
                 position==syruppos or position==spoonpos or
                 position==amerpos or position==shrapnelpos or 
-                position==shovelpos or position==entrancepos):
+                position==shovelpos or position==entrancepos or
+                position==adithyapos):
                 items()
             else:
                 space[position[0]][position[1]]=x
@@ -197,7 +202,7 @@ def door():
         d = (raw_input("To enter, press E. To stay, press S: ")).upper()
         if (d =='E'):
             if ('shovel' in backpack):
-                boss_battle.main(backpack, hp, eggs) #leads to new room
+                boss_battle.narrate(eggs) #leads to new room
             else: 
                 print "Oops! You don't have the key to unlock this door!"
             break
@@ -254,6 +259,7 @@ def guards():
 
     
 def syrup():
+    global hp
     a = True
     print "You found a bottle of syrup!"
     space[syruppos[0]][syruppos[1]]="YOU\nSyrup"
@@ -265,7 +271,7 @@ def syrup():
             d = (raw_input("To drink, press 'D'. To leave, press 'L': ")).upper()
             if (d=='D'):
                 break
-                pass #boost HP
+                hp+=25 #boost HP
             elif (d=='L'):
                 print "You decided not to drink the syrup."
                 break
@@ -354,7 +360,6 @@ def shrapnel():
     hp-=50
 
 def shovel():
-    global backpack
     a=True
     if ('shovel' not in backpack):
         space[shovelpos[0]][shovelpos[1]]="YOU\nShovel"
@@ -378,6 +383,39 @@ def shovel():
         make_map()
         space[shovelpos[0]][shovelpos[1]]=" "
 
+def adithya():
+    a = True
+    if ('slaughterhouseadithya' not in eggs):
+        print "You have found Sally!" 
+        print "\"Hello, Billy. My name is Sally. Although I am not mentioned in the book,\
+                \nI was actually a ghost who lived in the corner of Slaughterhouse-Five.\""
+        check_continue()
+        print "You're confused, but you let her continue. \"I will give you one chance to \
+                \nmake a difference in your fate. Answer this question:"
+        while (a):
+            d = (raw_input("How tall is Adithya? \
+                            \na. Adithya-short\
+                            \nb. Short\
+                            \nc. Tall\
+                            \nd. Lebron James - tall\
+                            \nAnswer: ")).upper()
+            if (d == 'B'):
+                print "Sally looks extremely ecstatic. \"Correct!\" she cheers. \"To award you for\
+                        \nyour smartness, take this: "
+                displayImage('adithya4.jpg')
+                print "It appears to be an Adithya. You don't know why, but you take it anyway."
+                eggs.append('slaughterhouseadithya')
+                return
+            if (d=='A' or d=='C' or d=='D'):
+                print "Sally looks disappointed. \"You could've done better. Baiyo.\" She floats away\
+                        \ngloomily."
+                return
+            else:
+                print "Please enter a valid answer!"
+    else:
+        pass
+            
+
 def items():
     decisions = {str(doorpos): door,
                 str(guardpos): guards,
@@ -386,7 +424,8 @@ def items():
                 str(amerpos): americans,
                 str(shrapnelpos): shrapnel,
                 str(shovelpos): shovel,
-                str(entrancepos): entrance}
+                str(entrancepos): entrance,
+                str(adithyapos): adithya}
     decisions[str(position)]()
  
 def print_backpack(backpack): #Prints list of current backpack contents

@@ -9,7 +9,7 @@ Goal:
 In the slaughterhouse there are:
     Patient (4): Trivia about themselves to gain trust, then you can treat
         1. Daniel Du
-        2. Colucci - osu
+        2. Colucci
         3. Sidhu Arakkal 
     Sign - Allows you a view into the future
     Book - Gives you hints on how to treat people
@@ -385,7 +385,7 @@ def daniel():
         space[danielpos[0]][danielpos[1]]="YOU\nDaniel"
         make_map()
         space[danielpos[0]][danielpos[1]]="Daniel"
-        #display image
+        displayImage('daniel.jpg')
         print "You found Daniel!"
         if (d_treated == False):
             print "\"Dr. Pilgrim, help me! This is tragic! I can't believe this is happening!\""
@@ -442,7 +442,7 @@ def colucci():
             space[coluccipos[0]][coluccipos[1]]="YOU\nColucci"
             make_map()
             space[coluccipos[0]][coluccipos[1]]="Colucci"
-            #display image
+            displayImage('colucci.jpg')
             print "You found Colucci!"
             print "He is floundering around, scratching at his eyes. \"Dr. Pilgrim! \
             \nMy eyes are killing me! They're burning! Please help me!\""
@@ -474,7 +474,7 @@ def colucci():
                                     print "You made a wild guess and guessed 'VEX'!"
                                     print "\"Congratulations, Dr. Pilgrim!! I can now unashamedly talk to\
                                             \nAdithya! Please accept this egg as a token of my appreciation: "
-                                    #display image
+                                    displayImage('adithya3.jpg')
                                     print "?? It appears to be an Adithya! You don't question his choice of gift\
                                             \nand calmly place it in your pocket."
                                     return
@@ -508,7 +508,7 @@ def sidhu():
         space[sidhupos[0]][sidhupos[1]]="YOU\nSidhu"
         make_map()
         space[sidhupos[0]][sidhupos[1]]="Sidhu"
-        #display image
+        displayImage('sidhu.jpg')
         print "You found Sidhu!"
         if (s_treated==False):
             print "\"Dr. Pilgrim, help me! My eyes are so painful and I'm seeing spots everywhere.\""

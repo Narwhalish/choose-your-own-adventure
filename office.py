@@ -24,6 +24,8 @@ In the slaughterhouse there are:
 """
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+import hospital
+import zoo
 
 global space, position
 space = [[" "]*5 for i in range(5)]
@@ -33,11 +35,10 @@ success = 0
 f_lamp = False
 f_book = False
 
-global c_treated, d_treated, s_treated, f_egg
+global c_treated, d_treated, s_treated
 c_treated = False
 d_treated = False
 s_treated = False
-f_egg = False
 
 space[4][2]="Entrance"
 entrancepos=[4,2]
@@ -109,7 +110,7 @@ def check_continue():
 
 def action():
     global prow, pcolumn, space, position, f_lamp
-    a = raw_input('Up, Down, Right, Left (U,D,R,L): ').upper()
+    a = raw_input('Up, Down, Right, Left, Backpack (U,D,R,L,B): ').upper()
     if ( a == 'U'):
         if prow!=0:
             prow=prow-1
@@ -130,7 +131,7 @@ def action():
         else:
             print "You can't walk through a wall!"
             action() 
-    if (a =='D'):
+    elif (a =='D'):
         if prow!=4:
             prow=prow+1
             position = [prow, pcolumn]
@@ -150,7 +151,7 @@ def action():
         else:
             print "You can't walk through a wall!"
             action() 
-    if (a =='L'):
+    elif (a =='L'):
         if pcolumn!=0:
             pcolumn=pcolumn-1
             position = [prow, pcolumn]
@@ -171,7 +172,7 @@ def action():
         else:
             print "You can't walk through a wall!"
             action() 
-    if (a =='R'):
+    elif (a =='R'):
         if pcolumn!=4:
             pcolumn=pcolumn+1
             position = [prow, pcolumn]
@@ -191,6 +192,9 @@ def action():
         else:
             print "You can't walk through a wall!"
             action() 
+    elif (a=='B'):
+        print_backpack(backpack)
+        action()
     else:
         print "Please enter valid action!"
         action()
@@ -206,7 +210,7 @@ def entrance():
         print "Do you want to leave the office?"
         d = (raw_input("To leave, press L. To stay, press S: ")).upper()
         if (d =='L'):
-            pass #leads to last room 
+            hospital.main(backpack, hp, eggs)
             break
         elif (d == 'S'):
             print "You decided to stay in the office."
@@ -231,7 +235,7 @@ def door():
                 print "I wonder where this door leads... Will you open the door?"
                 d = (raw_input("To enter, press E. To stay, press S: ")).upper()
                 if (d =='E'):
-                    pass #enter new room
+                    zoo.main(backpack, hp, eggs) #enter next room, zoo
                     break
                 elif (d == 'S'):
                     print "You decided to stay in the office."
@@ -245,7 +249,6 @@ def door():
 def sign():
     global f_lamp
     a = True
-    b = True
     if (f_lamp==False):
         print "There seems to be something here, but it's too dark to see!"
         return
@@ -345,7 +348,6 @@ def cabinet():
     a = True
     global f_lamp
     space[prow][pcolumn]="YOU\nCabinet"
-    #space[cabinetpos[0]][cabinetpos[1]]="YOU\nCabinet"
     print "You found a cabinet!"
     while (a):
         d = (raw_input("Will you look inside? Y or N: ")).upper()
@@ -431,7 +433,7 @@ def daniel():
 def colucci():
     a = True
     b = True
-    global f_lamp, f_book, success, c_treated, f_egg
+    global f_lamp, f_book, success, c_treated
     if (c_treated == False):
         if (f_lamp==False):
             print "There seems to be something here, but it's too dark to see."
@@ -457,7 +459,7 @@ def colucci():
                                 \nyou stare directly at him. You can apply this ointment for your burns.\""
                         check_continue()
                         success +=1
-                        if (f_egg==False):
+                        if ('officeadithya' not in eggs):
                             print "\"Thank you, Dr. Pilgrim!\" Colucci exclaims, relieved. \"But before I leave, \
                                     \nplease help me answer this question: "
                             while (b):
@@ -468,14 +470,13 @@ def colucci():
                                                 \nd. History\
                                                 \nAnswer: ")).upper()
                                 if (d=='C'):
-                                    f_egg = True
+                                    eggs.append('officeadithya')
                                     print "You made a wild guess and guessed 'VEX'!"
                                     print "\"Congratulations, Dr. Pilgrim!! I can now unashamedly talk to\
                                             \nAdithya! Please accept this egg as a token of my appreciation: "
                                     #display image
                                     print "?? It appears to be an Adithya! You don't question his choice of gift\
                                             \nand calmly place it in your pocket."
-                                    #egg+1
                                     return
                                 elif (d=='A' or d=='B' or d=='D'): 
                                     print "Colucci looks at you disappointedly and shakes his head. \"A flamingo\
@@ -545,7 +546,6 @@ def sidhu():
 
 def book():
     global f_lamp, f_book
-    a=True
     if (f_lamp==False):
         print "There's an item, but it's too dark to see!"
         return
@@ -575,9 +575,22 @@ def items():
                 str(sidhupos): sidhu,
                 str(bookpos): book}
     decisions[str(position)]()
-    
-def main():
-    global success
+  
+def print_backpack(backpack): #Prints list of current backpack contents
+    print '\nContents of Backpack:'
+    if len(backpack) == 0: #if backpack is empty
+        print 'Empty'
+    else:
+        for i in range (len(backpack)):
+            print str(i+1) + ': ' + backpack[i] #print number and item
+    print ''
+    return
+      
+def main(b, h, e):
+    global success, backpack, hp, eggs
+    backpack = b
+    hp = h
+    eggs = e
     print "\n****************************************************************\n"
     print "The first thing you notice about this room is how quiet it is. The air is \
             \nstiff and still, as if the windows had not been opened for decades. It \
@@ -602,4 +615,4 @@ def main():
     
     
 if __name__ == '__main__':
-    main()
+    main([], 150, [])

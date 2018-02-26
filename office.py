@@ -556,19 +556,24 @@ def book():
         print "There's an item, but it's too dark to see!"
         return
     elif (f_lamp):
-        space[bookpos[0]][bookpos[1]]="YOU\nBook"
-        make_map()
-        space[bookpos[0]][bookpos[1]]="Book"
-        print "You found a book!"
-        f_book = True
-        print "Wow. What a heavy book, you think. I wonder what's in it."
-        check_continue()
-        print "It appears to be a medical dictionary with 1,488 pages of text and \
-                \nsomewhat gruesome images. Just for fun, you look up different eye \
-                \ndiseases, but after skimming over the majority of them, you think \
-                \nagainst it."
-        print "It's always nice to have a refresher on your craft as an optometrist,\
-               \nyou think, but it can never compare to the Merriam Webster's Dictionary." 
+        if ('book' not in backpack):
+            space[bookpos[0]][bookpos[1]]="YOU\nBook"
+            make_map()
+            space[bookpos[0]][bookpos[1]]="Book"
+            print "You found a book!"
+            backpack.append('book')
+            print "Wow. What a heavy book, you think. I wonder what's in it."
+            check_continue()
+            print "It appears to be a medical dictionary with 1,488 pages of text and \
+                    \nsomewhat gruesome images. Just for fun, you look up different eye \
+                    \ndiseases, but after skimming over the majority of them, you think \
+                    \nagainst it."
+            print "It's always nice to have a refresher on your craft as an optometrist,\
+                \nyou think, but it can never compare to the Merriam Webster's Dictionary."
+        else:
+            space[bookpos[0]][bookpos[1]]=x
+            make_map()
+            space[bookpos[0]][bookpos[1]]=" " 
 
 def items():
     decisions = {str(entrancepos): entrance,

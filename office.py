@@ -99,6 +99,7 @@ def make_map():
         cell.set_edgecolor('white')
     
     plt.show()
+    print "HP: " + str(hp) + " / 150"
 
 def check_continue():
     a = True

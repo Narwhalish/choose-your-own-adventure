@@ -8,6 +8,7 @@ Objects:
     Gas Mask
     Bear Trap
     German Patrols
+    Voodoo Doll
 '''
 
 import matplotlib.pyplot as plt
@@ -19,12 +20,12 @@ def move(pos): #Accepts user input to move through room
     global hp
     position = pos #current position 
     print '-'*100
-    if not endable: #if user has not yet found all five books
+    if not endable: #whether or not user has found all of Weary's items
         checkInventory() #check to see if HP has been drained or score has been reached
-        print 'Current books: ' 
-        for book in books: #print list of found books
+        print 'Current items: ' 
+        for item in items: #print list of found objects
             print '\t' + book
-        if len(books)==0: #if no books found
+        if len(items)==0: #if no items found
             print '\tNone'
         print ''
     #print instructions for user
@@ -65,7 +66,6 @@ def move(pos): #Accepts user input to move through room
                 print 'Cannot move down. Try again.'
         elif command == 'MAP':
             makeMap(position) #call function to display map
-            hp-=25
             move(position) #calls move function anew
         elif command == 'BACKPACK':
             print_backpack(backpack) #call function to print backpack contents
@@ -82,83 +82,46 @@ def action(position): #Acts based on new user position
 def doStuff(x, y): #Runs interactive code based on user position
     global backpack
     global hp
-    global books
-    global drawer
+    global items
     
     if (x, y) == (0, 0):
-        woods_grid[0][0] = 'Bed' #add to map
-        print 'You have found your hospital bed.'
-        displayImage('hospitalbed.jpg')
+        woods_grid[0][0] = 'Gas Mask' #add to map
+        print 'You spot oddly shaped gas mask tangled on a mass of branches.'
+        displayImage('gas_mask.jpg')
         while True: #loop until user gives proper input
-            command = raw_input('To take a quick nap, enter \'1\'. To look under mattress, enter \'2\': ')
-            if command.strip() == '1': #if nap
-                print 'You hop in and snooze for a while.'
-                print 'Add 50 HP points.\n'
-                hp+=50
+            command = raw_input('To inspect it, enter \'1\'. To tug on it, enter \'2\'. To do nothing, enter \'0\': ')
+            if command.strip() == '1': #if inspect
+                print 'Yep, it\s really tangled up in there.'
                 break
-            elif command.strip() == '2': #if look under mattress
-                if 'The Gospel from Outer Space' not in books:
-                    print '\nTo your surprise, you find a dusty book under your mattress.'
-                    print 'The title is "The Gospel from Outer Space" -- by Kilgore Trout.'
-                    print 'It seems that you borrowed one of Rosewater\'s novels and forgot to return it. Whoops!\n' 
-                    books.append('The Gospel from Outer Space') #add novel to list of found books
+            elif command.strip() == '2' and 'Trench Knife' in items: #if has trench knife and cuts through straps
+                if 'Gas Mask' not in items:
+                    print '\nYou glance at the heavy trench knife in your hand.'
+                    print 'In a glorious bout of ingenuity, you slice through the straps of the gas mask, freeing it from its wooden prison.'
+                    print 'The glass lens are all scratched up. You can\'t see anything through them now! Oh well...'
+                    items.append('Gas Mask') #add gas mask to list of found items
                 else:
-                    print 'Nothing here!'
-                break
-            else:
-                print 'Command not recognized. Try again.'
-        return
-        
-    elif (x, y) == (2, 0):
-        woods_grid[0][2] = 'Rosewater' #add to map
-        print 'You have found Eliot Rosewater\'s bed. Look under the mattress?\n'
-        displayImage('rosewater.jpg')
-        if yesorno(): #if look under mattress
-            print 'Rosewater, having been in the middle of a nap, jolts awake as you lift his bed.'
-            print '\"What are you doing?!\" he shrieks. He then proceeds to sock you in the face out of self defense.'
-            print 'Loss of 50 HP points.\n'
-            hp-=50
-        return
-    
-    elif (x, y) == (1, 2):
-        woods_grid[2][1] = 'Drawer' #add to map
-        print 'You have found your bedside drawer.'
-        displayImage('table.jpg')
-        while True: #loop until user gives proper input
-            command = raw_input('Open Drawer 1 (\'1\'), Drawer 2 (\'2\'), Drawer 3 (\'3\'), or none (\'0\')? ')
-            if command.strip() == '1': #Drawer 1
-                print 'Ouch! There is an ashtray with a cigarette still burning in the first drawer.'
-                print 'You burn your finger and burst out into pitiful tears.'
-                print 'Loss of 20 HP points.\n'
-                hp-=20
-                break
-            elif command.strip() == '2': #Drawer 2
-                if drawer: #if drawer has not been opened yet
-                    print 'You find a light blue pill in the second drawer. When used, it can restore 15 HP points. Add to backpack?\n'
-                    if yesorno():
-                        if len(backpack)<10: #add to backpack if sufficient room 
-                            backpack.append('pill')
-                            drawer = False
-                            print 'Added!\n'
-                        else:
-                            print 'No room in backpack. Item not added.\n'
-                    else:
-                        print 'Item not added.\n'
-                else: #if drawer has already been opened
-                    print 'The drawer is empty!\n'
-                break
-            elif command.strip() == '3': #Drawer 3
-                if 'The Big Board' not in books: #if book has not been taken yet
-                    print 'Aha! You find a Kilgore Trout book entitled \"The Big Board.\"'
-                    print 'It seems you are quite lousy at returning the books you borrow from Rosewater.\n'
-                    books.append('The Big Board') #add novel to list of found books
-                else: #if book has already been taken
-                    print 'The drawer is empty!'
+                    print 'Just a bunch of cut up fabric and branches.'
                 break
             elif command.strip() == '0':
                 break
             else:
                 print 'Command not recognized. Try again.'
+        return
+        
+    elif (x, y) == (1, 1):
+        woods_grid[1][1] = 'Weary' #add to map
+        print 'It\'s Weary and he does not look very happy. Speak with him?\n'
+        displayImage('weary.jpg')
+        if yesorno(): #if speak to Weary
+            print '\"Have you found my stuff yet?\"'
+            print '\"We don\'t have all day, you know.\"'
+        return
+    
+    elif (x, y) == (3, 0):
+        woods_grid[0][3] = 'Trench Knife' #add to map
+        print 'You catch the glint of a shiny, serrated metal edge poking out from beneath a pile of leaves.'
+        displayImage('table.jpg')
+        
         return
             
     elif (x, y) == (3, 1):
@@ -167,11 +130,11 @@ def doStuff(x, y): #Runs interactive code based on user position
         displayImage('trunk.jpg')
         print 'Open trunk?\n'
         if yesorno():
-            if 'The Gutless Wonder' not in books: #if book had not been taken yet
+            if 'The Gutless Wonder' not in items: #if book had not been taken yet
                 print 'You find \"The Gutless Wonder\" by Kilgore Trout.'
-                print '\"Rosewater, you idiot!\" you exlaim. \"One of your books is right here!\"'
+                print '\"Rosewater, you idiot!\" you exlaim. \"One of your items is right here!\"'
                 print 'Eliot Rosewater throws a pillow at you. It hurts.\n'
-                books.append('The Gutless Wonder') #add novel to list of found books
+                items.append('The Gutless Wonder') #add novel to list of found items
             else: #if book has already been taken
                 print 'Nothing here!\n'
         return
@@ -219,10 +182,10 @@ def doStuff(x, y): #Runs interactive code based on user position
         displayImage('floor.jpeg')
         print 'Lift floorboard?\n'
         if yesorno():
-            if 'Maniacs in the Fourth Dimension' not in books: #if book has not been taken yet
+            if 'Maniacs in the Fourth Dimension' not in items: #if book has not been taken yet
                 print 'After clearing away the dust, you find \"Maniacs in the Fourth Dimesnion\" by Kilgore Trout.'
                 print 'Somehow, it has ended up hidden underneath the floor. How strange... \n'
-                books.append('Maniacs in the Fourth Dimension') #add novel to list of found books
+                items.append('Maniacs in the Fourth Dimension') #add novel to list of found items
             else: #if book has already been taken
                 print 'Nothing here!\n'
         return
@@ -245,10 +208,10 @@ def doStuff(x, y): #Runs interactive code based on user position
                     break
                 elif command.strip() == '2': #look in purse
                     print 'Channeling your inner ninja skills, you sneak a glance into Valencia\'s purse.'
-                    if 'The Money Tree' not in books: #if book has not been taken yet
+                    if 'The Money Tree' not in items: #if book has not been taken yet
                         print 'Sure enough, there\'s a Kilgore Trout book in it entitled \"The Money Tree.\"'
                         print 'Unfortunately, the book is covered in chocolate stains. You hope Rosewater doesn\'t mind...\n'
-                        books.append('The Money Tree') #add novel to list of found books
+                        items.append('The Money Tree') #add novel to list of found items
                     else: #if book has already been taken
                         print 'Unfortunately, there\'s nothing in it.'
                     break
@@ -269,9 +232,9 @@ def doStuff(x, y): #Runs interactive code based on user position
         woods_grid[4][4] = 'Photo' #add to map
         print 'You find a framed photo collage of two lovely figure skaters on the wall.'
         displayImage('shomayuzu.jpg')
-        if not endable: #if user has not found all five books yet
+        if not endable: #if user has not found all five items yet
             print 'How adorable!\n'
-        else: #if user has found all five books
+        else: #if user has found all five items
             print 'Perhaps this is the piece of artwork Rosewater mentioned.'
             print 'It certainly is quite aesthetically pleasing.'
             askContinue()
@@ -305,9 +268,9 @@ def displayImage(name): #General function to display image in kernel
     plt.imshow(image)
     plt.show() #show image
 
-def checkInventory(): #Checks if HP and number of books are within bounds
+def checkInventory(): #Checks if HP and number of items are within bounds
     global hp
-    if len(books) == 5: #user has found all five books
+    if len(items) == 5: #user has found all five items
         print 'Congratulations! You have found all three of Weary\'s belongings.'
         print '\n***\n'
         endGame() #call function to end game
@@ -321,19 +284,19 @@ def checkInventory(): #Checks if HP and number of books are within bounds
     return
 
 def reset(): #Resets default values of global variables
-    global books
-    books = []
+    global items
+    items = []
     global hp
     hp = 150
     global woods_grid
     woods_grid = [['' for x in range(5)] for y in range(5)]
     move([0,0]) #restart movement at bed square
 
-def endGame(): #Function to continue narrative once user finds all books
+def endGame(): #Function to continue narrative once user finds all items
     global endable
     endable = True #allows user to exit room
     
-    print '\"Rosewater!\" you exclaim excitedly. \"I found all of your books!\"'
+    print '\"Rosewater!\" you exclaim excitedly. \"I found all of your items!\"'
     print 'You hand the stack of novels to him, grinning from ear to ear.'
     askContinue()
     print '-'*100
@@ -411,8 +374,8 @@ def main(b, h, e): #Function gives background narrative and calls move() for the
     hp = h
     global eggs 
     eggs = e
-    global books 
-    books = []
+    global items 
+    items = []
     global woods_grid
     woods_grid = [['' for x in range(5)] for y in range(5)]
     global endable

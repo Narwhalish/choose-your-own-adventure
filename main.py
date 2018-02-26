@@ -8,7 +8,7 @@ Main program for game. start() provides introductory narrative, initializes
 backpackand HP, and calls function for first room.
 """
  
-import hospital
+import woods
 
 def askContinue(): #Delays display of text until user chooses to continue
     while True: #loops until user gives proper input
@@ -47,7 +47,7 @@ def start(): #Narrates introduction of game
     print '\nGood luck -- let\'s begin!'
     askContinue()
     
-    hospital.main(backpack, hp, eggs) #call function for first room
+    woods.main(backpack, hp, eggs) #call function for first room
     
 if __name__ == '___start___':
     start()

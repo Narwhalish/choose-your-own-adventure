@@ -20,15 +20,14 @@ In the slaughterhouse there are:
 ================================================================================
 """
 import matplotlib.pyplot as plt
+import boss_battle
+import zoo
 
 global space, position
 space = [[" "]*5 for i in range(5)]
-global f_shovel, f_spoon
-f_shovel=False
-f_spoon=False
 
+space[4][2]="Entrance"
 space[0][1]="Guards"
-#space[0][3]="Door"
 space[3][3]="Americans"
 space[1][4]="Syrup"
 entrancepos=[4,2]
@@ -57,7 +56,6 @@ def print_space():
 
 def make_map():
     global space, position
-    #print_space()
         
     print "\n MAP OF SLAUGHTERHOUSE"
     color_grid = [['black']*5 for i in range(5)]
@@ -78,9 +76,9 @@ def make_map():
     plt.show()
 
 def check_continue():
-    c = (raw_input("Press C to continue: ")).upper()
     a = True
     while (a):
+        c = (raw_input("Press C to continue: ")).upper()
         if (c=='C'):
             a = False
             return
@@ -89,98 +87,97 @@ def check_continue():
 
 def action():
     global prow, pcolumn, space, position
-    a = raw_input('Up, Down, Right, Left (U,D,R,L): ').upper()
+    a = raw_input('Up, Down, Right, Left, Backpack (U,D,R,L,B): ').upper()
     if ( a == 'U'):
         if prow!=0:
             prow=prow-1
             position = [prow, pcolumn]
-            #print "Position = " + str(position)
-            space[position[0]][position[1]]=x
             if (position==doorpos or position==guardpos or  
                 position==syruppos or position==spoonpos or
                 position==amerpos or position==shrapnelpos or 
                 position==shovelpos or position==entrancepos):
                 items()
             else:
-                space[4][2]="Entrance"
+                space[position[0]][position[1]]=x
                 make_map()
                 space[prow][pcolumn]=" "
         else:
             print "You can't walk through a wall!"
             action() 
-    if (a =='D'):
+    elif (a =='D'):
         if prow!=4:
             prow=prow+1
             position = [prow, pcolumn]
-            #print "Position = " + str(position)
-            space[position[0]][position[1]]=x
             if (position==doorpos or position==guardpos or  
                 position==syruppos or position==spoonpos or
                 position==amerpos or position==shrapnelpos or 
                 position==shovelpos or position==entrancepos):
                 items()
             else:
-                space[4][2]="Entrance"
+                space[position[0]][position[1]]=x
                 make_map()
                 space[prow][pcolumn]=" "
         else:
             print "You can't walk through a wall!"
             action() 
-    if (a =='L'):
+    elif (a =='L'):
         if pcolumn!=0:
             pcolumn=pcolumn-1
             position = [prow, pcolumn]
-            space[position[0]][position[1]]=x
             if (position==doorpos or position==guardpos or  
                 position==syruppos or position==spoonpos or
                 position==amerpos or position==shrapnelpos or
                 position==shovelpos or position==entrancepos):
                 items()
             else:
-                space[4][2]="Entrance"
+                space[position[0]][position[1]]=x
                 make_map()
                 space[prow][pcolumn]=" "
 
         else:
             print "You can't walk through a wall!"
             action() 
-    if (a =='R'):
+    elif (a =='R'):
         if pcolumn!=4:
             pcolumn=pcolumn+1
             position = [prow, pcolumn]
-            space[position[0]][position[1]]=x
             if (position==doorpos or position==guardpos or  
                 position==syruppos or position==spoonpos or
                 position==amerpos or position==shrapnelpos or 
                 position==shovelpos or position==entrancepos):
                 items()
             else:
-                space[4][2]="Entrance"
+                space[position[0]][position[1]]=x
                 make_map()
                 space[prow][pcolumn]=" "
         else:
             print "You can't walk through a wall!"
             action() 
+    elif (a=='B'):
+        print_backpack(backpack)
+        action()
+    else: 
+        print "Please enter a valid action!"
+        action()
 
 def entrance():
     a = True
     space[entrancepos[0]][entrancepos[1]]="YOU\nEntrance"
     make_map()
+    space[entrancepos[0]][entrancepos[1]]="Entrance"
     while (a):
         print "Do you want to leave the slaughterhouse?"
         d = (raw_input("To leave, press L. To stay, press S: ")).upper()
         if (d =='L'):
-            pass #leads to last room 
-            break
+            zoo.main(backpack, hp, eggs) #leads to last room 
         elif (d == 'S'):
             print "You decided to stay in the slaughterhouse."
             print "Maybe there are more items!"
-            break
+            return
         else:
             print "\nPlease enter a valid action!\n"
 
 def door():
-    global f_shovel
     a = True
     space[doorpos[0]][doorpos[1]]="YOU\nDoor"
     make_map()
@@ -190,15 +187,15 @@ def door():
         print "I wonder where this door leads... Will you open the door?"
         d = (raw_input("To enter, press E. To stay, press S: ")).upper()
         if (d =='E'):
-            if (f_shovel):
-                pass #leads to new room
+            if ('shovel' in backpack):
+                boss_battle.main(backpack, hp, eggs) #leads to new room
             else: 
                 print "Oops! You don't have the key to unlock this door!"
             break
         elif (d == 'S'):
             print "You decided to stay in the slaughterhouse."
             print "Maybe there are more items!"
-            break
+            return
         else:
             print "\nPlease enter a valid action!\n"
 
@@ -248,13 +245,12 @@ def guards():
 
     
 def syrup():
-    global f_spoon
     a = True
     print "You found a bottle of syrup!"
     space[syruppos[0]][syruppos[1]]="YOU\nSyrup"
     make_map()
     space[syruppos[0]][syruppos[1]]="Syrup"
-    if (f_spoon):
+    if ('spoon' in backpack):
         print "Use the spoon to drink the syrup and boost your HP!"
         while (a):
             d = (raw_input("To drink, press 'D'. To leave, press 'L': ")).upper()
@@ -272,23 +268,28 @@ def syrup():
     
 def spoon():
     a = True
-    global f_spoon
-    f_spoon=True
-    space[spoonpos[0]][spoonpos[1]]="YOU\nSpoon"
-    make_map()
-    space[spoonpos[0]][spoonpos[1]]="Spoon"
-    print "You found a spoon!"
-    print "Perhaps you can use it to eat something."
-    while (a):
-        d = (raw_input("Do you want to put it in your backpack? Y or N: ")).upper()
-        if (d=='Y'):
-            break
-            pass #put in backpack
-        elif (d=='N'):
-            break
-            print "You left the spoon on the floor. It wasn't sanitary anyway."
-        else: 
-            print "\nPlease enter a valid action!\n"
+    if ('spoon' not in backpack):
+        space[spoonpos[0]][spoonpos[1]]="YOU\nSpoon"
+        make_map()
+        print "You found a spoon!"
+        print "Perhaps you can use it to eat something."
+        while (a):
+            d = (raw_input("Do you want to put it in your backpack? Y or N: ")).upper()
+            if (d=='Y'):
+                backpack.append('spoon') #put in backpack
+                space[spoonpos[0]][spoonpos[1]]=" "
+                return
+            elif (d=='N'):
+                print "You left the spoon on the floor. It wasn't sanitary anyway."
+                space[spoonpos[0]][spoonpos[1]]="Spoon"
+                return
+            else: 
+                print "\nPlease enter a valid action!\n"
+    else:
+        space[spoonpos[0]][spoonpos[1]]=x
+        make_map()
+        space[spoonpos[0]][spoonpos[1]]=" "
+
 
 def americans():
     a = True
@@ -335,32 +336,38 @@ def americans():
     
 
 def shrapnel():
+    global hp
     space[shrapnelpos[0]][shrapnelpos[1]]="YOU\nShrapnel"
     make_map()
     space[shrapnelpos[0]][shrapnelpos[1]]="Shrapnel"
     print "You found shrapnel!"
     print "Oh no! You stepped on the shrapnel and lost HP!"
-    #lose HP function
+    hp-=50
 
 def shovel():
-    global f_shovel
-    f_shovel=True
+    global backpack
     a=True
-    space[shovelpos[0]][shovelpos[1]]="YOU\nShovel"
-    make_map()
-    space[shovelpos[0]][shovelpos[1]]="Shovel"
-    print "You found a shovel!"
-    print "Maybe the guards will let you leave if you help them bury the bodies?"
-    while (a):
-        d = (raw_input("\nDo you want to put it in your backpack? Y or N: ")).upper()
-        if (d=='Y'):
-            pass #backpack function
-            break
-        elif (d=='N'):
-            print "You left the shovel. It seems like a dangerous object."
-            break
-        else:
-            print "\nPlease enter a valid action!\n"
+    if ('shovel' not in backpack):
+        space[shovelpos[0]][shovelpos[1]]="YOU\nShovel"
+        make_map()
+        print "You found a shovel!"
+        print "Maybe the guards will let you leave if you help them bury the bodies?"
+        while (a):
+            d = (raw_input("\nDo you want to put it in your backpack? Y or N: ")).upper()
+            if (d=='Y'):
+                backpack.append('shovel')
+                space[shovelpos[0]][shovelpos[1]]=" "
+                return
+            elif (d=='N'):
+                print "You left the shovel. It seems like a dangerous object."
+                space[shovelpos[0]][shovelpos[1]]="Shovel"
+                return
+            else:
+                print "\nPlease enter a valid action!\n"
+    else:
+        space[shovelpos[0]][shovelpos[1]]=x
+        make_map()
+        space[shovelpos[0]][shovelpos[1]]=" "
 
 def items():
     decisions = {str(doorpos): door,
@@ -372,8 +379,22 @@ def items():
                 str(shovelpos): shovel,
                 str(entrancepos): entrance}
     decisions[str(position)]()
-    
-def main():
+ 
+def print_backpack(backpack): #Prints list of current backpack contents
+    print '\nContents of Backpack:'
+    if len(backpack) == 0: #if backpack is empty
+        print 'Empty'
+    else:
+        for i in range (len(backpack)):
+            print str(i+1) + ': ' + backpack[i] #print number and item
+    print ''
+    return
+       
+def main(b, h, e):
+    global backpack, hp, eggs
+    backpack = b
+    hp = h
+    eggs = e
     print "\n****************************************************************\n"
     print "You blink once, twice. The lighting is dim, and your eyes have to adjust to \
             \nsee the items around you. There are guards in the corner, plus a huddle of \
@@ -395,10 +416,11 @@ def main():
     global space, door, position
     space[prow][pcolumn]=x
     make_map()
+    space[entrancepos[0]][entrancepos[1]]="Entrance"
     
     while (found_door==False):
         action()
     
     
 if __name__ == '__main__':
-    main()
+    main([], 150, [])

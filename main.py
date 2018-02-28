@@ -49,5 +49,5 @@ def start(): #Narrates introduction of game
     
     woods.main(backpack, hp, eggs) #call function for first room
     
-if __name__ == '___start___':
+if __name__ == '__main__':
     start()

@@ -111,6 +111,7 @@ def doStuff(x, y): #Runs interactive code based on user position
                 print 'You tug with all your might on the mask.'
                 print 'The mask snaps off its straps. Oh no, the lens are shattered and the mask is warped!'
                 items.append('Broken Gas Mask') #add broken gas mask to list of found items
+                break
             elif command.strip() == '0': #if do nothing
                 break
             else:
@@ -203,6 +204,10 @@ def doStuff(x, y): #Runs interactive code based on user position
         print 'You managed to release the tarp, but you\'ve hurt yourself.'
         hp-=40
         displayImage('bear_trap.jpg')
+        return
+    
+    else:
+        print 'Nothing here!'
         return                    
 
 def yesorno(): #General function to ask user yes-or-no question
@@ -249,7 +254,7 @@ def reset(): #Resets default values of global variables
     bp = []
     global woods_grid
     woods_grid = [['' for x in range(5)] for y in range(5)]
-    move([0,0]) #restart movement at bed square
+    move([2,2]) #restart movement at bed square
 
 def endGame(): #Function to continue narrative once user finds all items
     global endable

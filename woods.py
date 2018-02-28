@@ -103,6 +103,7 @@ def doStuff(x, y): #Runs interactive code based on user position
                     print 'In a glorious bout of ingenuity, you slice through the straps of the gas mask, freeing it from its wooden prison.'
                     print 'The glass lens are all scratched up. You can\'t see anything through them now! Oh well...'
                     items.append('Gas Mask') #add gas mask to list of found items
+                    break
                 else:
                     print 'Just a bunch of cut up fabric and branches.'
                 break

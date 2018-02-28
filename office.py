@@ -203,7 +203,7 @@ def entrance(): #if user lands on entrance position, lets user go back to last r
     space[entrancepos[0]][entrancepos[1]]="YOU\nEntrance" 
     if (f_lamp): #if user has found lamp
         make_map()
-        space[entrancepos[0]][entrancepos[1]]=="Entrance"
+    space[entrancepos[0]][entrancepos[1]]=="Entrance"
     while (a):
         print "Do you want to leave the office and return to the prior room?" 
         d = (raw_input("To leave, press L. To stay, press S: ")).upper()

@@ -140,7 +140,7 @@ def doStuff(x, y): #Runs interactive code based on user position
                 break
             elif command.strip() == '2': #Drawer 2
                 if drawer: #if drawer has not been opened yet
-                    print 'You find a light blue pill in the second drawer. When used, it can restore 15 HP points. Add to backpack?\n'
+                    print 'You find a light blue pill in the second drawer. When used, it can restore all your HP. Add to backpack?\n'
                     if yesorno():
                         if len(bp)<5: #add to backpack if sufficient room 
                             bp.append('pill')

@@ -37,10 +37,8 @@ def main(b, h): #Allows user to choose among four actions to perform using backp
         elif command.strip() == '3': #use item
             use = raw_input('\nWhat item would you like to use? ')
             if use == 'pill':
-                hp+=15
-                if hp>150:
-                    hp = 150
-                print 'Pill has been used. Add 15 to HP.'
+                hp = 150
+                print 'Pill has been used. Full HP restored.'
             else: #item not usable
                 print 'That item cannot be used.'
         elif command.strip() == '4': #exit

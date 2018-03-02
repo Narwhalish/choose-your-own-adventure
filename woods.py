@@ -266,7 +266,7 @@ def endGame(): #Function to continue narrative once user finds all items
     print '-'*100
     print 'Suddenly, you begin to feel dizzy. Your surroundings blur as you become unstuck in time again...'
     askContinue()
-    train.main(backpack, hp, eggs)
+    train.main(bp, hp, eggs)
     
 
 def makeMap(pos): #Creates a map of user position and uncovered objects

@@ -20,8 +20,8 @@ def move(pos): #Accepts user input to move through room
     global hp, bp
     position = pos #current position 
     print '-'*100
+    checkVitals() #check to see if HP has been drained or score has been reached
     if not endable: #whether or not user has all needs fulfilled
-        checkVitals() #check to see if HP has been drained or score has been reached
         print 'Needs fulfilled: ' 
         print '\tFood: ' + str(food) + '/2'
         print '\tWater: ' + str(water) + '/1'
@@ -217,8 +217,9 @@ def displayImage(name): #General function to display image in kernel
 
 def checkVitals(): #Checks if HP and number of items are within bounds
     global hp
-    if food==2 and water==1 and sleep ==1:
-        endGame() #call function to end game
+    if not endable:
+        if food==2 and water==1 and sleep ==1:
+            endGame() #call function to end game
     if hp > 150: #hp exceeds bounds
         hp = 150
     if hp <=0: #hp deplenished 

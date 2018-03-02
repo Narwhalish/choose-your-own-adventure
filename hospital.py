@@ -25,8 +25,8 @@ def move(pos): #Accepts user input to move through room
     global bp
     position = pos #current position 
     print '-'*100
+    checkVitals() #check to see if HP has been drained or score has been reached
     if not endable: #if user has not yet found all five books
-        checkVitals() #check to see if HP has been drained or score has been reached
         print 'Current books: ' 
         for book in books: #print list of found books
             print '\t' + book
@@ -313,10 +313,11 @@ def displayImage(name): #General function to display image in kernel
 
 def checkVitals(): #Checks if HP and number of books are within bounds
     global hp
-    if len(books) == 5: #user has found all five books
-        print 'Congratulations! You have found all five books.'
-        print '\n***\n'
-        endGame() #call function to end game
+    if not endable:
+        if len(books) == 5: #user has found all five books
+            print 'Congratulations! You have found all five books.'
+            print '\n***\n'
+            endGame() #call function to end game
     if hp > 150: #hp exceeds bounds
         hp = 150
     if hp <=0: #hp deplenished 
@@ -366,7 +367,6 @@ def endGame(): #Function to continue narrative once user finds all books
     print 'Good luck!' 
     askContinue()
     print '\n***\n'
-    
     move([2,0]) #restart movement starting at Rosweater's bed
 
 def makeMap(pos): #Creates a map of user position and uncovered objects

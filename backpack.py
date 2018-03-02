@@ -39,6 +39,7 @@ def main(b, h): #Allows user to choose among four actions to perform using backp
             if use == 'pill':
                 hp = 150
                 print 'Pill has been used. Full HP restored.'
+                dict_backpack['pill']-=1
             else: #item not usable
                 print 'That item cannot be used.'
         elif command.strip() == '4': #exit

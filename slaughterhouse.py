@@ -264,8 +264,8 @@ def syrup(): #if user lands on syrup position, can drink to raise HP by 25 point
         while (a):
             d = (raw_input("To drink, press 'D'. To leave, press 'L': ")).upper()
             if (d=='D'): #if user drinks 
-                break
                 hp+=25 #boost HP
+                break
             elif (d=='L'): #if user doesn't drink
                 print "You decided not to drink the syrup."
                 break
